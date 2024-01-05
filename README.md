@@ -8,6 +8,7 @@ Proximamente agregare una interfaz simple, ya que mi objetivo es enfocarme en el
 ---
 - [Instalacion](#instalación)
 - [Endpoints](#endpoints-api)
+- [Documentación Swagger](#documentación-swagger)
 - [Personaje](#Personaje)
 	- [Get All](#Get-All)
    	- [Get by Id](#Get-By-Id)
@@ -44,6 +45,10 @@ Abrí tu cliente de SQL Server para crear la base de datos con el nombre que esp
 
 ### Ejecutá la Aplicación
 Una vez que hayas configurado la base de datos y guardado los cambios, podes ejecutar la aplicación, dandole al botón de "https" (en Visual Studio). Alli se te deberia abrir la interfaz de Swagger para porbar los EndPoints.
+
+### Documentación Swagger
+
+Para acceder a la documentación, una vez corrido el programa, ingrese a: https://localhost:{su_puerto}/swagger/index.html
 
 ## Endpoints API
 
