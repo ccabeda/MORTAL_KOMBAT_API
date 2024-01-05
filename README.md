@@ -12,7 +12,7 @@ Proximamente agregare una interfaz simple, ya que mi objetivo es enfocarme en el
 - [Personaje](#Personaje)
 	- [Get All](#get-all)
    	- [Get by Id](#get-by-id)
-     	- [Get by Name](#get-by-name)
+  - [Get by Name](#get-by-name)
    
 
 ## Instalación
