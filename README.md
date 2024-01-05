@@ -140,8 +140,7 @@ Una vez que hayas configurado la base de datos y guardado los cambios, podes eje
 - Parametros:
   Id (URL), datos personales en formato Json (body)
 - Respuesta:
-	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino. (DTO)
-
+	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino. (DTO).
   404: Error
 
 ### Delete Personaje
@@ -159,6 +158,5 @@ Una vez que hayas configurado la base de datos y guardado los cambios, podes eje
 - Parametros:
   Id (URL)
 - Respuesta:
-	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino. (DTO que se desea eliminar)
-
+	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino. (DTO que se desea eliminar).
   404: Error
