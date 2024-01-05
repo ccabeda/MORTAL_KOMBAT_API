@@ -12,6 +12,7 @@ Proximamente agregare una interfaz simple, ya que mi objetivo es enfocarme en el
 - [Personaje](#Personaje)
 	- [Get All](#get-all)
    	- [Get by Id](#get-by-id)
+     	- [Get by Name](#get-by-name)
    
 
 ## Instalación
@@ -77,7 +78,27 @@ Una vez que hayas configurado la base de datos y guardado los cambios, podes eje
 - URL: https://localhost:7104/api/Personaje/{id}
 - Metodo GET
 - Parametros:
-	id (url)
+  	Id (url)
 - Respuesta:  
 	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino. (DTO)  
 	400 - 404: Error
+
+### Get by name
+
+```http
+  GET https://localhost:{su_puerto}/api/Personaje/nombre/{name}
+```
+
+| Parametro | Tipo     | Descripción                     |
+| :-------- | :------- | :-------------------------------- |
+| `Nombre`  | `string` | **Requerido** por url.  |
+
+- URL: https://localhost:7104/api/Personaje/nombre/{name}
+- Metodo GET
+- Parametros:
+  	Nombre (url)
+- Respuesta:  
+	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino. (DTO)  
+	400 - 404: Error
+
+
