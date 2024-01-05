@@ -16,6 +16,13 @@ Proximamente agregare una interfaz simple, ya que mi objetivo es enfocarme en el
   - [Create Personaje](#Create-Personaje)
   - [Update Personaje](#Update-Personaje)
   - [Delete Personaje](#Delete-Personaje)
+- [Clan](#Clan)
+	- [Get All](#Get-All)
+   	- [Get by Id](#Get-By-Id)
+  - [Get by Name](#Get-By-Name)
+  - [Create Clan](#Create-Clan)
+  - [Update Clan](#Update-Clan)
+  - [Delete Clan](#Delete-Clan)
    
 
 ## Instalación
@@ -167,3 +174,125 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino. (DTO que se desea eliminar).
 
   404: Error
+
+
+  csfcsasdfgklfedjjweatlkwdfhdgikolsñhrgjlkaweryyretueryópyerajopewqTJETWPETWTEWJO´wytjyRPY
+  ARYEK´PTY}RJKYTER´+PYTJAETYU
+  WYrjkóyrJYRPÓLRY
+  ## Clan
+
+### Get All
+
+```http
+  GET localhost:{su_puerto}/api/Clan
+```
+
+| Parametro | Tipo     | Descripción                     |
+| :-------- | :------- | :-------------------------------- |
+|      |  | **No se requieren parametros**  |
+
+- URL: https://localhost:7104/api/Clan
+- Metodo GET
+- Parametros:
+	Ninguno
+- Respuesta:
+	200: Lista de todas los clanes (DTO)  
+	404: Error
+
+### Get By Id
+
+```http
+  GET localhost:{su_puerto}/api/Clan/{id}
+```
+
+| Parametro | Tipo     | Descripción                     |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `id` | **Requerido** por URL.  |
+
+- URL: https://localhost:7104/api/Clan/{id}
+- Metodo GET
+- Parametros:
+  	Id (URL)
+- Respuesta:  
+	200: Id, Nombre, Descripción. (DTO)  
+	400 - 404: Error
+
+### Get By Name
+
+```http
+  GET localhost:{su_puerto}/api/Clan/nombre/{name}
+```
+
+| Parametro | Tipo     | Descripción                     |
+| :-------- | :------- | :-------------------------------- |
+| `Nombre`  | `string` | **Requerido** por URL.  |
+
+- URL: https://localhost:7104/api/Personaje/nombre/{name}
+- Metodo GET
+- Parametros:
+  	Nombre (URl)
+- Respuesta:  
+	200: Id, Nombre, Descripción. (DTO)  
+	400 - 404: Error
+
+### Create Clan
+
+```http
+  POST localhost:{su_puerto}/api/Clan
+```
+
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| Peronsaje | `ClanCreateDto` | **Requerido** por body.  |
+
+- URL: https://localhost:7104/api/Clan
+- Metodo: POST
+- Parametros:
+  	Datos personales en formato Json (body)
+- Respuesta:  
+	200: Id, Nombre, Descripción
+	400, 404, 409: Error
+
+### Update Clan
+
+```http
+  PUT localhost:{su_puerto}/api/Clan/{id}
+```
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `id` | `int` | **Requerido** por URL.  |
+
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `Clan` | `ClanUpdateDto` | **Requerido** por body.  |
+
+
+- URL: https://localhost:7104/api/Clan/{id}
+- Metodo: PUT
+- Parametros:
+  Id (URL), datos personales en formato Json (body)
+- Respuesta:
+	200: Id, Nombre, Descripción. (DTO).
+
+  404: Error
+
+### Delete Personaje
+
+```http
+  DELETE localhost:{su_puerto}/api/Personaje/{id}
+```
+
+| Parametro | Tipo     | Descripción                     |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `int`    | **Requerido** por URL.  |
+
+- URL: https://localhost:7104/api/Clan/{id}
+- Metodo DELETE
+- Parametros:
+  Id (URL)
+- Respuesta:
+	200: Id, Nombre, Descripción. (DTO que se desea eliminar).
+
+  404: Error
+
+  
