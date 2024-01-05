@@ -11,6 +11,8 @@ Proximamente agregare una interfaz simple, ya que mi objetivo es enfocarme en el
 - [Endpoints](#endpoints-api)
 - [Personaje](#Personaje)
 	- [Get All](#get-all)
+   	- [Get by Id](#get-by-id)
+   
 
 ## Instalación
 
