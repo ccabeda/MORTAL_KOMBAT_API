@@ -12,7 +12,6 @@ namespace API_MortalKombat.Repository
         {
             _context = context;
         }
-
         public async Task<Personaje> ObtenerPorId(int id)
         {
             return await _context.Personajes.Include(p => p.Clan).Include(p => p.Reino).FirstOrDefaultAsync(p => p.Id == id);
@@ -27,25 +26,21 @@ namespace API_MortalKombat.Repository
         {
             return await _context.Personajes.ToListAsync();
         }
-
         public async Task Crear(Personaje personaje)
         {
             await _context.Personajes.AddAsync(personaje);
             await Guardar();
         }
-
         public async Task Eliminar(Personaje personaje)
         {
             _context.Personajes.Remove(personaje);
             await Guardar();
         }
-
         public async Task Actualizar(Personaje personaje)
         {
             _context.Update(personaje);
             await Guardar();
         }
-
         public async Task Guardar()
         {
             await _context.SaveChangesAsync();  

@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-
-namespace MortalKombat_API.Models.DTOs.PersonajeDTO
+﻿namespace MortalKombat_API.Models.DTOs.PersonajeDTO
 {
     public class PersonajeCreateDto
     {

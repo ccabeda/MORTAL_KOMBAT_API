@@ -1,21 +1,14 @@
-﻿using Microsoft.AspNetCore.DataProtection;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using MortalKombat_API.Models;
-using System.Runtime.ConstrainedExecution;
-using System.Runtime.InteropServices;
-using System.Xml.Linq;
-using System;
 
 namespace MortalKombat_API.Data
 {
     public class AplicationDbContext : DbContext
     {
-
         public AplicationDbContext(DbContextOptions<AplicationDbContext> options) : base(options)
         {
 
         }
-
         public DbSet<Personaje> Personajes { get; set; }
         public DbSet<Clan> Clanes { get; set; }
         public DbSet<Reino> Reinos { get; set; }

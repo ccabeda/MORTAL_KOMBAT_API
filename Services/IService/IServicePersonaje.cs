@@ -11,7 +11,7 @@ namespace API_MortalKombat.Services.IServices
         public Task<APIResponse> GetPersonajeById(int id);
         public Task<APIResponse> GetPersonajeByName(String name);
         public Task<APIResponse> CreatePersonaje([FromBody] PersonajeCreateDto personajeCreateDto);
-        public Task<APIResponse> PutPersonaje(int id, [FromBody] PersonajeUpdateDto personajeUpdateDto);
+        public Task<APIResponse> UpdatePersonaje(int id, [FromBody] PersonajeUpdateDto personajeUpdateDto);
         public Task<APIResponse> DeletePersonaje(int id);
 
     }

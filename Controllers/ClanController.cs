@@ -2,17 +2,18 @@
 using API_MortalKombat.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 using MiPrimeraAPI.Models;
+using MortalKombat_API.Models.DTOs.ClanDTO;
 using MortalKombat_API.Models.DTOs.PersonajeDTO;
 using System.Net;
 
 namespace MortalKombat_API.Controllers
 {
-    [Route("api/[controller]")] 
+    [Route("api/[controller]")]
     [ApiController]
-    public class PersonajeController : ControllerBase
+    public class ClanController : ControllerBase
     {
-        private readonly IServicePersonaje _service;
-        public PersonajeController(IServicePersonaje service)
+        private readonly IServiceClan _service;
+        public ClanController(IServiceClan service)
         {
             _service = service;
         }
@@ -20,9 +21,9 @@ namespace MortalKombat_API.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<APIResponse>> GetPersonajes()
+        public async Task<ActionResult<APIResponse>> GetClanes()
         {
-            var result = await _service.GetPersonajes();
+            var result = await _service.GetClanes();
             if (result.statusCode == HttpStatusCode.OK)
             {
                 return Ok(result);
@@ -31,36 +32,15 @@ namespace MortalKombat_API.Controllers
             {
                 return NotFound(result);
             }
-        } 
+        }
 
-        [HttpGet(("{id}"), Name = "GetPersonajebyId")]
+        [HttpGet(("{id}"), Name = "GetClanbyId")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<APIResponse>> GetPersonajeById(int id) //get para traer con id
+        public async Task<ActionResult<APIResponse>> GetClanById(int id) //get para traer con id
         {
-            var result = await _service.GetPersonajeById(id);
-            if (result.statusCode == HttpStatusCode.OK)
-            {
-                return Ok(result);
-            }
-            else if (result.statusCode == HttpStatusCode.BadRequest)
-            {
-                return BadRequest(result);
-            }
-            else 
-            {
-                return NotFound(result);
-            }
-        }  
-
-        [HttpGet(("nombre/{name}"), Name = "GetPersonajebyName")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<APIResponse>> GetPersonajeByName(String name) //get para traer con nombre
-        {
-            var result = await _service.GetPersonajeByName(name);
+            var result = await _service.GetClanById(id);
             if (result.statusCode == HttpStatusCode.OK)
             {
                 return Ok(result);
@@ -73,16 +53,37 @@ namespace MortalKombat_API.Controllers
             {
                 return NotFound(result);
             }
-        } 
+        }
+
+        [HttpGet(("nombre/{name}"), Name = "GetClanbyName")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<APIResponse>> GetClanByName(String name) //get para traer con nombre
+        {
+            var result = await _service.GetClanByName(name);
+            if (result.statusCode == HttpStatusCode.OK)
+            {
+                return Ok(result);
+            }
+            else if (result.statusCode == HttpStatusCode.BadRequest)
+            {
+                return BadRequest(result);
+            }
+            else
+            {
+                return NotFound(result);
+            }
+        }
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<APIResponse>> CreatePersonaje ([FromBody] PersonajeCreateDto personajeCreateDto)
+        public async Task<ActionResult<APIResponse>> CreateClan([FromBody] ClanCreateDto clanCreateDto)
         {
-            var result = await _service.CreatePersonaje(personajeCreateDto);
+            var result = await _service.CreateClan(clanCreateDto);
             if (result.statusCode == HttpStatusCode.OK)
             {
                 return Ok(result);
@@ -106,12 +107,12 @@ namespace MortalKombat_API.Controllers
 
         }
 
-        [HttpPut(("{id}"), Name = "PutPersonabyId")]
+        [HttpPut(("{id}"), Name = "PutClanbyId")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<APIResponse>> UpdatePersonaje (int id, [FromBody] PersonajeUpdateDto personajeUpdateDto)
+        public async Task<ActionResult<APIResponse>> PutClan(int id, [FromBody] ClanUpdateDto clanUpdateDto)
         {
-            var result = await _service.UpdatePersonaje(id, personajeUpdateDto);
+            var result = await _service.UpdateClan(id, clanUpdateDto);
             if (result.statusCode == HttpStatusCode.OK)
             {
                 return Ok(result);
@@ -122,12 +123,12 @@ namespace MortalKombat_API.Controllers
             }
         }
 
-        [HttpDelete(("{id}"), Name = "DeletePersonaje")]
+        [HttpDelete(("{id}"), Name = "DeleteClan")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<APIResponse>> DeletePersonaje(int id)
+        public async Task<ActionResult<APIResponse>> DeleteClan(int id)
         {
-            var result = await _service.DeletePersonaje(id);
+            var result = await _service.DeleteClan(id);
             if (result.statusCode == HttpStatusCode.OK)
             {
                 return Ok(result);

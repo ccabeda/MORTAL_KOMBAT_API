@@ -1,7 +1,4 @@
-﻿using MortalKombat_API.Models;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace API_MortalKombat.Models.DTOs.PersonajeDTO
+﻿namespace API_MortalKombat.Models.DTOs.PersonajeDTO
 {
     public class PersonajeUpdateDto
     {

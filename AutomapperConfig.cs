@@ -16,6 +16,8 @@ namespace MiPrimeraAPI
             CreateMap<Personaje, PersonajeDtoGetAll>().ReverseMap();
             CreateMap<Personaje, PersonajeUpdateDto>().ReverseMap();
             CreateMap<Clan, ClanDto>().ReverseMap();
+            CreateMap<Clan, ClanCreateDto>().ReverseMap();
+            CreateMap<Clan, ClanUpdateDto>().ReverseMap();
             CreateMap<Reino, ReinoDto>().ReverseMap();
         }
 
