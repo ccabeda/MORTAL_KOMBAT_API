@@ -174,11 +174,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino. (DTO que se desea eliminar).
 
   404: Error
-
-
-  csfcsasdfgklfedjjweatlkwdfhdgikolsñhrgjlkaweryyretueryópyerajopewqTJETWPETWTEWJO´wytjyRPY
-  ARYEK´PTY}RJKYTER´+PYTJAETYU
-  WYrjkóyrJYRPÓLRY
+  
   ## Clan
 
 ### Get All
@@ -196,7 +192,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 - Parametros:
 	Ninguno
 - Respuesta:
-	200: Lista de todas los clanes (DTO)  
+	200: Lista de todos los clanes (DTO)  
 	404: Error
 
 ### Get By Id
