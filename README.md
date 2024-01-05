@@ -10,7 +10,7 @@ Proximamente agregare una interfaz simple, ya que mi objetivo es enfocarme en el
 - [Documentación Swagger](#documentación-swagger)
 - [Endpoints](#endpoints-api)
 - [Personaje](#Personaje)
-	- [DELETE ALL](#delete-all)
+	- [Get All](#get-all)
 
 ## Instalación
 
@@ -64,4 +64,4 @@ Una vez que hayas configurado la base de datos y guardado los cambios, podes eje
 
 Ejemplo por Postman
 
-![github-small](https://imgbox.com/tKfdPWdw)
+![github-small](https://thumbs2.imgbox.com/b4/f2/tKfdPWdw_t.png)
