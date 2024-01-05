@@ -13,6 +13,7 @@ Proximamente agregare una interfaz simple, ya que mi objetivo es enfocarme en el
 	- [Get All](#get-all)
    	- [Get by Id](#get-by-id)
   - [Get by Name](#get-by-name)
+  - [Create Personaje](#create-personaje)
    
 
 ## Instalación
@@ -73,12 +74,12 @@ Una vez que hayas configurado la base de datos y guardado los cambios, podes eje
 
 | Parametro | Tipo     | Descripción                     |
 | :-------- | :------- | :-------------------------------- |
-| `id`      | `id` | **Requerido** por url.  |
+| `id`      | `id` | **Requerido** por URL.  |
 
 - URL: https://localhost:7104/api/Personaje/{id}
 - Metodo GET
 - Parametros:
-  	Id (url)
+  	Id (URL)
 - Respuesta:  
 	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino. (DTO)  
 	400 - 404: Error
@@ -91,15 +92,16 @@ Una vez que hayas configurado la base de datos y guardado los cambios, podes eje
 
 | Parametro | Tipo     | Descripción                     |
 | :-------- | :------- | :-------------------------------- |
-| `Nombre`  | `string` | **Requerido** por url.  |
+| `Nombre`  | `string` | **Requerido** por URL.  |
 
 - URL: https://localhost:7104/api/Personaje/nombre/{name}
 - Metodo GET
 - Parametros:
-  	Nombre (url)
+  	Nombre (URl)
 - Respuesta:  
 	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino. (DTO)  
 	400 - 404: Error
+
 ### Create Personaje
 
 ```http
@@ -113,7 +115,7 @@ Una vez que hayas configurado la base de datos y guardado los cambios, podes eje
 - URL: https://localhost:7104/api/Personaje
 - Metodo: POST
 - Parametros:
-  	Datos personales en formato json (body)
+  	Datos personales en formato Json (body)
 - Respuesta:  
 	200: Id, Nombre, ImagenURl, Alineación, Raza, Descripción, Estilo De Pelea, Armas, ClanId y ReinoId.  
 	400, 404, 409 : Error
