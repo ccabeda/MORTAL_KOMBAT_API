@@ -64,4 +64,4 @@ Una vez que hayas configurado la base de datos y guardado los cambios, podes eje
 
 Ejemplo por Postman
 
-![github-small](https://thumbs2.imgbox.com/b4/f2/tKfdPWdw_t.png)
+![github](https://thumbs2.imgbox.com/b4/f2/tKfdPWdw_t.png)
