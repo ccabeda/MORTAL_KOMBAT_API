@@ -7,13 +7,14 @@ Proximamente agregare una interfaz simple, ya que mi objetivo es enfocarme en el
 
 ---
 - [Instalacion](#instalación)
-- [Documentación Swagger](#documentación-swagger)
 - [Endpoints](#endpoints-api)
 - [Personaje](#Personaje)
-	- [Get All](#get-all)
-   	- [Get by Id](#get-by-id)
-  - [Get by Name](#get-by-name)
-  - [Create Personaje](#create-personaje)
+	- [Get All](#Get-All)
+   	- [Get by Id](#Get-By-Id)
+  - [Get by Name](#Get-By-Name)
+  - [Create Personaje](#Create-Personaje)
+  - [Update Personaje](#Update-Personaje)
+  - [Delete Personaje](#Delete-Personaje)
    
 
 ## Instalación
@@ -42,13 +43,13 @@ Por último, en el archivo Program.cs, en la inyección de la base de datos, pon
 Abrí tu cliente de SQL Server para crear la base de datos con el nombre que especificaste en la URL anterior.
 
 ### Ejecutá la Aplicación
-Una vez que hayas configurado la base de datos y guardado los cambios, podes ejecutar la aplicación, dandole al botón de "Https" (en Visual Studio). Alli se te deberia abrir la interfaz de Swagger para porbar los EndPoints.
+Una vez que hayas configurado la base de datos y guardado los cambios, podes ejecutar la aplicación, dandole al botón de "https" (en Visual Studio). Alli se te deberia abrir la interfaz de Swagger para porbar los EndPoints.
 
 ## Endpoints API
 
 ## Personaje
 
-### Get all
+### Get All
 
 ```http
   GET localhost:{su_puerto}/api/Personaje
@@ -66,7 +67,7 @@ Una vez que hayas configurado la base de datos y guardado los cambios, podes eje
 	200: Lista de todas las personas (DTO)  
 	404: Error
 
-### Get by id
+### Get By Id
 
 ```http
   GET localhost:{su_puerto}/api/Personaje/{id}
@@ -84,7 +85,7 @@ Una vez que hayas configurado la base de datos y guardado los cambios, podes eje
 	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino. (DTO)  
 	400 - 404: Error
 
-### Get by name
+### Get By Name
 
 ```http
   GET localhost:{su_puerto}/api/Personaje/nombre/{name}
@@ -118,6 +119,44 @@ Una vez que hayas configurado la base de datos y guardado los cambios, podes eje
   	Datos personales en formato Json (body)
 - Respuesta:  
 	200: Id, Nombre, ImagenURl, Alineación, Raza, Descripción, Estilo De Pelea, Armas, ClanId y ReinoId.  
-	400, 404, 409 : Error
+	400, 404, 409: Error
+
+### Update Personaje
+
+```http
+  PUT localhost:{su_puerto}/api/Personaje/{id}
+```
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `id` | `int` | **Requerido** por URL.  |
+
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `Personaje` | `PersonajeUpdateDto` | **Requerido** por body.  |
 
 
+- URL: https://localhost:7104/api/Personaje/{id}
+- Metodo: PUT
+- Parametros:
+  Id (URL), datos personales en formato Json (body)
+- Respuesta:
+	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino. (DTO) 
+	404: Error
+
+### Delete Personaje
+
+```http
+  DELETE localhost:{su_puerto}/api/Personaje/{id}
+```
+
+| Parametro | Tipo     | Descripción                     |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `int`    | **Requerido** por URL.  |
+
+- URL: https://localhost:7104/api/Personaje/{id}
+- Metodo DELETE
+- Parametros:
+  Id (URL)
+- Respuesta:
+	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino. (DTO que se desea eliminar)
+	404: Error
