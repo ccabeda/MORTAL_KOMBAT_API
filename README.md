@@ -50,14 +50,14 @@ Una vez que hayas configurado la base de datos y guardado los cambios, podes eje
 ### Get all
 
 ```http
-  GET https://localhost:{su_puerto}/api/Personaje
+  GET localhost:{su_puerto}/api/Personaje
 ```
 
 | Parametro | Tipo     | Descripción                     |
 | :-------- | :------- | :-------------------------------- |
 |      |  | **No se requieren parametros**  |
 
-- URL: htpp://https://localhost:7104/api/Personaje
+- URL: https://localhost:7104/api/Personaje
 - Metodo GET
 - Parametros:
 	Ninguno
@@ -68,7 +68,7 @@ Una vez que hayas configurado la base de datos y guardado los cambios, podes eje
 ### Get by id
 
 ```http
-  GET https://localhost:{su_puerto}/api/Personaje/{id}
+  GET localhost:{su_puerto}/api/Personaje/{id}
 ```
 
 | Parametro | Tipo     | Descripción                     |
@@ -86,7 +86,7 @@ Una vez que hayas configurado la base de datos y guardado los cambios, podes eje
 ### Get by name
 
 ```http
-  GET https://localhost:{su_puerto}/api/Personaje/nombre/{name}
+  GET localhost:{su_puerto}/api/Personaje/nombre/{name}
 ```
 
 | Parametro | Tipo     | Descripción                     |
@@ -100,5 +100,22 @@ Una vez que hayas configurado la base de datos y guardado los cambios, podes eje
 - Respuesta:  
 	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino. (DTO)  
 	400 - 404: Error
+### Create Personaje
+
+```http
+  POST localhost:{su_puerto}/api/Personaje
+```
+
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| Peronsaje | `PersonajeCreateDto` | **Requerido** por body.  |
+
+- URL: https://localhost:7104/api/Personaje
+- Metodo: POST
+- Parametros:
+  	Datos personales en formato json (body)
+- Respuesta:  
+	200: Id, Nombre, ImagenURl, Alineación, Raza, Descripción, Estilo De Pelea, Armas, ClanId y ReinoId.  
+	400, 404, 409 : Error
 
 
