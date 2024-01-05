@@ -47,7 +47,7 @@ Una vez que hayas configurado la base de datos y guardado los cambios, podes eje
 ### Get all
 
 ```http
-  GET htpp://localhost:{su_puerto}/api/v1/employees/
+  GET https://localhost:{su_puerto}/api/Personaje
 ```
 
 | Parametro | Tipo     | Descripción                     |
@@ -60,8 +60,22 @@ Una vez que hayas configurado la base de datos y guardado los cambios, podes eje
 	Ninguno
 - Respuesta:
 	200: Lista de todas las personas (DTO)  
-	404: excepcion 
+	404: Error
 
-Ejemplo por Postman
+### Get by id
 
-![github](https://thumbs2.imgbox.com/b4/f2/tKfdPWdw_t.png)
+```http
+  GET https://localhost:{su_puerto}/api/Personaje/{id}
+```
+
+| Parametro | Tipo     | Descripción                     |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `id` | **Requerido** por url.  |
+
+- URL: https://localhost:7104/api/Personaje/{id}
+- Metodo GET
+- Parametros:
+	id (url)
+- Respuesta:  
+	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino. (DTO)  
+	400 - 404: Error
