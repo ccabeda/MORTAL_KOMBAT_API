@@ -38,10 +38,13 @@ En el archivo appsetting.json,modificar lo siguiente:
   "Nombre_de_tu_conexión": "Server=Nombre_de_tu_server;Database=Nombre_de_tu_Base_de_datos;TrustServerCertificate=True;Trusted_Connection=true;MultipleActiveResultSets=true"
    
 Reemplazá Nombre_de_tu_conexión, Nombre_de_tu_server, Nombre_de_tu_Base_de_datos por los datos que quieras poner.
-Por último, en el archivo Program.cs, en la inyección de la base de datos, poner el mismo nombre que se utilizo para reemplazar Nombre_de_tu_conexión.
+En el archivo Program.cs, en la inyección de la base de datos, poner el mismo nombre que se utilizo para reemplazar Nombre_de_tu_conexión.
 
-### Creá la Base de Datos
-Abrí tu cliente de SQL Server para crear la base de datos con el nombre que especificaste en la URL anterior.
+### Creá la Base de Datos con Entity
+Para crear la base de datos, es mediante la migración de los datos de las tablas creadas en Entity Framework hacia MS SQL Server, ya que utilize first-code.
+Para eso, deberan abrir la Consola del administrador de paquetes, que se encuentra clikeando en "Herramientas" y luego en "Administrador de paquetes NuGet"
+En la consola, primero agregan la migración con el comando "Add-Migration" seguido del nombre que quieran darle.
+Seguido, utilizan el comando "Update-Database" y ya les apareceran la tablas en la base de datos.
 
 ### Ejecutá la Aplicación
 Una vez que hayas configurado la base de datos y guardado los cambios, podes ejecutar la aplicación, dandole al botón de "https" (en Visual Studio). Alli se te deberia abrir la interfaz de Swagger para porbar los EndPoints.
