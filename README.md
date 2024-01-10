@@ -16,6 +16,8 @@ Proximamente agregare una interfaz simple, ya que mi objetivo es enfocarme en el
   - [Create Personaje](#Create-Personaje)
   - [Update Personaje](#Update-Personaje)
   - [Delete Personaje](#Delete-Personaje)
+  - [Add Weapon To Peronsaje](#Add-Weapon-To-Peronsaje)
+  - [Remove Weapon To Peronsaje](#Remove-Weapon-To-Peronsaje)
 - [Clan](#Clan)
 	- [Get All](#Get-All)
    	- [Get by Id](#Get-By-Id)
@@ -79,7 +81,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 - Parametros:
 	Ninguno
 - Respuesta:
-	200: Lista de todas las personas (DTO)  
+	200: Lista de todas los personajes (DTO)  
 	404: Error
 
 ### Get By Id
@@ -175,6 +177,55 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
   Id (URL)
 - Respuesta:
 	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino. (DTO que se desea eliminar).
+
+  404: Error
+
+### Metodos Many-to-Many
+- Al hacer una relación Many-to-Many entre Personaje y Arma, se creo un metodo para asociar un arma existente con un personaje existente.
+
+  ### Add Weapon To Peronsaje
+
+```http
+  PUT localhost:{su_puerto}/api/Personaje/{id_personaje}/AddWeapon/{id_rama}
+```
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `id_personaje` | `int` | **Requerido** por URL.  |
+
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `id_arma` | `int`    | **Requerido** por URL.  |
+
+
+- URL: https://localhost:7104/api/Personaje/{id_personaje}/AddWeapon/{id_rama}
+- Metodo: PUT
+- Parametros:
+  Id del personaje (URL), Id del arma (URL)
+- Respuesta:
+	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino.
+
+  404: Error
+  
+    ### Remove Weapon To Peronsaje
+
+```http
+  PUT localhost:{su_puerto}/api/Personaje/{id_personaje}/RemoveWeapon/{id_rama}
+```
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `id_personaje` | `int` | **Requerido** por URL.  |
+
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `id_arma` | `int`    | **Requerido** por URL.  |
+
+
+- URL: https://localhost:7104/api/Personaje/{id_personaje}/RemoveWeapon/{id_rama}
+- Metodo: PUT
+- Parametros:
+  Id del personaje (URL), Id del arma (URL)
+- Respuesta:
+	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino.
 
   404: Error
   
@@ -275,10 +326,10 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 
   404: Error
 
-### Delete Personaje
+### Delete Clan
 
 ```http
-  DELETE localhost:{su_puerto}/api/Personaje/{id}
+  DELETE localhost:{su_puerto}/api/Clan/{id}
 ```
 
 | Parametro | Tipo     | Descripción                     |
