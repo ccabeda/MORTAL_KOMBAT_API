@@ -16,8 +16,8 @@ Proximamente agregare una interfaz simple, ya que mi objetivo es enfocarme en el
   - [Create Personaje](#Create-Personaje)
   - [Update Personaje](#Update-Personaje)
   - [Delete Personaje](#Delete-Personaje)
-  - [Add Weapon To Peronsaje](#Add-Weapon-To-Peronsaje)
-  - [Remove Weapon To Peronsaje](#Remove-Weapon-To-Peronsaje)
+  - [Add Weapon To Personaje](#Add-Weapon-To-Personaje)
+  - [Remove Weapon To Personaje](#Remove-Weapon-To-Personaje)
 - [Clan](#Clan)
 	- [Get All Clanes](#Get-All-Clanes)
    	- [Get Clan by Id](#Get-Clan-By-Id)
@@ -235,7 +235,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 - Respuesta:
 	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino.
 
-  404: Error
+  400, 404: Error
   
   ## Clan
 
@@ -332,7 +332,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 - Respuesta:
 	200: Id, Nombre, Descripción. (DTO).
 
-  404: Error
+ 404: Error
 
 ### Delete Clan
 
@@ -353,7 +353,6 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 
   404: Error
 
-LKFWHJDLDRFGSJGFDLFGJÑDGFLFGAJKL
   ## Reino
 
 ### Get All Reinos
