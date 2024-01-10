@@ -1,9 +1,7 @@
-﻿using API_MortalKombat.Models.DTOs.PersonajeDTO;
-using API_MortalKombat.Services.IServices;
+﻿using API_MortalKombat.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 using MiPrimeraAPI.Models;
 using MortalKombat_API.Models.DTOs.ClanDTO;
-using MortalKombat_API.Models.DTOs.PersonajeDTO;
 using System.Net;
 
 namespace MortalKombat_API.Controllers

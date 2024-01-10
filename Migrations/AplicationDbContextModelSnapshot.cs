@@ -22,6 +22,66 @@ namespace API_MortalKombat.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("ArmaPersonaje", b =>
+                {
+                    b.Property<int>("ArmasId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PersonajesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ArmasId", "PersonajesId");
+
+                    b.HasIndex("PersonajesId");
+
+                    b.ToTable("ArmaPersonaje");
+                });
+
+            modelBuilder.Entity("MortalKombat_API.Models.Arma", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("FechaActualizacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Armas");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Descripcion = "Espada de hielo",
+                            FechaActualizacion = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FechaCreacion = new DateTime(2024, 1, 9, 6, 46, 46, 727, DateTimeKind.Local).AddTicks(2186),
+                            Nombre = "Kori Blade"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Descripcion = "Arma afilada",
+                            FechaActualizacion = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FechaCreacion = new DateTime(2024, 1, 9, 6, 46, 46, 727, DateTimeKind.Local).AddTicks(2223),
+                            Nombre = "Kunai"
+                        });
+                });
+
             modelBuilder.Entity("MortalKombat_API.Models.Clan", b =>
                 {
                     b.Property<int>("Id")
@@ -54,7 +114,7 @@ namespace API_MortalKombat.Migrations
                             Id = 1,
                             Descripcion = "Lin Kuei, el clan de fuertes guerreros Ninja chinos, es una sociedad ubicada al norte de Asia, que mata por dinero desde muchas generaciones atrás. Sus integrantes son instruídos desde muy temprana edad, y apenas tienen contacto con el mundo exterior. Los mejores guerreros del clan tienen algún poder especial, y cuando llegan a dominarlo, reciben un nombre clave. Se descubrió que solo los que vienen de un linaje antiguo, llegan a dominar este poder.",
                             FechaActualizacion = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FechaCreacion = new DateTime(2024, 1, 3, 3, 51, 41, 885, DateTimeKind.Local).AddTicks(3445),
+                            FechaCreacion = new DateTime(2024, 1, 9, 6, 46, 46, 727, DateTimeKind.Local).AddTicks(2104),
                             Nombre = "Lin Kuei"
                         },
                         new
@@ -62,7 +122,7 @@ namespace API_MortalKombat.Migrations
                             Id = 2,
                             Descripcion = "El clan Shirai Ryu se formó hace muchos años por obra de un guerrero Lin Kuei llamado Takeda, quien abandonó su clan. Al abandonar el Lin Kuei,Takeda se convirtió en un ninja desertor,crimen que se castiga con la muerte.Takeda fue buscado por los asesinos Lin Kuei.Escapó de China y regresó a Japón,su patria,donde ofreció servicios a los señores y generales.Su técnica gradualmente se extendió por todo Japón, y se convirtió en el arte del Ninjutsu.Además de enseñar su nueva forma de arte marcial,también enseñaba versiones modificadas de las tácticas Lin Kuei,de modo que reveló muchos de sus secretos.Esto avivó la furia de los Lin Kuei.Las enseñanzas de Takeda se hicieron conocidas en todo el Japón por obra de sus muchos seguidores,los cuales pasaron a ser conocidos como el clan Shirai Ryu.",
                             FechaActualizacion = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FechaCreacion = new DateTime(2024, 1, 3, 3, 51, 41, 885, DateTimeKind.Local).AddTicks(3484),
+                            FechaCreacion = new DateTime(2024, 1, 9, 6, 46, 46, 727, DateTimeKind.Local).AddTicks(2137),
                             Nombre = "Shirai Ryu"
                         });
                 });
@@ -76,10 +136,6 @@ namespace API_MortalKombat.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Alineacion")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Armas")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -128,12 +184,11 @@ namespace API_MortalKombat.Migrations
                         {
                             Id = 1,
                             Alineacion = "Bien",
-                            Armas = "[\"Kori Blade\"]",
                             ClanId = 1,
                             Descripcion = "Hermano menor del Sub-Zero original, comenzó reemplazando a su hermano caído y terminó convirtiéndose en el nuevo Gran Maestro Lin Kuei. Como descendiente de los cryomancers, conserva las habilidades para congelar.",
                             EstilosDePelea = "[\"Shotokan\",\"Drag\\u00F3n\"]",
                             FechaActualizacion = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FechaCreacion = new DateTime(2024, 1, 3, 3, 51, 41, 885, DateTimeKind.Local).AddTicks(3547),
+                            FechaCreacion = new DateTime(2024, 1, 9, 6, 46, 46, 727, DateTimeKind.Local).AddTicks(2172),
                             ImagenURl = "",
                             Nombre = "Sub-Zero",
                             Raza = "Humano/Cryomancer",
@@ -173,9 +228,24 @@ namespace API_MortalKombat.Migrations
                             Id = 1,
                             Descripcion = "La tierra es uno de los muchos reinos que crearon los antiguos dioses, dicho reino ha sido objeto frecuente de intentos de conquistas, porque se piensa que es la joya del cosmos y un importante centro de energía universal. Debido a esto, los dioses han designado una deidad para proteger el reino de daños, por innumerables siglos éste ha sido Raiden, aunque también otros dioses como Fujin, desempeñan un papel en esta labor.",
                             FechaActualizacion = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FechaCreacion = new DateTime(2024, 1, 3, 3, 51, 41, 885, DateTimeKind.Local).AddTicks(3499),
+                            FechaCreacion = new DateTime(2024, 1, 9, 6, 46, 46, 727, DateTimeKind.Local).AddTicks(2152),
                             Nombre = "Tierra"
                         });
+                });
+
+            modelBuilder.Entity("ArmaPersonaje", b =>
+                {
+                    b.HasOne("MortalKombat_API.Models.Arma", null)
+                        .WithMany()
+                        .HasForeignKey("ArmasId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MortalKombat_API.Models.Personaje", null)
+                        .WithMany()
+                        .HasForeignKey("PersonajesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("MortalKombat_API.Models.Personaje", b =>

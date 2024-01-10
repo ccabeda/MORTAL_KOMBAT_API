@@ -14,7 +14,7 @@ namespace API_MortalKombat.Repository
         }
         public async Task<Clan> ObtenerPorId(int id)
         {
-             return await _context.Clanes.FindAsync(id);
+            return await _context.Clanes.FindAsync(id);
         }
 
         public async Task<Clan> ObtenerPorNombre(string name)
@@ -26,16 +26,19 @@ namespace API_MortalKombat.Repository
         {
             return await _context.Clanes.ToListAsync();
         }
+
         public async Task Crear(Clan clan)
         {
             await _context.Clanes.AddAsync(clan);
             await Guardar();
         }
+
         public async Task Eliminar(Clan clan)
         {
             _context.Clanes.Remove(clan);
             await Guardar();
         }
+
         public async Task Actualizar(Clan clan)
         {
             _context.Update(clan);
@@ -45,7 +48,5 @@ namespace API_MortalKombat.Repository
         {
             await _context.SaveChangesAsync();  
         }
-
-
     }
 }

@@ -12,9 +12,15 @@ namespace MortalKombat_API.Data
         public DbSet<Personaje> Personajes { get; set; }
         public DbSet<Clan> Clanes { get; set; }
         public DbSet<Reino> Reinos { get; set; }
+        public DbSet<Arma> Armas { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
+        { 
+            modelBuilder.Entity<Arma>()
+               .HasMany(e => e.Personajes)
+               .WithMany(e => e.Armas);
+
             modelBuilder.Entity<Clan>().HasData(
                 new Clan
                 {
@@ -67,7 +73,26 @@ namespace MortalKombat_API.Data
                     ClanId = 1,
                     ReinoId = 1,
                     EstilosDePelea = new List<string> {"Shotokan","Dragón"},
-                    Armas = new List<string> {"Kori Blade"},
+                    FechaCreacion = DateTime.Now
+                }
+            );
+
+            modelBuilder.Entity<Arma>().HasData(
+                new Arma
+                {
+                    Id = 1,
+                    Nombre = "Kori Blade",
+                    Descripcion = "Espada de hielo",
+                    FechaCreacion = DateTime.Now
+                }
+            );
+
+            modelBuilder.Entity<Arma>().HasData(
+                new Arma
+                {
+                    Id = 2,
+                    Nombre = "Kunai",
+                    Descripcion = "Arma afilada",
                     FechaCreacion = DateTime.Now
                 }
             );

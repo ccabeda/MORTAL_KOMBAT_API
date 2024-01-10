@@ -158,7 +158,6 @@ namespace API_MortalKombat.Services
             return _apiresponse;
         }
     
-
         public async Task<APIResponse> DeletePersonaje(int id)
         {
             try
@@ -237,6 +236,99 @@ namespace API_MortalKombat.Services
             catch (Exception ex)
             {
                 _logger.LogError("Ocurrió un error al intentar actualizar al personaje: " + ex.Message);
+                _apiresponse.isExit = false;
+                _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
+            }
+            return _apiresponse;
+        }
+
+        public async Task<APIResponse> AddWeaponToPersonaje(int id_personaje, int id_arma)
+        {
+            try
+            {
+                if (id_personaje == 0 || id_arma ==0)
+                {
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.NotFound;
+                    _logger.LogError("Error, no se puede ingresar un id = 0.");
+                    return _apiresponse;
+                }
+
+                var arma = await _repository.AgregarArmaAPersonaje(id_arma);
+                if (arma == null)
+                {
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.NotFound;
+                    _logger.LogError("Error con el id del arma ingresada.");
+                    return _apiresponse;
+                }
+                var personaje = await _repository.ObtenerPorId(id_personaje);
+                if (personaje == null)
+                {
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.NotFound;
+                    _logger.LogError("Error con el id del personaje ingresada.");
+                    return _apiresponse;
+                }
+                personaje.Armas.Add(arma);
+                await _repository.Guardar();
+                _apiresponse.statusCode = HttpStatusCode.OK;
+                _apiresponse.Result = personaje;
+                return _apiresponse;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Ocurrió un error al inetntar agregar un arma al personaje: " + ex.Message);
+                _apiresponse.isExit = false;
+                _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
+            }
+            return _apiresponse;
+        }
+
+        public async Task<APIResponse> RemoveWeaponToPersonaje(int id_personaje, int id_arma)
+        {
+            try
+            {
+                if (id_personaje == 0 || id_arma == 0)
+                {
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.NotFound;
+                    _logger.LogError("Error, no se puede ingresar un id = 0.");
+                    return _apiresponse;
+                }
+
+                var arma = await _repository.AgregarArmaAPersonaje(id_arma);
+                if (arma == null)
+                {
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.NotFound;
+                    _logger.LogError("Error con el id del arma ingresada.");
+                    return _apiresponse;
+                }
+                var personaje = await _repository.ObtenerPorId(id_personaje);
+                if (personaje == null)
+                {
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.NotFound;
+                    _logger.LogError("Error con el id del personaje ingresada.");
+                    return _apiresponse;
+                }
+                if (!personaje.Armas.Any(arma => arma.Id == id_arma))
+                    {
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
+                    _logger.LogError("El personaje no cuenta con ese arma.");
+                    return _apiresponse;
+                }
+                personaje.Armas.Remove(arma);
+                await _repository.Guardar();
+                _apiresponse.statusCode = HttpStatusCode.OK;
+                _apiresponse.Result = personaje;
+                return _apiresponse;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Ocurrió un error al inetntar agregar un arma al personaje: " + ex.Message);
                 _apiresponse.isExit = false;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
             }

@@ -138,5 +138,42 @@ namespace MortalKombat_API.Controllers
             }
         }
 
+        [HttpPut(("{id_personaje}/AddWeapon/{id_arma}"), Name = "AddWeaponToPersonaje")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<APIResponse>> AddWeaponToPersonaje(int id_personaje, int id_arma)
+        {
+            var result = await _service.AddWeaponToPersonaje(id_personaje, id_arma);
+            if (result.statusCode == HttpStatusCode.OK)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return NotFound(result);
+            }
+        }
+
+        [HttpPut(("{id_personaje}/RemoveWeapon/{id_arma}"), Name = "RemoveWeaponToPersonaje")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<APIResponse>> RemoveWeaponToPersonaje(int id_personaje, int id_arma)
+        {
+            var result = await _service.RemoveWeaponToPersonaje(id_personaje, id_arma);
+            if (result.statusCode == HttpStatusCode.OK)
+            {
+                return Ok(result);
+            }
+            else if (result.statusCode == HttpStatusCode.NotFound)
+            {
+                return NotFound(result);
+            }
+            else
+            {
+                return BadRequest(result);
+            }
+        }
+
     }
 }

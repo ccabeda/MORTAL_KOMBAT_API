@@ -1,5 +1,4 @@
-﻿using API_MortalKombat.Models.DTOs.PersonajeDTO;
-using API_MortalKombat.Repository.IRepository;
+﻿using API_MortalKombat.Repository.IRepository;
 using API_MortalKombat.Services.IServices;
 using AutoMapper;
 using FluentValidation;
@@ -7,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using MiPrimeraAPI.Models;
 using MortalKombat_API.Models;
 using MortalKombat_API.Models.DTOs.ClanDTO;
-using MortalKombat_API.Models.DTOs.PersonajeDTO;
 using System.Net;
 
 namespace API_MortalKombat.Services
@@ -112,6 +110,7 @@ namespace API_MortalKombat.Services
             }
             return _apiresponse;
         }
+
         public async Task<APIResponse> CreateClan([FromBody] ClanCreateDto clanCreateDto)
         {
             try
@@ -139,7 +138,7 @@ namespace API_MortalKombat.Services
                 {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.Conflict; // Conflict indica que ya existe un recurso con el mismo nombre
-                    _logger.LogError("Ya existe un personaje con el mismo nombre.");
+                    _logger.LogError("Ya existe un clan con el mismo nombre.");
                     return _apiresponse;
                 }
                 var clan = _mapper.Map<Clan>(clanCreateDto);
@@ -147,7 +146,7 @@ namespace API_MortalKombat.Services
                 await _repository.Crear(clan);
                 _apiresponse.statusCode = HttpStatusCode.Created;
                 _apiresponse.Result = clan;
-                _logger.LogInformation("¡Personaje creado con exito!");
+                _logger.LogInformation("¡Clan creado con exito!");
                 return _apiresponse;
             }
             catch (Exception ex)
@@ -159,7 +158,6 @@ namespace API_MortalKombat.Services
             return _apiresponse;
         }
     
-
         public async Task<APIResponse> DeleteClan(int id)
         {
             try

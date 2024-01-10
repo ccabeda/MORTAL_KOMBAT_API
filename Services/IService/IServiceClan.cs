@@ -1,8 +1,6 @@
-﻿using API_MortalKombat.Models.DTOs.PersonajeDTO;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MiPrimeraAPI.Models;
 using MortalKombat_API.Models.DTOs.ClanDTO;
-using MortalKombat_API.Models.DTOs.PersonajeDTO;
 
 namespace API_MortalKombat.Services.IServices
 {
@@ -14,6 +12,5 @@ namespace API_MortalKombat.Services.IServices
         public Task<APIResponse> CreateClan([FromBody] ClanCreateDto ClanCreateDto);
         public Task<APIResponse> UpdateClan(int id, [FromBody] ClanUpdateDto clanUpdateDto);
         public Task<APIResponse> DeleteClan(int id);
-
     }
 }
