@@ -18,6 +18,8 @@ Proximamente agregare una interfaz simple, ya que mi objetivo es enfocarme en el
   - [Delete Personaje](#Delete-Personaje)
   - [Add Weapon To Personaje](#Add-Weapon-To-Personaje)
   - [Remove Weapon To Personaje](#Remove-Weapon-To-Personaje)
+  - [Add Style To Personaje](#Add-Style-To-Personaje)
+  - [Remove Style To Personaje](#Remove-Style-To-Personaje)
 - [Clan](#Clan)
 	- [Get All Clanes](#Get-All-Clanes)
    	- [Get Clan by Id](#Get-Clan-By-Id)
@@ -39,6 +41,13 @@ Proximamente agregare una interfaz simple, ya que mi objetivo es enfocarme en el
   - [Create Arma](#Create-Arma)
   - [Update Arma](#Update-Arma)
   - [Delete Arma](#Delete-Arma)
+- [Estilo De Pelea](#Estilo-De-Pelea)
+	- [Get All EstilosDePeleas](#Get-All-Estilos-De-Peleas)
+   	- [Get EstiloDePelea by Id](#Get-Estilo-De-Pelea-By-Id)
+  - [Get EstiloDePelea by Name](#Get-Estilo-De-Pelea-By-Name)
+  - [Create EstiloDePelea](#Create-Estilo-De-Pelea)
+  - [Update EstiloDePelea](#Update-Estilo-De-Pelea)
+  - [Delete EstiloDePelea](#Delete-Estilo-De-Pelea)
    
    
 
@@ -107,7 +116,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 
 | Parametro | Tipo     | Descripción                     |
 | :-------- | :------- | :-------------------------------- |
-| `id`      | `id` | **Requerido** por URL.  |
+| `Id`      | `id` | **Requerido** por URL.  |
 
 - URL: https://localhost:7104/api/Personaje/{id}
 - Metodo GET
@@ -160,7 +169,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 ```
 | Parametro | Tipo     | Descripción              |
 | :-------- | :------- | :------------------------- |
-| `id` | `int` | **Requerido** por URL.  |
+| `Id` | `int` | **Requerido** por URL.  |
 
 | Parametro | Tipo     | Descripción              |
 | :-------- | :------- | :------------------------- |
@@ -184,7 +193,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 
 | Parametro | Tipo     | Descripción                     |
 | :-------- | :------- | :-------------------------------- |
-| `id`      | `int`    | **Requerido** por URL.  |
+| `Id`      | `int`    | **Requerido** por URL.  |
 
 - URL: https://localhost:7104/api/Personaje/{id}
 - Metodo DELETE
@@ -205,11 +214,11 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 ```
 | Parametro | Tipo     | Descripción              |
 | :-------- | :------- | :------------------------- |
-| `id_personaje` | `int` | **Requerido** por URL.  |
+| `Id_personaje` | `int` | **Requerido** por URL.  |
 
 | Parametro | Tipo     | Descripción              |
 | :-------- | :------- | :------------------------- |
-| `id_arma` | `int`    | **Requerido** por URL.  |
+| `Id_arma` | `int`    | **Requerido** por URL.  |
 
 
 - URL: https://localhost:7104/api/Personaje/{id_personaje}/AddWeapon/{id_rama}
@@ -228,17 +237,66 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 ```
 | Parametro | Tipo     | Descripción              |
 | :-------- | :------- | :------------------------- |
-| `id_personaje` | `int` | **Requerido** por URL.  |
+| `Id_personaje` | `int` | **Requerido** por URL.  |
 
 | Parametro | Tipo     | Descripción              |
 | :-------- | :------- | :------------------------- |
-| `id_arma` | `int`    | **Requerido** por URL.  |
+| `Id_arma` | `int`    | **Requerido** por URL.  |
 
 
 - URL: https://localhost:7104/api/Personaje/{id_personaje}/RemoveWeapon/{id_rama}
 - Metodo: PUT
 - Parametros:
   Id del personaje (URL), Id del arma (URL)
+- Respuesta:
+	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino.
+
+  400, 404: Error
+
+  ### Metodos Many-to-Many
+- Al hacer una relación Many-to-Many entre Personaje y EstiloDePelea, se creo un metodo para asociar un arma existente con un personaje existente, y uno para eliminar una asociasión entre EstiloDePelea y Personaje.
+
+  ### Add Style To Personaje
+
+```http
+  PUT localhost:{su_puerto}/api/Personaje/{id_personaje}/AddStyle/{id_estilo_de_pelea}
+```
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `Id_personaje` | `int` | **Requerido** por URL.  |
+
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `Id_estilo_de_pelea` | `int`    | **Requerido** por URL.  |
+
+
+- URL: https://localhost:7104/api/Personaje/{id_personaje}/AddStyle/{id_estilo_de_pelea}
+- Metodo: PUT
+- Parametros:
+  Id del personaje (URL), Id del estilo de pelea (URL)
+- Respuesta:
+	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino.
+
+  404: Error
+  
+    ### Remove Style To Personaje
+
+```http
+  PUT localhost:{su_puerto}/api/Personaje/{id_personaje}/RemoveStyle/{id_estilo_de_pelea}
+```
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `Id_personaje` | `int` | **Requerido** por URL.  |
+
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `Id_estilo_de_pelea` | `int`    | **Requerido** por URL.  |
+
+
+- URL: https://localhost:7104/api/Personaje/{id_personaje}/RemoveStyle/{id_estilo_de_pelea}
+- Metodo: PUT
+- Parametros:
+  Id del personaje (URL), Id del estilo de pelea (URL)
 - Respuesta:
 	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino.
 
@@ -272,7 +330,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 
 | Parametro | Tipo     | Descripción                     |
 | :-------- | :------- | :-------------------------------- |
-| `id`      | `id` | **Requerido** por URL.  |
+| `Id`      | `id` | **Requerido** por URL.  |
 
 - URL: https://localhost:7104/api/Clan/{id}
 - Metodo GET
@@ -308,7 +366,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 
 | Parametro | Tipo     | Descripción              |
 | :-------- | :------- | :------------------------- |
-| Peronsaje | `ClanCreateDto` | **Requerido** por body.  |
+| `Clan`| `ClanCreateDto` | **Requerido** por body.  |
 
 - URL: https://localhost:7104/api/Clan
 - Metodo: POST
@@ -325,7 +383,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 ```
 | Parametro | Tipo     | Descripción              |
 | :-------- | :------- | :------------------------- |
-| `id` | `int` | **Requerido** por URL.  |
+| `Id` | `int` | **Requerido** por URL.  |
 
 | Parametro | Tipo     | Descripción              |
 | :-------- | :------- | :------------------------- |
@@ -349,7 +407,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 
 | Parametro | Tipo     | Descripción                     |
 | :-------- | :------- | :-------------------------------- |
-| `id`      | `int`    | **Requerido** por URL.  |
+| `Id`      | `int`    | **Requerido** por URL.  |
 
 - URL: https://localhost:7104/api/Clan/{id}
 - Metodo DELETE
@@ -388,7 +446,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 
 | Parametro | Tipo     | Descripción                     |
 | :-------- | :------- | :-------------------------------- |
-| `id`      | `id` | **Requerido** por URL.  |
+| `Id`      | `id` | **Requerido** por URL.  |
 
 - URL: https://localhost:7104/api/Reino/{id}
 - Metodo GET
@@ -424,7 +482,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 
 | Parametro | Tipo     | Descripción              |
 | :-------- | :------- | :------------------------- |
-| Peronsaje | `ReinoCreateDto` | **Requerido** por body.  |
+| `Reino` | `ReinoCreateDto` | **Requerido** por body.  |
 
 - URL: https://localhost:7104/api/Reino
 - Metodo: POST
@@ -441,11 +499,11 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 ```
 | Parametro | Tipo     | Descripción              |
 | :-------- | :------- | :------------------------- |
-| `id` | `int` | **Requerido** por URL.  |
+| `Id` | `int` | **Requerido** por URL.  |
 
 | Parametro | Tipo     | Descripción              |
 | :-------- | :------- | :------------------------- |
-| `Clan` | `ReinoUpdateDto` | **Requerido** por body.  |
+| `Reino` | `ReinoUpdateDto` | **Requerido** por body.  |
 
 
 - URL: https://localhost:7104/api/Reino/{id}
@@ -465,7 +523,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 
 | Parametro | Tipo     | Descripción                     |
 | :-------- | :------- | :-------------------------------- |
-| `id`      | `int`    | **Requerido** por URL.  |
+| `Id`      | `int`    | **Requerido** por URL.  |
 
 - URL: https://localhost:7104/api/Reino/{id}
 - Metodo DELETE
@@ -476,7 +534,6 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 
   404: Error
 
-  lihfasdlfksdhgdkljdwghjklghwrgjklwHRG
     ## Arma
 
 ### Get All Armas
@@ -505,7 +562,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 
 | Parametro | Tipo     | Descripción                     |
 | :-------- | :------- | :-------------------------------- |
-| `id`      | `id` | **Requerido** por URL.  |
+| `Id`      | `id` | **Requerido** por URL.  |
 
 - URL: https://localhost:7104/api/Arma/{id}
 - Metodo GET
@@ -541,7 +598,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 
 | Parametro | Tipo     | Descripción              |
 | :-------- | :------- | :------------------------- |
-| Peronsaje | `ArmaCreateDto` | **Requerido** por body.  |
+| `Arma` | `ArmaCreateDto` | **Requerido** por body.  |
 
 - URL: https://localhost:7104/api/Arma
 - Metodo: POST
@@ -558,11 +615,11 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 ```
 | Parametro | Tipo     | Descripción              |
 | :-------- | :------- | :------------------------- |
-| `id` | `int` | **Requerido** por URL.  |
+| `Id` | `int` | **Requerido** por URL.  |
 
 | Parametro | Tipo     | Descripción              |
 | :-------- | :------- | :------------------------- |
-| `Clan` | `ArmaUpdateDto` | **Requerido** por body.  |
+| `Arma` | `ArmaUpdateDto` | **Requerido** por body.  |
 
 
 - URL: https://localhost:7104/api/Arma/{id}
@@ -582,9 +639,125 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 
 | Parametro | Tipo     | Descripción                     |
 | :-------- | :------- | :-------------------------------- |
-| `id`      | `int`    | **Requerido** por URL.  |
+| `Id`      | `int`    | **Requerido** por URL.  |
 
 - URL: https://localhost:7104/api/Arma/{id}
+- Metodo DELETE
+- Parametros:
+  Id (URL)
+- Respuesta:
+	200: Id, Nombre, Descripción (DTO que se desea eliminar).
+
+  404: Error
+
+     ## Estilo De Pelea
+
+### Get All EstilosDePeleas
+
+```http
+  GET localhost:{su_puerto}/api/EstiloDePelea
+```
+
+| Parametro | Tipo     | Descripción                     |
+| :-------- | :------- | :-------------------------------- |
+|      |  | **No se requieren parametros**  |
+
+- URL: https://localhost:7104/api/Arma
+- Metodo GET
+- Parametros:
+	Ninguno
+- Respuesta:
+	200: Lista de todos lps estilos de pelea (DTO).  
+	404: Error
+
+### Get EstiloDePelea By Id
+
+```http
+  GET localhost:{su_puerto}/api/EstiloDePelea/{id}
+```
+
+| Parametro | Tipo     | Descripción                     |
+| :-------- | :------- | :-------------------------------- |
+| `Id`      | `id` | **Requerido** por URL.  |
+
+- URL: https://localhost:7104/api/EstiloDePelea/{id}
+- Metodo GET
+- Parametros:
+  	Id (URL)
+- Respuesta:  
+	200: Id, Nombre, Descripción (DTO).  
+	400 - 404: Error
+
+### Get EstiloDePelea By Name
+
+```http
+  GET localhost:{su_puerto}/api/EstiloDePelea/nombre/{name}
+```
+
+| Parametro | Tipo     | Descripción                     |
+| :-------- | :------- | :-------------------------------- |
+| `Nombre`  | `string` | **Requerido** por URL.  |
+
+- URL: https://localhost:7104/api/EstiloDePelea/nombre/{name}
+- Metodo GET
+- Parametros:
+  	Nombre (URl)
+- Respuesta:  
+	200: Id, Nombre, Descripción (DTO).  
+	400 - 404: Error
+
+### Create EstiloDePelea
+
+```http
+  POST localhost:{su_puerto}/api/EstiloDePelea
+```
+
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `EstiloDePelea` | `EstiloDePeleaCreateDto` | **Requerido** por body.  |
+
+- URL: https://localhost:7104/api/EstiloDePelea
+- Metodo: POST
+- Parametros:
+  	Datos personales en formato Json (body)
+- Respuesta:  
+	200: Id, Nombre, Descripción
+	400, 404, 409: Error
+
+### Update EstiloDePelea
+
+```http
+  PUT localhost:{su_puerto}/api/EstiloDePelea/{id}
+```
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `Id` | `int` | **Requerido** por URL.  |
+
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `EstiloDePelea` | `EstiloDePeleaUpdateDto` | **Requerido** por body.  |
+
+
+- URL: https://localhost:7104/api/EstiloDePelea/{id}
+- Metodo: PUT
+- Parametros:
+  Id (URL), datos personales en formato Json (body)
+- Respuesta:
+	200: Id, Nombre, Descripción. (DTO).
+
+  404: Error
+
+### Delete EstiloDePelea
+
+```http
+  DELETE localhost:{su_puerto}/api/EstiloDePelea/{id}
+```
+
+| Parametro | Tipo     | Descripción                     |
+| :-------- | :------- | :-------------------------------- |
+| `Id`      | `int`    | **Requerido** por URL.  |
+
+- URL: https://localhost:7104/api/EstiloDePelea/{id}
 - Metodo DELETE
 - Parametros:
   Id (URL)
