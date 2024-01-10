@@ -32,6 +32,13 @@ Proximamente agregare una interfaz simple, ya que mi objetivo es enfocarme en el
   - [Create Reino](#Create-Reino)
   - [Update Reino](#Update-Reino)
   - [Delete Reino](#Delete-Reino)
+  - - [Arma](#Arma)
+	- [Get All Armas](#Get-All-Armas)
+   	- [Get Arma by Id](#Get-Arma-By-Id)
+  - [Get Arma by Name](#Get-Arma-By-Name)
+  - [Create Arma](#Create-Arma)
+  - [Update Arma](#Update-Arma)
+  - [Delete Arma](#Delete-Arma)
    
    
 
@@ -254,7 +261,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 - Parametros:
 	Ninguno
 - Respuesta:
-	200: Lista de todos los clanes (DTO)  
+	200: Lista de todos los clanes (DTO).  
 	404: Error
 
 ### Get Clan By Id
@@ -272,7 +279,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 - Parametros:
   	Id (URL)
 - Respuesta:  
-	200: Id, Nombre, Descripción. (DTO)  
+	200: Id, Nombre, Descripción (DTO).  
 	400 - 404: Error
 
 ### Get Clan By Name
@@ -290,7 +297,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 - Parametros:
   	Nombre (URl)
 - Respuesta:  
-	200: Id, Nombre, Descripción. (DTO)  
+	200: Id, Nombre, Descripción (DTO).  
 	400 - 404: Error
 
 ### Create Clan
@@ -370,7 +377,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 - Parametros:
 	Ninguno
 - Respuesta:
-	200: Lista de todos los reinos (DTO)  
+	200: Lista de todos los reinos (DTO).  
 	404: Error
 
 ### Get By Id
@@ -388,7 +395,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 - Parametros:
   	Id (URL)
 - Respuesta:  
-	200: Id, Nombre, Descripción. (DTO)  
+	200: Id, Nombre, Descripción (DTO).  
 	400 - 404: Error
 
 ### Get Reino By Name
@@ -406,7 +413,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 - Parametros:
   	Nombre (URl)
 - Respuesta:  
-	200: Id, Nombre, Descripción. (DTO)  
+	200: Id, Nombre, Descripción (DTO).  
 	400 - 404: Error
 
 ### Create Reino
@@ -468,4 +475,122 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 	200: Id, Nombre, Descripción. (DTO que se desea eliminar).
 
   404: Error
+
+  lihfasdlfksdhgdkljdwghjklghwrgjklwHRG
+    ## Arma
+
+### Get All Armas
+
+```http
+  GET localhost:{su_puerto}/api/Arma
+```
+
+| Parametro | Tipo     | Descripción                     |
+| :-------- | :------- | :-------------------------------- |
+|      |  | **No se requieren parametros**  |
+
+- URL: https://localhost:7104/api/Arma
+- Metodo GET
+- Parametros:
+	Ninguno
+- Respuesta:
+	200: Lista de todos las armas (DTO).  
+	404: Error
+
+### Get Arma By Id
+
+```http
+  GET localhost:{su_puerto}/api/Arma/{id}
+```
+
+| Parametro | Tipo     | Descripción                     |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `id` | **Requerido** por URL.  |
+
+- URL: https://localhost:7104/api/Arma/{id}
+- Metodo GET
+- Parametros:
+  	Id (URL)
+- Respuesta:  
+	200: Id, Nombre, Descripción (DTO).  
+	400 - 404: Error
+
+### Get Arma By Name
+
+```http
+  GET localhost:{su_puerto}/api/Arma/nombre/{name}
+```
+
+| Parametro | Tipo     | Descripción                     |
+| :-------- | :------- | :-------------------------------- |
+| `Nombre`  | `string` | **Requerido** por URL.  |
+
+- URL: https://localhost:7104/api/Arma/nombre/{name}
+- Metodo GET
+- Parametros:
+  	Nombre (URl)
+- Respuesta:  
+	200: Id, Nombre, Descripción (DTO).  
+	400 - 404: Error
+
+### Create Arma
+
+```http
+  POST localhost:{su_puerto}/api/Arma
+```
+
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| Peronsaje | `ArmaCreateDto` | **Requerido** por body.  |
+
+- URL: https://localhost:7104/api/Arma
+- Metodo: POST
+- Parametros:
+  	Datos personales en formato Json (body)
+- Respuesta:  
+	200: Id, Nombre, Descripción
+	400, 404, 409: Error
+
+### Update Arma
+
+```http
+  PUT localhost:{su_puerto}/api/Arma/{id}
+```
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `id` | `int` | **Requerido** por URL.  |
+
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `Clan` | `ArmaUpdateDto` | **Requerido** por body.  |
+
+
+- URL: https://localhost:7104/api/Arma/{id}
+- Metodo: PUT
+- Parametros:
+  Id (URL), datos personales en formato Json (body)
+- Respuesta:
+	200: Id, Nombre, Descripción. (DTO).
+
+  404: Error
+
+### Delete Arma
+
+```http
+  DELETE localhost:{su_puerto}/api/Arma/{id}
+```
+
+| Parametro | Tipo     | Descripción                     |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `int`    | **Requerido** por URL.  |
+
+- URL: https://localhost:7104/api/Arma/{id}
+- Metodo DELETE
+- Parametros:
+  Id (URL)
+- Respuesta:
+	200: Id, Nombre, Descripción (DTO que se desea eliminar).
+
+  404: Error
+  
   
