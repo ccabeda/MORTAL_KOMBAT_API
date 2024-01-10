@@ -189,7 +189,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
   404: Error
 
 ### Metodos Many-to-Many
-- Al hacer una relación Many-to-Many entre Personaje y Arma, se creo un metodo para asociar un arma existente con un personaje existente.
+- Al hacer una relación Many-to-Many entre Personaje y Arma, se creo un metodo para asociar un arma existente con un personaje existente, y uno para eliminar una asociasión entre Arma y Personaje.
 
   ### Add Weapon To Personaje
 
