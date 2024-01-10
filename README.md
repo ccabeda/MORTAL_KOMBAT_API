@@ -117,7 +117,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 
 | Parametro | Tipo     | Descripción                     |
 | :-------- | :------- | :-------------------------------- |
-| `Id`      | `id` | **Requerido** por URL.  |
+| `Id`      | `int` | **Requerido** por URL.  |
 
 - URL: https://localhost:7104/api/Personaje/{id}
 - Metodo GET
@@ -331,7 +331,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 
 | Parametro | Tipo     | Descripción                     |
 | :-------- | :------- | :-------------------------------- |
-| `Id`      | `id` | **Requerido** por URL.  |
+| `Id`      | `int` | **Requerido** por URL.  |
 
 - URL: https://localhost:7104/api/Clan/{id}
 - Metodo GET
@@ -447,7 +447,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 
 | Parametro | Tipo     | Descripción                     |
 | :-------- | :------- | :-------------------------------- |
-| `Id`      | `id` | **Requerido** por URL.  |
+| `Id`      | `int` | **Requerido** por URL.  |
 
 - URL: https://localhost:7104/api/Reino/{id}
 - Metodo GET
@@ -563,7 +563,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 
 | Parametro | Tipo     | Descripción                     |
 | :-------- | :------- | :-------------------------------- |
-| `Id`      | `id` | **Requerido** por URL.  |
+| `Id`      | `int` | **Requerido** por URL.  |
 
 - URL: https://localhost:7104/api/Arma/{id}
 - Metodo GET
@@ -679,7 +679,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 
 | Parametro | Tipo     | Descripción                     |
 | :-------- | :------- | :-------------------------------- |
-| `Id`      | `id` | **Requerido** por URL.  |
+| `Id`      | `int` | **Requerido** por URL.  |
 
 - URL: https://localhost:7104/api/EstiloDePelea/{id}
 - Metodo GET
