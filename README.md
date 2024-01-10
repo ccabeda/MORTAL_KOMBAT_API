@@ -6,9 +6,9 @@ Proximamente agregare una interfaz simple, ya que mi objetivo es enfocarme en el
 
 
 ---
-- [Instalacion](#instalación)
-- [Endpoints](#endpoints-api)
-- [Documentación Swagger](#documentación-swagger)
+- [Instalacion](#Instalación)
+- [Endpoints](#Endpoints-api)
+- [Documentación Swagger](#Documentación-swagger)
 - [Personaje](#Personaje)
 	- [Get All Personajes](#Get-All-Personajes)
    	- [Get Personaje by Id](#Get-Personaje-By-Id)
@@ -48,6 +48,7 @@ Proximamente agregare una interfaz simple, ya que mi objetivo es enfocarme en el
   - [Create EstiloDePelea](#Create-Estilo-De-Pelea)
   - [Update EstiloDePelea](#Update-Estilo-De-Pelea)
   - [Delete EstiloDePelea](#Delete-Estilo-De-Pelea)
+- [Proximamente](#Proximamente)
    
    
 
@@ -766,4 +767,5 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 
   404: Error
   
-  
+## Proximamente
+- ¡Agregare test unitarios en xUnit, Kafka y mas cosas!
