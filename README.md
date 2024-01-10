@@ -32,7 +32,7 @@ Proximamente agregare una interfaz simple, ya que mi objetivo es enfocarme en el
   - [Create Reino](#Create-Reino)
   - [Update Reino](#Update-Reino)
   - [Delete Reino](#Delete-Reino)
-  - - [Arma](#Arma)
+   - [Arma](#Arma)
 	- [Get All Armas](#Get-All-Armas)
    	- [Get Arma by Id](#Get-Arma-By-Id)
   - [Get Arma by Name](#Get-Arma-By-Name)
