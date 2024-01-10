@@ -1,4 +1,4 @@
-﻿namespace MortalKombat_API.Models.DTOs.ReinoDTO
+﻿namespace API_MortalKombat.Models.DTOs.ReinoDTO
 {
     public class ReinoCreateDto
     {

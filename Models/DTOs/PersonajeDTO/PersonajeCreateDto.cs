@@ -1,4 +1,4 @@
-﻿namespace MortalKombat_API.Models.DTOs.PersonajeDTO
+﻿namespace API_MortalKombat.Models.DTOs.PersonajeDTO
 {
     public class PersonajeCreateDto
     {
@@ -7,7 +7,6 @@
         public string Alineacion { get; set; }
         public string Raza { get; set; }
         public string Descripcion { get; set; }
-        public List<string> EstilosDePelea { get; set; }
         public int ClanId { set; get; }
         public int ReinoId { set; get; }
     }

@@ -1,14 +1,13 @@
-﻿using API_MortalKombat.Repository.IRepository;
-using API_MortalKombat.Services.IServices;
+﻿using API_MortalKombat.Models;
+using API_MortalKombat.Models.DTOs.ReinoDTO;
+using API_MortalKombat.Repository.IRepository;
+using API_MortalKombat.Service.IService;
 using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using MiPrimeraAPI.Models;
-using MortalKombat_API.Models;
-using MortalKombat_API.Models.DTOs.ReinoDTO;
 using System.Net;
 
-namespace API_MortalKombat.Services
+namespace API_MortalKombat.Service
 {
     public class ServiceReino : IServiceReino
     {

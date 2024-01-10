@@ -1,7 +1,7 @@
-﻿using FluentValidation;
-using MortalKombat_API.Models.DTOs.ClanDTO;
+﻿using API_MortalKombat.Models.DTOs.ClanDTO;
+using FluentValidation;
 
-namespace MiPrimeraAPI.Validations
+namespace API_MortalKombat.Validations
 {
     public class ClanUpdateValidator : AbstractValidator<ClanUpdateDto>
     {

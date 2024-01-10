@@ -1,4 +1,4 @@
-﻿namespace MortalKombat_API.Models.DTOs.PersonajeDTO
+﻿namespace API_MortalKombat.Models.DTOs.PersonajeDTO
 {
     public class PersonajeDtoGetAll
     {
@@ -8,6 +8,5 @@
         public string ImagenURl { get; set; }
         public string Raza { get; set; }
         public string Descripcion { get; set; }
-        public List<string> EstilosDePelea { get; set; }
     }
 }

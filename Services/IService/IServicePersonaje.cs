@@ -1,9 +1,8 @@
-﻿using API_MortalKombat.Models.DTOs.PersonajeDTO;
+﻿using API_MortalKombat.Models;
+using API_MortalKombat.Models.DTOs.PersonajeDTO;
 using Microsoft.AspNetCore.Mvc;
-using MiPrimeraAPI.Models;
-using MortalKombat_API.Models.DTOs.PersonajeDTO;
 
-namespace API_MortalKombat.Services.IServices
+namespace API_MortalKombat.Service.IService
 {
     public interface IServicePersonaje
     {
@@ -13,6 +12,8 @@ namespace API_MortalKombat.Services.IServices
         public Task<APIResponse> CreatePersonaje([FromBody] PersonajeCreateDto personajeCreateDto);
         public Task<APIResponse> AddWeaponToPersonaje(int id_personaje, int id_arma);
         public Task<APIResponse> RemoveWeaponToPersonaje(int id_personaje, int id_arma);
+        public Task<APIResponse> AddStyleToPersonaje(int id_personaje, int id_estilo_de_pelea);
+        public Task<APIResponse> RemoveStyleToPersonaje(int id_personaje, int id_estilo_de_pelea);
         public Task<APIResponse> UpdatePersonaje(int id, [FromBody] PersonajeUpdateDto personajeUpdateDto);
         public Task<APIResponse> DeletePersonaje(int id);
     }

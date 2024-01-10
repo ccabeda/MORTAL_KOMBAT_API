@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace MortalKombat_API.Models
+namespace API_MortalKombat.Models
 {
     public class Personaje
     {
@@ -13,7 +13,6 @@ namespace MortalKombat_API.Models
         public string Alineacion { get; set; }
         public string Raza { get; set; }
         public string Descripcion { get; set; }
-        public List<string> EstilosDePelea { get; set; }
         public int ClanId { set; get; }
         [ForeignKey("ClanId")]
         public Clan Clan { set; get; }
@@ -22,7 +21,8 @@ namespace MortalKombat_API.Models
         public Reino Reino { set; get; }
         public DateTime FechaCreacion { get; set; }
         public DateTime FechaActualizacion { get; set; }
-        public List<Arma> Armas { get; set; }   
+        public List<Arma> Armas { get; set; }
+        public List<EstiloDePelea> EstilosDePeleas { get; set; } 
     }
 
 }

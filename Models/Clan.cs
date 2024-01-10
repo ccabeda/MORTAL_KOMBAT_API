@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace MortalKombat_API.Models
+namespace API_MortalKombat.Models
 {
     public class Clan
     {

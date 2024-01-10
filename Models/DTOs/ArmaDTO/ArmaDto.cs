@@ -1,4 +1,4 @@
-﻿namespace MortalKombat_API.Models
+﻿namespace API_MortalKombat.Models.DTOs.ArmaDTO
 {
     public class ArmaDto
     {
@@ -7,3 +7,5 @@
         public string Descripcion { get; set; }
     }
 }
+
+

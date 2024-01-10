@@ -1,10 +1,10 @@
-﻿using API_MortalKombat.Services.IServices;
+﻿using API_MortalKombat.Models;
+using API_MortalKombat.Models.DTOs.ClanDTO;
+using API_MortalKombat.Service.IService;
 using Microsoft.AspNetCore.Mvc;
-using MiPrimeraAPI.Models;
-using MortalKombat_API.Models.DTOs.ClanDTO;
 using System.Net;
 
-namespace MortalKombat_API.Controllers
+namespace API_MortalKombat.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

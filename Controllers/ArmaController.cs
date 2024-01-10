@@ -1,7 +1,7 @@
-﻿using API_MortalKombat.Models.DTOs.ArmaDTO;
-using API_MortalKombat.Services.IService;
+﻿using API_MortalKombat.Models;
+using API_MortalKombat.Models.DTOs.ArmaDTO;
+using API_MortalKombat.Service.IService;
 using Microsoft.AspNetCore.Mvc;
-using MiPrimeraAPI.Models;
 using System.Net;
 
 namespace API_MortalKombat.Controllers

@@ -1,15 +1,14 @@
-﻿using API_MortalKombat.Models.DTOs.PersonajeDTO;
+﻿using API_MortalKombat.Models;
+using API_MortalKombat.Models.DTOs.PersonajeDTO;
 using API_MortalKombat.Repository.IRepository;
-using API_MortalKombat.Services.IServices;
+using API_MortalKombat.Service.IService;
 using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using MiPrimeraAPI.Models;
-using MortalKombat_API.Models;
-using MortalKombat_API.Models.DTOs.PersonajeDTO;
+using Microsoft.Extensions.Logging;
 using System.Net;
 
-namespace API_MortalKombat.Services
+namespace API_MortalKombat.Service
 {
     public class ServicePersonaje : IServicePersonaje
     {
@@ -269,9 +268,11 @@ namespace API_MortalKombat.Services
                     _apiresponse.statusCode = HttpStatusCode.NotFound;
                     _logger.LogError("Error con el id del personaje ingresada.");
                     return _apiresponse;
-                }
+                }                
                 personaje.Armas.Add(arma);
                 await _repository.Guardar();
+                _mapper.Map<PersonajeDto>(personaje);
+                _logger.LogInformation("Arma agregada con exito a personaje.");
                 _apiresponse.statusCode = HttpStatusCode.OK;
                 _apiresponse.Result = personaje;
                 return _apiresponse;
@@ -322,13 +323,112 @@ namespace API_MortalKombat.Services
                 }
                 personaje.Armas.Remove(arma);
                 await _repository.Guardar();
+                _mapper.Map<PersonajeDto>(personaje);
+                _logger.LogInformation("Arma removida con exito del personaje.");
                 _apiresponse.statusCode = HttpStatusCode.OK;
                 _apiresponse.Result = personaje;
                 return _apiresponse;
             }
             catch (Exception ex)
             {
-                _logger.LogError("Ocurrió un error al inetntar agregar un arma al personaje: " + ex.Message);
+                _logger.LogError("Ocurrió un error al intentar agregar un arma al personaje: " + ex.Message);
+                _apiresponse.isExit = false;
+                _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
+            }
+            return _apiresponse;
+        }
+
+        public async Task<APIResponse> AddStyleToPersonaje(int id_personaje, int id_estilo_de_pelea)
+        {
+            try
+            {
+                if (id_personaje == 0 || id_estilo_de_pelea == 0)
+                {
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.NotFound;
+                    _logger.LogError("Error, no se puede ingresar un id = 0.");
+                    return _apiresponse;
+                }
+
+                var estilo = await _repository.AgregarEstiloDePeleaAPersonaje(id_estilo_de_pelea);
+                if (estilo == null)
+                {
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.NotFound;
+                    _logger.LogError("Error con el id del estilo de pelea ingresada.");
+                    return _apiresponse;
+                }
+                var personaje = await _repository.ObtenerPorId(id_personaje);
+                if (personaje == null)
+                {
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.NotFound;
+                    _logger.LogError("Error con el id del personaje ingresada.");
+                    return _apiresponse;
+                }
+                personaje.EstilosDePeleas.Add(estilo);
+                await _repository.Guardar();
+                _mapper.Map<PersonajeDto>(personaje);
+                _logger.LogInformation("Arma agregada con exito a personaje.");
+                _apiresponse.statusCode = HttpStatusCode.OK;
+                _apiresponse.Result = personaje;
+                return _apiresponse;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Ocurrió un error al inetntar agregar un estilo de pelea al personaje: " + ex.Message);
+                _apiresponse.isExit = false;
+                _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
+            }
+            return _apiresponse;
+        }
+
+        public async Task<APIResponse> RemoveStyleToPersonaje(int id_personaje, int id_estilo_de_pelea)
+        {
+            try
+            {
+                if (id_personaje == 0 || id_estilo_de_pelea == 0)
+                {
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.NotFound;
+                    _logger.LogError("Error, no se puede ingresar un id = 0.");
+                    return _apiresponse;
+                }
+
+                var estilo = await _repository.AgregarEstiloDePeleaAPersonaje(id_estilo_de_pelea);
+                if (estilo == null)
+                {
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.NotFound;
+                    _logger.LogError("Error con el id del estilo de pelea ingresada.");
+                    return _apiresponse;
+                }
+                var personaje = await _repository.ObtenerPorId(id_personaje);
+                if (personaje == null)
+                {
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.NotFound;
+                    _logger.LogError("Error con el id del personaje ingresada.");
+                    return _apiresponse;
+                }
+                if (!personaje.EstilosDePeleas.Any(estilo => estilo.Id == id_estilo_de_pelea))
+                {
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
+                    _logger.LogError("El personaje no cuenta con ese estilo de pelea.");
+                    return _apiresponse;
+                }
+                personaje.EstilosDePeleas.Remove(estilo);
+                await _repository.Guardar();
+                _mapper.Map<PersonajeDto>(personaje);
+                _logger.LogInformation("Estilo de pelea removido con exito del personaje.");
+                _apiresponse.statusCode = HttpStatusCode.OK;
+                _apiresponse.Result = personaje;
+                return _apiresponse;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Ocurrió un error al intentar agregar un estilo de pelea al personaje: " + ex.Message);
                 _apiresponse.isExit = false;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
             }

@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MortalKombat_API.Models;
+﻿using API_MortalKombat.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace MortalKombat_API.Data
+namespace API_MortalKombat.Data
 {
     public class AplicationDbContext : DbContext
     {
@@ -13,6 +13,7 @@ namespace MortalKombat_API.Data
         public DbSet<Clan> Clanes { get; set; }
         public DbSet<Reino> Reinos { get; set; }
         public DbSet<Arma> Armas { get; set; }
+        public DbSet<EstiloDePelea> EstilosDePeleas { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -20,6 +21,10 @@ namespace MortalKombat_API.Data
             modelBuilder.Entity<Arma>()
                .HasMany(e => e.Personajes)
                .WithMany(e => e.Armas);
+
+            modelBuilder.Entity<EstiloDePelea>()
+               .HasMany(e => e.Personajes)
+               .WithMany(e => e.EstilosDePeleas);
 
             modelBuilder.Entity<Clan>().HasData(
                 new Clan
@@ -72,7 +77,6 @@ namespace MortalKombat_API.Data
                     "Como descendiente de los cryomancers, conserva las habilidades para congelar.",
                     ClanId = 1,
                     ReinoId = 1,
-                    EstilosDePelea = new List<string> {"Shotokan","Dragón"},
                     FechaCreacion = DateTime.Now
                 }
             );
@@ -87,12 +91,12 @@ namespace MortalKombat_API.Data
                 }
             );
 
-            modelBuilder.Entity<Arma>().HasData(
-                new Arma
+            modelBuilder.Entity<EstiloDePelea>().HasData(
+                new EstiloDePelea
                 {
-                    Id = 2,
-                    Nombre = "Kunai",
-                    Descripcion = "Arma afilada",
+                    Id = 1,
+                    Nombre = "Kung Fu",
+                    Descripcion = "Arte Marcial",
                     FechaCreacion = DateTime.Now
                 }
             );

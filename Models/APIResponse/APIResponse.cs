@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace MiPrimeraAPI.Models
+namespace API_MortalKombat.Models
 {
     public class APIResponse //clase para encapsular las respuestas de los endpoints y que sean iguales
     {

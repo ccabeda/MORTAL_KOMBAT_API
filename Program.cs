@@ -1,19 +1,20 @@
+using API_MortalKombat;
+using API_MortalKombat.Data;
+using API_MortalKombat.Models;
 using API_MortalKombat.Models.DTOs.ArmaDTO;
+using API_MortalKombat.Models.DTOs.ClanDTO;
+using API_MortalKombat.Models.DTOs.EstiloDePeleaDTO;
 using API_MortalKombat.Models.DTOs.PersonajeDTO;
+using API_MortalKombat.Models.DTOs.ReinoDTO;
 using API_MortalKombat.Repository;
 using API_MortalKombat.Repository.IRepository;
+using API_MortalKombat.Service;
+using API_MortalKombat.Service.IService;
 using API_MortalKombat.Services;
 using API_MortalKombat.Services.IService;
-using API_MortalKombat.Services.IServices;
+using API_MortalKombat.Validations;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using MiPrimeraAPI;
-using MiPrimeraAPI.Models;
-using MiPrimeraAPI.Validations;
-using MortalKombat_API.Data;
-using MortalKombat_API.Models.DTOs.ClanDTO;
-using MortalKombat_API.Models.DTOs.PersonajeDTO;
-using MortalKombat_API.Models.DTOs.ReinoDTO;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,11 +38,13 @@ builder.Services.AddScoped<IRepositoryPersonaje, RepositoryPersonaje>();
 builder.Services.AddScoped<IRepositoryClan, RepositoryClan>();
 builder.Services.AddScoped<IRepositoryReino, RepositoryReino>();
 builder.Services.AddScoped<IRepositoryArma, RepositoryArma>();
+builder.Services.AddScoped<IRepositoryEstiloDePelea, RepositoryEstiloDePelea>();
 //service
 builder.Services.AddScoped<IServicePersonaje,ServicePersonaje>();
 builder.Services.AddScoped<IServiceClan, ServiceClan>();
 builder.Services.AddScoped<IServiceReino, ServiceReino>();
 builder.Services.AddScoped<IServiceArma, ServiceArma>();
+builder.Services.AddScoped<IServiceEstiloDePelea, ServiceEstiloDePelea>();
 //fluent validation
 builder.Services.AddScoped<IValidator<PersonajeCreateDto>, PersonajeCreateValidator>();
 builder.Services.AddScoped<IValidator<PersonajeUpdateDto>, PersonajeUpdateValidator>();
@@ -51,6 +54,8 @@ builder.Services.AddScoped<IValidator<ReinoCreateDto>, ReinoCreateValidator>();
 builder.Services.AddScoped<IValidator<ReinoUpdateDto>, ReinoUpdateValidator>();
 builder.Services.AddScoped<IValidator<ArmaCreateDto>, ArmaCreateValidator>();
 builder.Services.AddScoped<IValidator<ArmaUpdateDto>, ArmaUpdateValidator>();
+builder.Services.AddScoped<IValidator<EstiloDePeleaCreateDto>, EstiloDePeleaCreateValidator>();
+builder.Services.AddScoped<IValidator<EstiloDePeleaUpdateDto>, EstiloDePeleaUpdateValidator>();
 
 var app = builder.Build();
 

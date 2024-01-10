@@ -1,7 +1,7 @@
 ﻿using API_MortalKombat.Models.DTOs.PersonajeDTO;
 using FluentValidation;
 
-namespace MiPrimeraAPI.Validations
+namespace API_MortalKombat.Validations
 {
     public class PersonajeUpdateValidator : AbstractValidator<PersonajeUpdateDto>
     {

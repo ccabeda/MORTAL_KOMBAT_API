@@ -1,11 +1,10 @@
-﻿using API_MortalKombat.Models.DTOs.PersonajeDTO;
-using API_MortalKombat.Services.IServices;
+﻿using API_MortalKombat.Models;
+using API_MortalKombat.Models.DTOs.PersonajeDTO;
+using API_MortalKombat.Service.IService;
 using Microsoft.AspNetCore.Mvc;
-using MiPrimeraAPI.Models;
-using MortalKombat_API.Models.DTOs.PersonajeDTO;
 using System.Net;
 
-namespace MortalKombat_API.Controllers
+namespace API_MortalKombat.Controllers
 {
     [Route("api/[controller]")] 
     [ApiController]
@@ -175,5 +174,41 @@ namespace MortalKombat_API.Controllers
             }
         }
 
+        [HttpPut(("{id_personaje}/AddStyle/{id_estilo_de_pelea}"), Name = "AddStyleToPersonaje")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<APIResponse>> AddStyleToPersonaje(int id_personaje, int id_estilo_de_pelea)
+        {
+            var result = await _service.AddStyleToPersonaje(id_personaje, id_estilo_de_pelea);
+            if (result.statusCode == HttpStatusCode.OK)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return NotFound(result);
+            }
+        }
+
+        [HttpPut(("{id_personaje}/RemoveStyle/{id_estilo_de_pelea}"), Name = "RemoveStyleToPersonaje")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<APIResponse>> RemoveStyleToPersonaje(int id_personaje, int id_estilo_de_pelea)
+        {
+            var result = await _service.RemoveStyleToPersonaje(id_personaje, id_estilo_de_pelea);
+            if (result.statusCode == HttpStatusCode.OK)
+            {
+                return Ok(result);
+            }
+            else if (result.statusCode == HttpStatusCode.NotFound)
+            {
+                return NotFound(result);
+            }
+            else
+            {
+                return BadRequest(result);
+            }
+        }
     }
 }

@@ -1,12 +1,13 @@
-﻿using API_MortalKombat.Models.DTOs.ArmaDTO;
+﻿using API_MortalKombat.Models;
+using API_MortalKombat.Models.DTOs.ArmaDTO;
+using API_MortalKombat.Models.DTOs.ClanDTO;
+using API_MortalKombat.Models.DTOs.EstiloDePeleaDTO;
 using API_MortalKombat.Models.DTOs.PersonajeDTO;
+using API_MortalKombat.Models.DTOs.ReinoDTO;
 using AutoMapper;
-using MortalKombat_API.Models;
-using MortalKombat_API.Models.DTOs.ClanDTO;
-using MortalKombat_API.Models.DTOs.PersonajeDTO;
-using MortalKombat_API.Models.DTOs.ReinoDTO;
 
-namespace MiPrimeraAPI
+
+namespace API_MortalKombat
 {
     public class AutomapperConfig : Profile
     {
@@ -25,6 +26,9 @@ namespace MiPrimeraAPI
             CreateMap<Arma, ArmaDto>().ReverseMap();
             CreateMap<Arma, ArmaCreateDto>().ReverseMap();
             CreateMap<Arma, ArmaUpdateDto>().ReverseMap();
+            CreateMap<EstiloDePelea, EstiloDePeleaDto>().ReverseMap();
+            CreateMap<EstiloDePelea, EstiloDePeleaCreateDto>().ReverseMap();
+            CreateMap<EstiloDePelea, EstiloDePeleaUpdateDto>().ReverseMap();
 
         }
 

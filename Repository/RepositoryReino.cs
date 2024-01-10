@@ -1,7 +1,7 @@
-﻿using API_MortalKombat.Repository.IRepository;
+﻿using API_MortalKombat.Data;
+using API_MortalKombat.Models;
+using API_MortalKombat.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
-using MortalKombat_API.Data;
-using MortalKombat_API.Models;
 
 namespace API_MortalKombat.Repository
 {

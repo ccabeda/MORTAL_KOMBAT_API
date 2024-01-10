@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using MiPrimeraAPI.Models;
-using MortalKombat_API.Models.DTOs.ReinoDTO;
+﻿using API_MortalKombat.Models;
+using API_MortalKombat.Models.DTOs.ReinoDTO;
+using Microsoft.AspNetCore.Mvc;
 
-namespace API_MortalKombat.Services.IServices
+namespace API_MortalKombat.Service.IService
 {
     public interface IServiceReino
     {

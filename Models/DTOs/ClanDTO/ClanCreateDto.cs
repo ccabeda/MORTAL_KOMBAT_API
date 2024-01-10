@@ -1,4 +1,4 @@
-﻿namespace MortalKombat_API.Models.DTOs.ClanDTO
+﻿namespace API_MortalKombat.Models.DTOs.ClanDTO
 {
     public class ClanCreateDto
     {

@@ -1,7 +1,7 @@
-﻿using FluentValidation;
-using MortalKombat_API.Models.DTOs.ReinoDTO;
+﻿using API_MortalKombat.Models.DTOs.ReinoDTO;
+using FluentValidation;
 
-namespace MiPrimeraAPI.Validations
+namespace API_MortalKombat.Validations
 {
     public class ReinoCreateValidator : AbstractValidator<ReinoCreateDto>
     {

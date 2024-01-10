@@ -1,4 +1,4 @@
-﻿using MortalKombat_API.Models;
+﻿using API_MortalKombat.Models;
 
 namespace API_MortalKombat.Repository.IRepository
 {

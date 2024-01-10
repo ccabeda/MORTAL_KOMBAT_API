@@ -1,8 +1,8 @@
-﻿using API_MortalKombat.Models.DTOs.ArmaDTO;
+﻿using API_MortalKombat.Models;
+using API_MortalKombat.Models.DTOs.ArmaDTO;
 using Microsoft.AspNetCore.Mvc;
-using MiPrimeraAPI.Models;
 
-namespace API_MortalKombat.Services.IService
+namespace API_MortalKombat.Service.IService
 {
     public interface IServiceArma
     {

@@ -1,17 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
-using MortalKombat_API.Models;
-using API_MortalKombat.Models;
 
-namespace MortalKombat_API.Models
+namespace API_MortalKombat.Models
 {
     public class Arma
     {
         [Key] //ponemos el id como key
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)] //Entity con sql server, para que aumente automaticamente el ID key.
         public int Id { get; set; }
-        public string Nombre{ get; set; }
+        public string Nombre { get; set; }
         public string Descripcion { get; set; }
         [JsonIgnore]
         public List<Personaje> Personajes { get; set; }
