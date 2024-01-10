@@ -10,21 +10,29 @@ Proximamente agregare una interfaz simple, ya que mi objetivo es enfocarme en el
 - [Endpoints](#endpoints-api)
 - [Documentación Swagger](#documentación-swagger)
 - [Personaje](#Personaje)
-	- [Get All](#Get-All)
-   	- [Get by Id](#Get-By-Id)
-  - [Get by Name](#Get-By-Name)
+	- [Get All Personajes](#Get-All-Personajes)
+   	- [Get Personaje by Id](#Get-Personaje-By-Id)
+  - [Get Personaje by Name](#Get-Personaje-By-Name)
   - [Create Personaje](#Create-Personaje)
   - [Update Personaje](#Update-Personaje)
   - [Delete Personaje](#Delete-Personaje)
   - [Add Weapon To Peronsaje](#Add-Weapon-To-Peronsaje)
   - [Remove Weapon To Peronsaje](#Remove-Weapon-To-Peronsaje)
 - [Clan](#Clan)
-	- [Get All](#Get-All)
-   	- [Get by Id](#Get-By-Id)
-  - [Get by Name](#Get-By-Name)
+	- [Get All Clanes](#Get-All-Clanes)
+   	- [Get Clan by Id](#Get-Clan-By-Id)
+  - [Get Clan by Name](#Get-Clan-By-Name)
   - [Create Clan](#Create-Clan)
   - [Update Clan](#Update-Clan)
   - [Delete Clan](#Delete-Clan)
+- [Reino](#Reino)
+	- [Get All Reinos](#Get-All-Reinos)
+   	- [Get Reino by Id](#Get-Reino-By-Id)
+  - [Get Reino by Name](#Get-Reino-By-Name)
+  - [Create Reino](#Create-Reino)
+  - [Update Reino](#Update-Reino)
+  - [Delete Reino](#Delete-Reino)
+   
    
 
 ## Instalación
@@ -66,7 +74,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 
 ##  Personaje
 
-### Get All
+### Get All Personajes
 
 ```http
   GET localhost:{su_puerto}/api/Personaje
@@ -84,7 +92,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 	200: Lista de todas los personajes (DTO)  
 	404: Error
 
-### Get By Id
+### Get Personaje By Id
 
 ```http
   GET localhost:{su_puerto}/api/Personaje/{id}
@@ -102,7 +110,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino. (DTO)  
 	400 - 404: Error
 
-### Get By Name
+### Get Personaje By Name
 
 ```http
   GET localhost:{su_puerto}/api/Personaje/nombre/{name}
@@ -183,7 +191,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 ### Metodos Many-to-Many
 - Al hacer una relación Many-to-Many entre Personaje y Arma, se creo un metodo para asociar un arma existente con un personaje existente.
 
-  ### Add Weapon To Peronsaje
+  ### Add Weapon To Personaje
 
 ```http
   PUT localhost:{su_puerto}/api/Personaje/{id_personaje}/AddWeapon/{id_rama}
@@ -206,7 +214,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 
   404: Error
   
-    ### Remove Weapon To Peronsaje
+    ### Remove Weapon To Personaje
 
 ```http
   PUT localhost:{su_puerto}/api/Personaje/{id_personaje}/RemoveWeapon/{id_rama}
@@ -231,7 +239,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
   
   ## Clan
 
-### Get All
+### Get All Clanes
 
 ```http
   GET localhost:{su_puerto}/api/Clan
@@ -249,7 +257,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 	200: Lista de todos los clanes (DTO)  
 	404: Error
 
-### Get By Id
+### Get Clan By Id
 
 ```http
   GET localhost:{su_puerto}/api/Clan/{id}
@@ -267,7 +275,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 	200: Id, Nombre, Descripción. (DTO)  
 	400 - 404: Error
 
-### Get By Name
+### Get Clan By Name
 
 ```http
   GET localhost:{su_puerto}/api/Clan/nombre/{name}
@@ -277,7 +285,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 | :-------- | :------- | :-------------------------------- |
 | `Nombre`  | `string` | **Requerido** por URL.  |
 
-- URL: https://localhost:7104/api/Personaje/nombre/{name}
+- URL: https://localhost:7104/api/Clan/nombre/{name}
 - Metodo GET
 - Parametros:
   	Nombre (URl)
@@ -345,4 +353,120 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 
   404: Error
 
+LKFWHJDLDRFGSJGFDLFGJÑDGFLFGAJKL
+  ## Reino
+
+### Get All Reinos
+
+```http
+  GET localhost:{su_puerto}/api/Reino
+```
+
+| Parametro | Tipo     | Descripción                     |
+| :-------- | :------- | :-------------------------------- |
+|      |  | **No se requieren parametros**  |
+
+- URL: https://localhost:7104/api/Reino
+- Metodo GET
+- Parametros:
+	Ninguno
+- Respuesta:
+	200: Lista de todos los reinos (DTO)  
+	404: Error
+
+### Get By Id
+
+```http
+  GET localhost:{su_puerto}/api/Reino/{id}
+```
+
+| Parametro | Tipo     | Descripción                     |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `id` | **Requerido** por URL.  |
+
+- URL: https://localhost:7104/api/Reino/{id}
+- Metodo GET
+- Parametros:
+  	Id (URL)
+- Respuesta:  
+	200: Id, Nombre, Descripción. (DTO)  
+	400 - 404: Error
+
+### Get Reino By Name
+
+```http
+  GET localhost:{su_puerto}/api/Reino/nombre/{name}
+```
+
+| Parametro | Tipo     | Descripción                     |
+| :-------- | :------- | :-------------------------------- |
+| `Nombre`  | `string` | **Requerido** por URL.  |
+
+- URL: https://localhost:7104/api/Reino/nombre/{name}
+- Metodo GET
+- Parametros:
+  	Nombre (URl)
+- Respuesta:  
+	200: Id, Nombre, Descripción. (DTO)  
+	400 - 404: Error
+
+### Create Reino
+
+```http
+  POST localhost:{su_puerto}/api/Reino
+```
+
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| Peronsaje | `ReinoCreateDto` | **Requerido** por body.  |
+
+- URL: https://localhost:7104/api/Reino
+- Metodo: POST
+- Parametros:
+  	Datos personales en formato Json (body)
+- Respuesta:  
+	200: Id, Nombre, Descripción
+	400, 404, 409: Error
+
+### Update Reino
+
+```http
+  PUT localhost:{su_puerto}/api/Reino/{id}
+```
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `id` | `int` | **Requerido** por URL.  |
+
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `Clan` | `ReinoUpdateDto` | **Requerido** por body.  |
+
+
+- URL: https://localhost:7104/api/Reino/{id}
+- Metodo: PUT
+- Parametros:
+  Id (URL), datos personales en formato Json (body)
+- Respuesta:
+	200: Id, Nombre, Descripción. (DTO).
+
+  404: Error
+
+### Delete Reino
+
+```http
+  DELETE localhost:{su_puerto}/api/Reino/{id}
+```
+
+| Parametro | Tipo     | Descripción                     |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `int`    | **Requerido** por URL.  |
+
+- URL: https://localhost:7104/api/Reino/{id}
+- Metodo DELETE
+- Parametros:
+  Id (URL)
+- Respuesta:
+	200: Id, Nombre, Descripción. (DTO que se desea eliminar).
+
+  404: Error
   
