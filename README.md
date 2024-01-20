@@ -771,5 +771,123 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
   Id (URL)
 - Respuesta:
 	200: Id, Nombre, Descripción (DTO que se desea eliminar).
-  	404: Error
+
+  404: Error
+
+  dfsñljgklagnjalñgnlñgdfjgfedhlñgjndflñagfjgfalñjfgkfagñdjlñfagdgakfjlgfaklñdgfjlgfñda
+      ## Usuario
+
+### Get All Usuarios
+
+```http
+  GET localhost:{su_puerto}/api/Usuario
+```
+
+| Parametro | Tipo     | Descripción                     |
+| :-------- | :------- | :-------------------------------- |
+|      |  | **No se requieren parametros**  |
+
+- URL: https://localhost:7104/api/Usuario
+- Metodo GET
+- Parametros:
+	Ninguno
+- Respuesta:
+	200: Lista de todos los usuarios (DTO).  
+	404: Error
+
+### Get Usuario By Id
+
+```http
+  GET localhost:{su_puerto}/api/Usuario/{id}
+```
+
+| Parametro | Tipo     | Descripción                     |
+| :-------- | :------- | :-------------------------------- |
+| `Id`      | `int` | **Requerido** por URL.  |
+
+- URL: https://localhost:7104/api/Usuario/{id}
+- Metodo GET
+- Parametros:
+  	Id (URL)
+- Respuesta:  
+	200: Id, Nombre, Apellido, Mail, NombreDeUsuario, Rol (DTO).  
+	400 - 404: Error
+
+### Get Usuario By Name
+
+```http
+  GET localhost:{su_puerto}/api/NombreDeUsuario/nombre/{name}
+```
+
+| Parametro | Tipo     | Descripción                     |
+| :-------- | :------- | :-------------------------------- |
+| `Nombre`  | `string` | **Requerido** por URL.  |
+
+- URL: https://localhost:7104/api/Usuario/nombre/{name}
+- Metodo GET
+- Parametros:
+  	Nombre (URl)
+- Respuesta:  
+	200: Id, Nombre, Apellido, Mail, NombreDeUsuario, Rol (DTO).  
+	400 - 404: Error
+
+### Create Usuario
+
+```http
+  POST localhost:{su_puerto}/api/Usuario
+```
+
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `Usuario` | `UsuarioCreateDto` | **Requerido** por body.  |
+
+- URL: https://localhost:7104/api/Usuario
+- Metodo: POST
+- Parametros:
+  	Datos personales en formato Json (body)
+- Respuesta:  
+	200: Id, Nombre, Apellido, Mail, NombreDeUsuario
+	400, 404, 409: Error
+
+### Update Usuario
+
+```http
+  PUT localhost:{su_puerto}/api/Usuario/{id}
+```
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `Id` | `int` | **Requerido** por URL.  |
+
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `Usuario` | `UsuarioUpdateDto` | **Requerido** por body.  |
+
+
+- URL: https://localhost:7104/api/Usuario/{id}
+- Metodo: PUT
+- Parametros:
+  Id (URL), datos personales en formato Json (body)
+- Respuesta:
+	200: Id, Nombre, Apellido, Mail, NombreDeUsuario (DTO).
+
+  404: Error
+
+### Delete Usuario
+
+```http
+  DELETE localhost:{su_puerto}/api/Usuario/{id}
+```
+
+| Parametro | Tipo     | Descripción                     |
+| :-------- | :------- | :-------------------------------- |
+| `Id`      | `int`    | **Requerido** por URL.  |
+
+- URL: https://localhost:7104/api/Usuario/{id}
+- Metodo DELETE
+- Parametros:
+  Id (URL)
+- Respuesta:
+	200: Id, Nombre, Apellido, Mail, NombreDeUsuario (DTO que se desea eliminar).
+
+  404: Error
 
