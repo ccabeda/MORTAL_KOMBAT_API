@@ -33,6 +33,7 @@ namespace API_MortalKombat
             CreateMap<Usuario, UsuarioDto>().ReverseMap();
             CreateMap<Usuario, UsuarioCreateDto>().ReverseMap();
             CreateMap<Usuario, UsuarioUpdateDto>().ReverseMap();
+            CreateMap<Usuario, UsuarioGetDto>().ReverseMap();
             CreateMap<Rol, RolDto>().ReverseMap();
             CreateMap<Rol, RolCreateDto>().ReverseMap();
             CreateMap<Rol, RolUpdateDto>().ReverseMap();

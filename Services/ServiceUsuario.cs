@@ -143,8 +143,9 @@ namespace API_MortalKombat.Service
                 usuario.FechaCreacion = DateTime.Now;
                 usuario.RolId = 3; //todos los usuarios se crean con el rol publico
                 await _repository.Crear(usuario);
+                var result =_mapper.Map<UsuarioGetDto>(usuario);
                 _apiresponse.statusCode = HttpStatusCode.OK;
-                _apiresponse.Result = usuario;
+                _apiresponse.Result = result;
                 _logger.LogInformation("¡Usuario creado con exito!");   
             }
             catch (Exception ex) 
@@ -222,7 +223,7 @@ namespace API_MortalKombat.Service
                 _mapper.Map(usuarioUpdateDto, existeUsuario);
                 existeUsuario.FechaActualizacion = DateTime.Now;
                 _apiresponse.statusCode = HttpStatusCode.OK;
-                _apiresponse.Result = existeUsuario;
+                _apiresponse.Result = _mapper.Map<UsuarioDto>(existeUsuario);
                 _logger.LogInformation("¡Usuario Actualizado con exito!");
                 await _repository.Actualizar(existeUsuario);
                 return _apiresponse;

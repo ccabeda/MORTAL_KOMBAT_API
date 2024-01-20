@@ -58,7 +58,7 @@ namespace API_MortalKombat.Controllers
             }
         }
 
-        [HttpGet(("nombre de usuario/{name}"), Name = "GetUsuariobyName")]
+        [HttpGet(("nombreDeUsuario/{name}"), Name = "GetUsuariobyName")]
         [Authorize(Roles = "1,2")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]

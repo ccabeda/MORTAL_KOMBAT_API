@@ -143,7 +143,7 @@ namespace API_MortalKombat.Service
                 arma.FechaCreacion = DateTime.Now;
                 await _repository.Crear(arma);
                 _apiresponse.statusCode = HttpStatusCode.Created;
-                _apiresponse.Result = arma;
+                _apiresponse.Result = _mapper.Map<ArmaDto>(arma);
                 _logger.LogInformation("¡Arma creado con exito!");
                 return _apiresponse;
             }
@@ -222,7 +222,7 @@ namespace API_MortalKombat.Service
                 _mapper.Map(armaUpdateDto, existearma);
                 existearma.FechaActualizacion = DateTime.Now;
                 _apiresponse.statusCode = HttpStatusCode.OK;
-                _apiresponse.Result = existearma;
+                _apiresponse.Result = _mapper.Map<ArmaDto>(existearma);
                 _logger.LogInformation("¡Arma Actualizado con exito!");
                 await _repository.Actualizar(existearma);
                 return _apiresponse;

@@ -143,8 +143,8 @@ namespace API_MortalKombat.Service
                 reino.FechaCreacion = DateTime.Now;
                 await _repository.Crear(reino);
                 _apiresponse.statusCode = HttpStatusCode.Created;
-                _apiresponse.Result = reino;
-                _logger.LogInformation("¡Personaje creado con exito!");
+                _apiresponse.Result = _mapper.Map<ReinoDto>(reino);
+                _logger.LogInformation("¡Reino creado con exito!");
                 return _apiresponse;
             }
             catch (Exception ex)
@@ -222,7 +222,7 @@ namespace API_MortalKombat.Service
                 _mapper.Map(reinoUpdateDto, existereino);
                 existereino.FechaActualizacion = DateTime.Now;
                 _apiresponse.statusCode = HttpStatusCode.OK;
-                _apiresponse.Result = existereino;
+                _apiresponse.Result = _mapper.Map<ReinoDto>(existereino);
                 _logger.LogInformation("¡Reino Actualizado con exito!");
                 await _repository.Actualizar(existereino);
                 return _apiresponse;

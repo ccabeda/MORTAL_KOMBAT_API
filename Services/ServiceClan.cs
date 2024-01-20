@@ -143,7 +143,7 @@ namespace API_MortalKombat.Service
                 clan.FechaCreacion = DateTime.Now;
                 await _repository.Crear(clan);
                 _apiresponse.statusCode = HttpStatusCode.Created;
-                _apiresponse.Result = clan;
+                _apiresponse.Result = _mapper.Map<ClanDto>(clan);
                 _logger.LogInformation("¡Clan creado con exito!");
                 return _apiresponse;
             }
@@ -222,7 +222,7 @@ namespace API_MortalKombat.Service
                 _mapper.Map(clanUpdateDto, existeclan);
                 existeclan.FechaActualizacion = DateTime.Now;
                 _apiresponse.statusCode = HttpStatusCode.OK;
-                _apiresponse.Result = existeclan;
+                _apiresponse.Result = _mapper.Map<ClanDto>(existeclan);
                 _logger.LogInformation("¡Clan Actualizado con exito!");
                 await _repository.Actualizar(existeclan);
                 return _apiresponse;

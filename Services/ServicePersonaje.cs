@@ -147,7 +147,7 @@ namespace API_MortalKombat.Service
                 personaje.FechaCreacion = DateTime.Now;
                 await _repository.Crear(personaje);
                 _apiresponse.statusCode = HttpStatusCode.Created;
-                _apiresponse.Result = personaje;
+                _apiresponse.Result = _mapper.Map<PersonajeUpdateDto>(personaje); //para mostrar los datos que quiero y no tener que crear otro Dto, uso update.
                 _logger.LogInformation("¡Personaje creado con exito!");
                 return _apiresponse;
             }
@@ -181,7 +181,7 @@ namespace API_MortalKombat.Service
                 }
                 await _repository.Eliminar(personaje);
                 _apiresponse.statusCode = HttpStatusCode.OK;
-                _apiresponse.Result = _mapper.Map<PersonajeDtoGetAll>(personaje);
+                _apiresponse.Result = _mapper.Map<PersonajeDto>(personaje);
                 _logger.LogInformation("El personaje fue eliminado con exito.");
                 return _apiresponse;
             }
@@ -226,7 +226,7 @@ namespace API_MortalKombat.Service
                 _mapper.Map(personajeUpdateDto, existePersonaje);
                 existePersonaje.FechaActualizacion = DateTime.Now;
                 _apiresponse.statusCode = HttpStatusCode.OK;
-                _apiresponse.Result = existePersonaje;
+                _apiresponse.Result = _mapper.Map<PersonajeDto>(existePersonaje);
                 _logger.LogInformation("¡Personaje Actualizado con exito!");
                 await _repository.Actualizar(existePersonaje);
                 return _apiresponse;

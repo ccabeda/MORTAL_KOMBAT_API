@@ -127,7 +127,7 @@ namespace API_MortalKombat.Service
                 rol.FechaCreacion = DateTime.Now;
                 await _repository.Crear(rol);
                 _apiresponse.statusCode = HttpStatusCode.OK;
-                _apiresponse.Result = rol;
+                _apiresponse.Result = _mapper.Map<RolDto>(rol);
                 _logger.LogInformation("¡Rol creado con exito!");
             }
             catch (Exception ex)
@@ -195,7 +195,7 @@ namespace API_MortalKombat.Service
                 _mapper.Map(rolUpdateDto, existeRol);
                 existeRol.FechaActualizacion = DateTime.Now;
                 _apiresponse.statusCode = HttpStatusCode.OK;
-                _apiresponse.Result = existeRol;
+                _apiresponse.Result = _mapper.Map<RolDto>(existeRol);
                 _logger.LogInformation("¡Rol Actualizado con exito!");
                 await _repository.Actualizar(existeRol);
                 return _apiresponse;

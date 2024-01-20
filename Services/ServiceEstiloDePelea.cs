@@ -143,7 +143,7 @@ namespace API_MortalKombat.Service
                 estilo.FechaCreacion = DateTime.Now;
                 await _repository.Crear(estilo);
                 _apiresponse.statusCode = HttpStatusCode.Created;
-                _apiresponse.Result = estilo;
+                _apiresponse.Result = _mapper.Map<EstiloDePeleaDto>(estilo);
                 _logger.LogInformation("¡Estilo de pelea creado con exito!");
                 return _apiresponse;
             }
@@ -222,7 +222,7 @@ namespace API_MortalKombat.Service
                 _mapper.Map(estiloUpdateDto, existeestilo);
                 existeestilo.FechaActualizacion = DateTime.Now;
                 _apiresponse.statusCode = HttpStatusCode.OK;
-                _apiresponse.Result = existeestilo;
+                _apiresponse.Result = _mapper.Map<EstiloDePeleaDto>(existeestilo);
                 _logger.LogInformation("¡Estilo de pelea Actualizado con exito!");
                 await _repository.Actualizar(existeestilo);
                 return _apiresponse;

@@ -8,5 +8,6 @@
         public string Mail { get; set; }
         public string NombreDeUsuario { get; set; }
         public string Contraseña { get; set; }
+        public int RolId { get; set; }
     }
 }
