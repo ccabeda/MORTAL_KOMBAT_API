@@ -1,6 +1,5 @@
 ﻿using API_MortalKombat.Models;
 using API_MortalKombat.Repository.IRepository;
-using API_MortalKombat.Service;
 using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
@@ -27,8 +26,8 @@ namespace API_MortalKombat.Services
             _repository = repository;
             _validator = validator;
             _validatorUpdate = validatorUpdate;
-
         }
+
         public async Task<APIResponse> GetEstiloDePeleaById(int id)
         {
             try
@@ -45,7 +44,7 @@ namespace API_MortalKombat.Services
                 {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("El id " + id + "no esta registrado");
+                    _logger.LogError("El id " + id + "no esta registrado.");
                     return _apiresponse;
                 }
                 _apiresponse.Result = _mapper.Map<EstiloDePeleaDto>(clan);
@@ -77,7 +76,7 @@ namespace API_MortalKombat.Services
                 {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("El estilo de pelea " + name + " no esta registrado");
+                    _logger.LogError("El estilo de pelea " + name + " no esta registrado.");
                     return _apiresponse;
                 }
                 _apiresponse.Result = _mapper.Map<EstiloDePeleaDto>(clan);
@@ -93,7 +92,7 @@ namespace API_MortalKombat.Services
             return _apiresponse;
         }
 
-        public async Task<APIResponse> GetEstilosDePeleas()
+        public async Task<APIResponse> GetEstilosDePelea()
         {
             try
             {
@@ -104,7 +103,7 @@ namespace API_MortalKombat.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError("Ocurrió un error al obtener la lista de estilos de peleas: " + ex.Message);
+                _logger.LogError("Ocurrió un error al obtener la lista de Estilos De Pelea: " + ex.Message);
                 _apiresponse.isExit = false;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
             }
@@ -116,7 +115,6 @@ namespace API_MortalKombat.Services
             try
             {
                 var fluent_validation = await _validator.ValidateAsync(estiloCreateDto); //uso de fluent validations
-
                 if (!fluent_validation.IsValid)
                 {
                     var errors = fluent_validation.Errors.Select(error => error.ErrorMessage).ToList();
@@ -180,7 +178,7 @@ namespace API_MortalKombat.Services
                 await _repository.Eliminar(estilo);
                 _apiresponse.statusCode = HttpStatusCode.OK;
                 _apiresponse.Result = _mapper.Map<EstiloDePeleaDto>(estilo);
-                _logger.LogError("El clan fue eliminado con exito.");
+                _logger.LogInformation("El clan fue eliminado con exito.");
                 return _apiresponse;
             }
             catch (Exception ex)
@@ -197,7 +195,6 @@ namespace API_MortalKombat.Services
             try
             {
                 var fluent_validation = await _validatorUpdate.ValidateAsync(estiloUpdateDto); //uso de fluent validations
-
                 if (!fluent_validation.IsValid)
                 {
                     var errors = fluent_validation.Errors.Select(error => error.ErrorMessage).ToList();
@@ -207,7 +204,6 @@ namespace API_MortalKombat.Services
                     _apiresponse.ErrorList = errors;
                     return _apiresponse;
                 }
-
                 if (id == 0 || id != estiloUpdateDto.Id)
                 {
                     _apiresponse.isExit = false;
@@ -215,7 +211,6 @@ namespace API_MortalKombat.Services
                     _logger.LogError("Error con la id ingresada.");
                     return _apiresponse;
                 }
-
                 var existeestilo = await _repository.ObtenerPorId(id);
                 if (existeestilo == null)
                 {
@@ -231,7 +226,6 @@ namespace API_MortalKombat.Services
                 _logger.LogInformation("¡Estilo de pelea Actualizado con exito!");
                 await _repository.Actualizar(existeestilo);
                 return _apiresponse;
-
             }
             catch (Exception ex)
             {

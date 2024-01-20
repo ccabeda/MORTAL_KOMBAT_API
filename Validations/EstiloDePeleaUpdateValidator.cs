@@ -7,9 +7,9 @@ namespace API_MortalKombat.Validations
     {
         public EstiloDePeleaUpdateValidator()
         {
-            RuleFor(i => i.Id).NotEqual(0).WithMessage("El id no puede ser 0");
-            RuleFor(n => n.Nombre).NotEmpty().WithMessage("El nombre no puede estar vacio.");
-            RuleFor(n => n.Descripcion).NotEmpty().WithMessage("La descripción no puede estar vacio.");
+            RuleFor(e => e.Id).NotEqual(0).WithMessage("El id no puede ser 0");
+            RuleFor(e => e.Nombre).NotEmpty().WithMessage("El nombre no puede estar vacio.");
+            RuleFor(e => e.Descripcion).NotEmpty().WithMessage("La descripción no puede estar vacio.");
         }
     }
 }

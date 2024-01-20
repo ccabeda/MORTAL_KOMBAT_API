@@ -7,8 +7,8 @@ namespace API_MortalKombat.Validations
     {
         public ArmaCreateValidator() 
         {
-            RuleFor(n => n.Nombre).NotEmpty().WithMessage("El nombre no puede estar vacio.");
-            RuleFor(n => n.Descripcion).NotEmpty().WithMessage("La descripción no puede estar vacio.");
+            RuleFor(a => a.Nombre).NotEmpty().WithMessage("El nombre no puede estar vacio.");
+            RuleFor(a => a.Descripcion).NotEmpty().WithMessage("La descripción no puede estar vacio.");
         }
     }
 }

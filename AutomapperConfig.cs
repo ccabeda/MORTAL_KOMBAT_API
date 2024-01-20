@@ -4,8 +4,9 @@ using API_MortalKombat.Models.DTOs.ClanDTO;
 using API_MortalKombat.Models.DTOs.EstiloDePeleaDTO;
 using API_MortalKombat.Models.DTOs.PersonajeDTO;
 using API_MortalKombat.Models.DTOs.ReinoDTO;
+using API_MortalKombat.Models.DTOs.RolDTO;
+using API_MortalKombat.Models.DTOs.UsuarioDTO;
 using AutoMapper;
-
 
 namespace API_MortalKombat
 {
@@ -29,9 +30,12 @@ namespace API_MortalKombat
             CreateMap<EstiloDePelea, EstiloDePeleaDto>().ReverseMap();
             CreateMap<EstiloDePelea, EstiloDePeleaCreateDto>().ReverseMap();
             CreateMap<EstiloDePelea, EstiloDePeleaUpdateDto>().ReverseMap();
-
+            CreateMap<Usuario, UsuarioDto>().ReverseMap();
+            CreateMap<Usuario, UsuarioCreateDto>().ReverseMap();
+            CreateMap<Usuario, UsuarioUpdateDto>().ReverseMap();
+            CreateMap<Rol, RolDto>().ReverseMap();
+            CreateMap<Rol, RolCreateDto>().ReverseMap();
+            CreateMap<Rol, RolUpdateDto>().ReverseMap();
         }
-
-
     }
 }

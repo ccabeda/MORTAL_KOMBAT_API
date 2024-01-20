@@ -6,7 +6,7 @@ namespace API_MortalKombat.Services.IService
 {
     public interface IServiceEstiloDePelea
     {
-        public Task<APIResponse> GetEstilosDePeleas();
+        public Task<APIResponse> GetEstilosDePelea();
         public Task<APIResponse> GetEstiloDePeleaById(int id);
         public Task<APIResponse> GetEstiloDePeleaByName(String name);
         public Task<APIResponse> CreateEstiloDePelea([FromBody] EstiloDePeleaCreateDto estiloCreateDto);

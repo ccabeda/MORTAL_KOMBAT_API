@@ -54,7 +54,7 @@ namespace API_MortalKombat.Migrations
                             Id = 1,
                             Descripcion = "Espada de hielo",
                             FechaActualizacion = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FechaCreacion = new DateTime(2024, 1, 10, 6, 12, 25, 539, DateTimeKind.Local).AddTicks(8727),
+                            FechaCreacion = new DateTime(2024, 1, 19, 21, 20, 15, 314, DateTimeKind.Local).AddTicks(3811),
                             Nombre = "Kori Blade"
                         });
                 });
@@ -91,7 +91,7 @@ namespace API_MortalKombat.Migrations
                             Id = 1,
                             Descripcion = "Lin Kuei, el clan de fuertes guerreros Ninja chinos, es una sociedad ubicada al norte de Asia, que mata por dinero desde muchas generaciones atrás. Sus integrantes son instruídos desde muy temprana edad, y apenas tienen contacto con el mundo exterior. Los mejores guerreros del clan tienen algún poder especial, y cuando llegan a dominarlo, reciben un nombre clave. Se descubrió que solo los que vienen de un linaje antiguo, llegan a dominar este poder.",
                             FechaActualizacion = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FechaCreacion = new DateTime(2024, 1, 10, 6, 12, 25, 539, DateTimeKind.Local).AddTicks(8623),
+                            FechaCreacion = new DateTime(2024, 1, 19, 21, 20, 15, 314, DateTimeKind.Local).AddTicks(3715),
                             Nombre = "Lin Kuei"
                         },
                         new
@@ -99,7 +99,7 @@ namespace API_MortalKombat.Migrations
                             Id = 2,
                             Descripcion = "El clan Shirai Ryu se formó hace muchos años por obra de un guerrero Lin Kuei llamado Takeda, quien abandonó su clan. Al abandonar el Lin Kuei,Takeda se convirtió en un ninja desertor,crimen que se castiga con la muerte.Takeda fue buscado por los asesinos Lin Kuei.Escapó de China y regresó a Japón,su patria,donde ofreció servicios a los señores y generales.Su técnica gradualmente se extendió por todo Japón, y se convirtió en el arte del Ninjutsu.Además de enseñar su nueva forma de arte marcial,también enseñaba versiones modificadas de las tácticas Lin Kuei,de modo que reveló muchos de sus secretos.Esto avivó la furia de los Lin Kuei.Las enseñanzas de Takeda se hicieron conocidas en todo el Japón por obra de sus muchos seguidores,los cuales pasaron a ser conocidos como el clan Shirai Ryu.",
                             FechaActualizacion = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FechaCreacion = new DateTime(2024, 1, 10, 6, 12, 25, 539, DateTimeKind.Local).AddTicks(8667),
+                            FechaCreacion = new DateTime(2024, 1, 19, 21, 20, 15, 314, DateTimeKind.Local).AddTicks(3754),
                             Nombre = "Shirai Ryu"
                         });
                 });
@@ -136,7 +136,7 @@ namespace API_MortalKombat.Migrations
                             Id = 1,
                             Descripcion = "Arte Marcial",
                             FechaActualizacion = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FechaCreacion = new DateTime(2024, 1, 10, 6, 12, 25, 539, DateTimeKind.Local).AddTicks(8742),
+                            FechaCreacion = new DateTime(2024, 1, 19, 21, 20, 15, 314, DateTimeKind.Local).AddTicks(3826),
                             Nombre = "Kung Fu"
                         });
                 });
@@ -197,7 +197,7 @@ namespace API_MortalKombat.Migrations
                             ClanId = 1,
                             Descripcion = "Hermano menor del Sub-Zero original, comenzó reemplazando a su hermano caído y terminó convirtiéndose en el nuevo Gran Maestro Lin Kuei. Como descendiente de los cryomancers, conserva las habilidades para congelar.",
                             FechaActualizacion = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FechaCreacion = new DateTime(2024, 1, 10, 6, 12, 25, 539, DateTimeKind.Local).AddTicks(8708),
+                            FechaCreacion = new DateTime(2024, 1, 19, 21, 20, 15, 314, DateTimeKind.Local).AddTicks(3794),
                             ImagenURl = "",
                             Nombre = "Sub-Zero",
                             Raza = "Humano/Cryomancer",
@@ -237,8 +237,136 @@ namespace API_MortalKombat.Migrations
                             Id = 1,
                             Descripcion = "La tierra es uno de los muchos reinos que crearon los antiguos dioses, dicho reino ha sido objeto frecuente de intentos de conquistas, porque se piensa que es la joya del cosmos y un importante centro de energía universal. Debido a esto, los dioses han designado una deidad para proteger el reino de daños, por innumerables siglos éste ha sido Raiden, aunque también otros dioses como Fujin, desempeñan un papel en esta labor.",
                             FechaActualizacion = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FechaCreacion = new DateTime(2024, 1, 10, 6, 12, 25, 539, DateTimeKind.Local).AddTicks(8686),
+                            FechaCreacion = new DateTime(2024, 1, 19, 21, 20, 15, 314, DateTimeKind.Local).AddTicks(3775),
                             Nombre = "Tierra"
+                        });
+                });
+
+            modelBuilder.Entity("API_MortalKombat.Models.Rol", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("FechaActualizacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            FechaActualizacion = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FechaCreacion = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Nombre = "Super Administrador"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            FechaActualizacion = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FechaCreacion = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Nombre = "Administrador"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            FechaActualizacion = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FechaCreacion = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Nombre = "Publico"
+                        });
+                });
+
+            modelBuilder.Entity("API_MortalKombat.Models.Usuario", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Apellido")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Contraseña")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("FechaActualizacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Mail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NombreDeUsuario")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RolId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RolId");
+
+                    b.ToTable("Usuarios");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Apellido = "Perez",
+                            Contraseña = "123.@",
+                            FechaActualizacion = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FechaCreacion = new DateTime(2024, 1, 19, 21, 20, 15, 314, DateTimeKind.Local).AddTicks(3912),
+                            Mail = "pperez@gmail.com",
+                            Nombre = "Pablo",
+                            NombreDeUsuario = "pperez_",
+                            RolId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Apellido = "Mas",
+                            Contraseña = "123.@",
+                            FechaActualizacion = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FechaCreacion = new DateTime(2024, 1, 19, 21, 20, 15, 314, DateTimeKind.Local).AddTicks(3928),
+                            Mail = "lautimas@gmail.com",
+                            Nombre = "Lautaro",
+                            NombreDeUsuario = "lauti.cai",
+                            RolId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Apellido = "Gonzalez",
+                            Contraseña = "123.@",
+                            FechaActualizacion = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FechaCreacion = new DateTime(2024, 1, 19, 21, 20, 15, 314, DateTimeKind.Local).AddTicks(3941),
+                            Mail = "sergi02002@gmail.com",
+                            Nombre = "Sergio",
+                            NombreDeUsuario = "pulga",
+                            RolId = 3
                         });
                 });
 
@@ -289,6 +417,17 @@ namespace API_MortalKombat.Migrations
                     b.Navigation("Clan");
 
                     b.Navigation("Reino");
+                });
+
+            modelBuilder.Entity("API_MortalKombat.Models.Usuario", b =>
+                {
+                    b.HasOne("API_MortalKombat.Models.Rol", "Rol")
+                        .WithMany()
+                        .HasForeignKey("RolId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Rol");
                 });
 
             modelBuilder.Entity("ArmaPersonaje", b =>

@@ -12,6 +12,7 @@ namespace API_MortalKombat.Repository
         {
             _context = context;
         }
+
         public async Task<EstiloDePelea> ObtenerPorId(int id)
         {
             return await _context.EstilosDePeleas.FindAsync(id);
@@ -19,7 +20,7 @@ namespace API_MortalKombat.Repository
 
         public async Task<EstiloDePelea> ObtenerPorNombre(string name)
         {
-            return await _context.EstilosDePeleas.FirstOrDefaultAsync(p => p.Nombre.ToLower() == name.ToLower());
+            return await _context.EstilosDePeleas.FirstOrDefaultAsync(e => e.Nombre.ToLower() == name.ToLower());
         }
 
         public async Task<List<EstiloDePelea>> ObtenerTodos()

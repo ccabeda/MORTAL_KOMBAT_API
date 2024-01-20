@@ -7,8 +7,8 @@ namespace API_MortalKombat.Validations
     {
         public ReinoCreateValidator() 
         {
-            RuleFor(n => n.Nombre).NotEmpty().WithMessage("El nombre no puede estar vacio.");
-            RuleFor(n => n.Descripcion).NotEmpty().WithMessage("La descripción no puede estar vacio.");
+            RuleFor(r => r.Nombre).NotEmpty().WithMessage("El nombre no puede estar vacio.");
+            RuleFor(r => r.Descripcion).NotEmpty().WithMessage("La descripción no puede estar vacio.");
         }
     }
 }

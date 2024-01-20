@@ -15,12 +15,14 @@ namespace API_MortalKombat.Repository
 
         public async Task<Personaje> ObtenerPorId(int id)
         {
-            return await _context.Personajes.Include(p => p.Clan).Include(p => p.Reino).Include(p => p.Armas).Include(p => p.EstilosDePeleas).FirstOrDefaultAsync(p => p.Id == id);
+            return await _context.Personajes.Include(p => p.Clan).Include(p => p.Reino).Include(p => p.Armas).Include(p => p.EstilosDePeleas)
+            .FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task<Personaje> ObtenerPorNombre(string name)
         {
-            return await _context.Personajes.Include(p => p.Clan).Include(p => p.Reino).Include(p => p.Armas).Include(p => p.EstilosDePeleas).FirstOrDefaultAsync(p => p.Nombre.ToLower() == name.ToLower());
+            return await _context.Personajes.Include(p => p.Clan).Include(p => p.Reino).Include(p => p.Armas).Include(p => p.EstilosDePeleas)
+           .FirstOrDefaultAsync(p => p.Nombre.ToLower() == name.ToLower());
         }
 
         public async Task<List<Personaje>> ObtenerTodos()
@@ -49,16 +51,6 @@ namespace API_MortalKombat.Repository
         public async Task Guardar()
         {
             await _context.SaveChangesAsync();  
-        }
-
-        public async Task<Arma> AgregarArmaAPersonaje(int id_arma)
-        {          
-           return await _context.Armas.FirstOrDefaultAsync(a => a.Id == id_arma);    
-        }
-
-        public async Task<EstiloDePelea> AgregarEstiloDePeleaAPersonaje(int id_estilo_de_pelea)
-        {
-            return await _context.EstilosDePeleas.FirstOrDefaultAsync(e => e.Id == id_estilo_de_pelea);
         }
     }
 }

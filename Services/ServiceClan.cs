@@ -14,10 +14,10 @@ namespace API_MortalKombat.Service
         private readonly IRepositoryClan _repository;
         private readonly IMapper _mapper;
         private readonly APIResponse _apiresponse;
-        private readonly ILogger<ServicePersonaje> _logger;
+        private readonly ILogger<ServiceClan> _logger;
         private readonly IValidator<ClanCreateDto> _validator;
         private readonly IValidator<ClanUpdateDto> _validatorUpdate;
-        public ServiceClan(IMapper mapper, APIResponse apiresponse, ILogger<ServicePersonaje> logger, IRepositoryClan repository, IValidator<ClanCreateDto> validator, 
+        public ServiceClan(IMapper mapper, APIResponse apiresponse, ILogger<ServiceClan> logger, IRepositoryClan repository, IValidator<ClanCreateDto> validator, 
             IValidator<ClanUpdateDto> validatorUpdate)
         {
             _mapper = mapper;
@@ -25,9 +25,9 @@ namespace API_MortalKombat.Service
             _logger = logger;
             _repository = repository;
             _validator = validator;
-            _validatorUpdate = validatorUpdate;
-            
+            _validatorUpdate = validatorUpdate;   
         }
+
         public async Task<APIResponse> GetClanById(int id)
         {
             try
@@ -44,7 +44,7 @@ namespace API_MortalKombat.Service
                 {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("El id " + id + "no esta registrado");
+                    _logger.LogError("El id " + id + "no esta registrado.");
                     return _apiresponse;
                 }
                 _apiresponse.Result = _mapper.Map<ClanDto>(clan);
@@ -76,7 +76,7 @@ namespace API_MortalKombat.Service
                 {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("El clan " + name + " no esta registrado");
+                    _logger.LogError("El clan " + name + " no esta registrado.");
                     return _apiresponse;
                 }
                 _apiresponse.Result = _mapper.Map<ClanDto>(clan);
@@ -103,7 +103,7 @@ namespace API_MortalKombat.Service
             }
             catch (Exception ex)
             {
-                _logger.LogError("Ocurrió un error al obtener la lista de clanes: " + ex.Message);
+                _logger.LogError("Ocurrió un error al obtener la lista de Clanes: " + ex.Message);
                 _apiresponse.isExit = false;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
             }
@@ -115,7 +115,6 @@ namespace API_MortalKombat.Service
             try
             {
                 var fluent_validation = await _validator.ValidateAsync(clanCreateDto); //uso de fluent validations
-
                 if (!fluent_validation.IsValid)
                 {
                     var errors = fluent_validation.Errors.Select(error => error.ErrorMessage).ToList();
@@ -179,7 +178,7 @@ namespace API_MortalKombat.Service
                 await _repository.Eliminar(clan);
                 _apiresponse.statusCode = HttpStatusCode.OK;
                 _apiresponse.Result = _mapper.Map<ClanDto>(clan);
-                _logger.LogError("El clan fue eliminado con exito.");
+                _logger.LogInformation("El clan fue eliminado con exito.");
                 return _apiresponse;
             }
             catch (Exception ex)
@@ -196,7 +195,6 @@ namespace API_MortalKombat.Service
             try
             {
                 var fluent_validation = await _validatorUpdate.ValidateAsync(clanUpdateDto); //uso de fluent validations
-
                 if (!fluent_validation.IsValid)
                 {
                     var errors = fluent_validation.Errors.Select(error => error.ErrorMessage).ToList();
@@ -206,7 +204,6 @@ namespace API_MortalKombat.Service
                     _apiresponse.ErrorList = errors;
                     return _apiresponse;
                 }
-
                 if (id == 0 || id != clanUpdateDto.Id)
                 {
                     _apiresponse.isExit = false;
@@ -214,7 +211,6 @@ namespace API_MortalKombat.Service
                     _logger.LogError("Error con la id ingresada.");
                     return _apiresponse;
                 }
-
                 var existeclan = await _repository.ObtenerPorId(id);
                 if (existeclan == null)
                 {
@@ -230,7 +226,6 @@ namespace API_MortalKombat.Service
                 _logger.LogInformation("¡Clan Actualizado con exito!");
                 await _repository.Actualizar(existeclan);
                 return _apiresponse;
-
             }
             catch (Exception ex)
             {

@@ -102,7 +102,6 @@ namespace API_MortalKombat.Controllers
             {
                 return NotFound(result);
             }
-
         }
 
         [HttpPut(("{id}"), Name = "PutPersonabyId")]

@@ -7,14 +7,14 @@ namespace API_MortalKombat.Data
     {
         public AplicationDbContext(DbContextOptions<AplicationDbContext> options) : base(options)
         {
-
         }
         public DbSet<Personaje> Personajes { get; set; }
         public DbSet<Clan> Clanes { get; set; }
         public DbSet<Reino> Reinos { get; set; }
         public DbSet<Arma> Armas { get; set; }
         public DbSet<EstiloDePelea> EstilosDePeleas { get; set; }
-
+        public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Rol> Roles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         { 
@@ -37,7 +37,6 @@ namespace API_MortalKombat.Data
                     FechaCreacion = DateTime.Now
                 }
             );
-
             modelBuilder.Entity<Clan>().HasData(
                new Clan
                {
@@ -51,7 +50,6 @@ namespace API_MortalKombat.Data
                    FechaCreacion = DateTime.Now
                }
            );
-
             modelBuilder.Entity<Reino>().HasData(
                 new Reino
                 {
@@ -64,7 +62,6 @@ namespace API_MortalKombat.Data
                 }
 
             );
-
             modelBuilder.Entity<Personaje>().HasData(
                 new Personaje
                 {
@@ -80,7 +77,6 @@ namespace API_MortalKombat.Data
                     FechaCreacion = DateTime.Now
                 }
             );
-
             modelBuilder.Entity<Arma>().HasData(
                 new Arma
                 {
@@ -90,7 +86,6 @@ namespace API_MortalKombat.Data
                     FechaCreacion = DateTime.Now
                 }
             );
-
             modelBuilder.Entity<EstiloDePelea>().HasData(
                 new EstiloDePelea
                 {
@@ -100,7 +95,66 @@ namespace API_MortalKombat.Data
                     FechaCreacion = DateTime.Now
                 }
             );
-
+            modelBuilder.Entity<Rol>().HasData(
+                new Rol
+                {
+                    Id = 1,
+                    Nombre = "Super Administrador",
+                }
+            );
+            modelBuilder.Entity<Rol>().HasData(
+                new Rol
+                {
+                    Id = 2,
+                    Nombre = "Administrador",
+                }
+            );
+            modelBuilder.Entity<Rol>().HasData(
+                new Rol
+                {
+                    Id = 3,
+                    Nombre = "Publico",
+                }
+            );
+            modelBuilder.Entity<Usuario>().HasData(
+                new Usuario
+                {
+                    Id = 1,
+                    NombreDeUsuario = "pperez_",
+                    Nombre = "Pablo",
+                    Apellido = "Perez",
+                    Mail = "pperez@gmail.com",
+                    Contraseña = "123.@",
+                    RolId = 1,
+                    FechaCreacion = DateTime.Now
+                }
+            );
+            modelBuilder.Entity<Usuario>().HasData(
+                new Usuario
+                {
+                    Id = 2,
+                    NombreDeUsuario = "lauti.cai",
+                    Nombre = "Lautaro",
+                    Apellido = "Mas",
+                    Mail = "lautimas@gmail.com",
+                    Contraseña = "123.@",
+                    RolId = 2,
+                    FechaCreacion = DateTime.Now
+                }
+            );
+            modelBuilder.Entity<Usuario>().HasData(
+                new Usuario
+                {
+                    Id = 3,
+                    NombreDeUsuario = "pulga",
+                    Nombre = "Sergio",
+                    Apellido = "Gonzalez",
+                    Mail = "sergi02002@gmail.com",
+                    Contraseña = "123.@",
+                    RolId = 3,
+                    FechaCreacion = DateTime.Now
+                }
+            );
         }
     }
 }

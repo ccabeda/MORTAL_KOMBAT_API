@@ -5,7 +5,6 @@ using API_MortalKombat.Service.IService;
 using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System.Net;
 
 namespace API_MortalKombat.Service
@@ -13,13 +12,15 @@ namespace API_MortalKombat.Service
     public class ServicePersonaje : IServicePersonaje
     {
         private readonly IRepositoryPersonaje _repository;
+        private readonly IRepositoryArma _repositoryArma;
+        private readonly IRepositoryEstiloDePelea _repositoryEstiloDePelea;
         private readonly IMapper _mapper;
         private readonly APIResponse _apiresponse;
         private readonly ILogger<ServicePersonaje> _logger;
         private readonly IValidator<PersonajeCreateDto> _validator;
         private readonly IValidator<PersonajeUpdateDto> _validatorUpdate;
         public ServicePersonaje(IMapper mapper, APIResponse apiresponse, ILogger<ServicePersonaje> logger, IRepositoryPersonaje repository, IValidator<PersonajeCreateDto> validator, 
-                                IValidator<PersonajeUpdateDto> validatorUpdate)
+                                IValidator<PersonajeUpdateDto> validatorUpdate, IRepositoryArma repositoryArma, IRepositoryEstiloDePelea repositoryEstiloDePelea)
         {
             _mapper = mapper;
             _apiresponse = apiresponse;
@@ -27,8 +28,10 @@ namespace API_MortalKombat.Service
             _repository = repository;
             _validator = validator;
             _validatorUpdate = validatorUpdate;
-            
+            _repositoryArma = repositoryArma;
+            _repositoryEstiloDePelea = repositoryEstiloDePelea;
         }
+
         public async Task<APIResponse> GetPersonajeById(int id)
         {
             try
@@ -45,7 +48,7 @@ namespace API_MortalKombat.Service
                 {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("El id " + id + "no esta registrado");
+                    _logger.LogError("El id " + id + " no esta registrado.");
                     return _apiresponse;
                 }
                 _apiresponse.Result = _mapper.Map<PersonajeDto>(personaje);
@@ -69,7 +72,7 @@ namespace API_MortalKombat.Service
                 {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("No se ingreso un nombre");
+                    _logger.LogError("No se ingreso un nombre.");
                     return _apiresponse;
                 }
                 var personaje = await _repository.ObtenerPorNombre(name);
@@ -77,7 +80,7 @@ namespace API_MortalKombat.Service
                 {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("El personaje " + name + " no esta registrado");
+                    _logger.LogError("El personaje " + name + " no esta registrado.");
                     return _apiresponse;
                 }
                 _apiresponse.Result = _mapper.Map<PersonajeDto>(personaje);
@@ -104,18 +107,18 @@ namespace API_MortalKombat.Service
             }
             catch (Exception ex)
             {
-                _logger.LogError("Ocurrió un error al obtener la lista de personajes: " + ex.Message);
+                _logger.LogError("Ocurrió un error al obtener la lista de Personajes: " + ex.Message);
                 _apiresponse.isExit = false;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
             }
             return _apiresponse;
         }
+
         public async Task<APIResponse> CreatePersonaje([FromBody] PersonajeCreateDto personajeCreateDto)
         {
             try
             {
                 var fluent_validation = await _validator.ValidateAsync(personajeCreateDto); //uso de fluent validations
-
                 if (!fluent_validation.IsValid)
                 {
                     var errors = fluent_validation.Errors.Select(error => error.ErrorMessage).ToList();
@@ -156,7 +159,7 @@ namespace API_MortalKombat.Service
             }
             return _apiresponse;
         }
-    
+
         public async Task<APIResponse> DeletePersonaje(int id)
         {
             try
@@ -179,7 +182,7 @@ namespace API_MortalKombat.Service
                 await _repository.Eliminar(personaje);
                 _apiresponse.statusCode = HttpStatusCode.OK;
                 _apiresponse.Result = _mapper.Map<PersonajeDtoGetAll>(personaje);
-                _logger.LogError("El personaje fue eliminado con exito.");
+                _logger.LogInformation("El personaje fue eliminado con exito.");
                 return _apiresponse;
             }
             catch (Exception ex)
@@ -196,7 +199,6 @@ namespace API_MortalKombat.Service
             try
             {
                 var fluent_validation = await _validatorUpdate.ValidateAsync(personajeUpdateDto); //uso de fluent validations
-
                 if (!fluent_validation.IsValid)
                 {
                     var errors = fluent_validation.Errors.Select(error => error.ErrorMessage).ToList();
@@ -206,7 +208,6 @@ namespace API_MortalKombat.Service
                     _apiresponse.ErrorList = errors;
                     return _apiresponse;
                 }
-
                 if (id == 0 || id != personajeUpdateDto.Id)
                 {
                     _apiresponse.isExit = false;
@@ -214,7 +215,6 @@ namespace API_MortalKombat.Service
                     _logger.LogError("Error con la id ingresada.");
                     return _apiresponse;
                 }
-
                 var existePersonaje = await _repository.ObtenerPorId(id);
                 if (existePersonaje == null)
                 {
@@ -230,7 +230,6 @@ namespace API_MortalKombat.Service
                 _logger.LogInformation("¡Personaje Actualizado con exito!");
                 await _repository.Actualizar(existePersonaje);
                 return _apiresponse;
-
             }
             catch (Exception ex)
             {
@@ -252,8 +251,7 @@ namespace API_MortalKombat.Service
                     _logger.LogError("Error, no se puede ingresar un id = 0.");
                     return _apiresponse;
                 }
-
-                var arma = await _repository.AgregarArmaAPersonaje(id_arma);
+                var arma = await _repositoryArma.ObtenerPorId(id_arma);
                 if (arma == null)
                 {
                     _apiresponse.isExit = false;
@@ -297,8 +295,7 @@ namespace API_MortalKombat.Service
                     _logger.LogError("Error, no se puede ingresar un id = 0.");
                     return _apiresponse;
                 }
-
-                var arma = await _repository.AgregarArmaAPersonaje(id_arma);
+                var arma = await _repositoryArma.ObtenerPorId(id_arma);
                 if (arma == null)
                 {
                     _apiresponse.isExit = false;
@@ -349,8 +346,7 @@ namespace API_MortalKombat.Service
                     _logger.LogError("Error, no se puede ingresar un id = 0.");
                     return _apiresponse;
                 }
-
-                var estilo = await _repository.AgregarEstiloDePeleaAPersonaje(id_estilo_de_pelea);
+                var estilo = await _repositoryEstiloDePelea.ObtenerPorId(id_estilo_de_pelea);
                 if (estilo == null)
                 {
                     _apiresponse.isExit = false;
@@ -394,8 +390,7 @@ namespace API_MortalKombat.Service
                     _logger.LogError("Error, no se puede ingresar un id = 0.");
                     return _apiresponse;
                 }
-
-                var estilo = await _repository.AgregarEstiloDePeleaAPersonaje(id_estilo_de_pelea);
+                var estilo = await _repositoryEstiloDePelea.ObtenerPorId(id_estilo_de_pelea);
                 if (estilo == null)
                 {
                     _apiresponse.isExit = false;

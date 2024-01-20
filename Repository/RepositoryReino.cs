@@ -12,6 +12,7 @@ namespace API_MortalKombat.Repository
         {
             _context = context;
         }
+
         public async Task<Reino> ObtenerPorId(int id)
         {
              return await _context.Reinos.FindAsync(id);
@@ -19,7 +20,7 @@ namespace API_MortalKombat.Repository
 
         public async Task<Reino> ObtenerPorNombre(string name)
         {
-            return await _context.Reinos.FirstOrDefaultAsync(p => p.Nombre.ToLower() == name.ToLower());
+            return await _context.Reinos.FirstOrDefaultAsync(r => r.Nombre.ToLower() == name.ToLower());
         }
 
         public async Task<List<Reino>> ObtenerTodos()
@@ -49,7 +50,5 @@ namespace API_MortalKombat.Repository
         {
             await _context.SaveChangesAsync();  
         }
-
-
     }
 }

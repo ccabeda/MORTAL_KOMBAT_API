@@ -8,9 +8,9 @@ namespace API_MortalKombat.Validations
     {
         public ArmaUpdateValidator()
         {
-            RuleFor(i => i.Id).NotEqual(0).WithMessage("El id no puede ser 0");
-            RuleFor(n => n.Nombre).NotEmpty().WithMessage("El nombre no puede estar vacio.");
-            RuleFor(n => n.Descripcion).NotEmpty().WithMessage("La descripción no puede estar vacio.");
+            RuleFor(a => a.Id).NotEqual(0).WithMessage("El id no puede ser 0");
+            RuleFor(a => a.Nombre).NotEmpty().WithMessage("El nombre no puede estar vacio.");
+            RuleFor(a => a.Descripcion).NotEmpty().WithMessage("La descripción no puede estar vacio.");
         }
     }
 }

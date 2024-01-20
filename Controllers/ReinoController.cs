@@ -79,7 +79,7 @@ namespace API_MortalKombat.Controllers
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<APIResponse>> CreateClan([FromBody] ReinoCreateDto reinoCreateDto)
+        public async Task<ActionResult<APIResponse>> CreateReino([FromBody] ReinoCreateDto reinoCreateDto)
         {
             var result = await _service.CreateReino(reinoCreateDto);
             if (result.statusCode == HttpStatusCode.OK)
@@ -102,13 +102,12 @@ namespace API_MortalKombat.Controllers
             {
                 return NotFound(result);
             }
-
         }
 
         [HttpPut(("{id}"), Name = "PutReinobyId")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<APIResponse>> PutClan(int id, [FromBody] ReinoUpdateDto reinoUpdateDto)
+        public async Task<ActionResult<APIResponse>> PutReino(int id, [FromBody] ReinoUpdateDto reinoUpdateDto)
         {
             var result = await _service.UpdateReino(id, reinoUpdateDto);
             if (result.statusCode == HttpStatusCode.OK)
@@ -136,6 +135,5 @@ namespace API_MortalKombat.Controllers
                 return NotFound(result);
             }
         }
-
     }
 }

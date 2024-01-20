@@ -6,6 +6,7 @@ using API_MortalKombat.Models.DTOs.ClanDTO;
 using API_MortalKombat.Models.DTOs.EstiloDePeleaDTO;
 using API_MortalKombat.Models.DTOs.PersonajeDTO;
 using API_MortalKombat.Models.DTOs.ReinoDTO;
+using API_MortalKombat.Models.DTOs.UsuarioDTO;
 using API_MortalKombat.Repository;
 using API_MortalKombat.Repository.IRepository;
 using API_MortalKombat.Service;
@@ -39,12 +40,16 @@ builder.Services.AddScoped<IRepositoryClan, RepositoryClan>();
 builder.Services.AddScoped<IRepositoryReino, RepositoryReino>();
 builder.Services.AddScoped<IRepositoryArma, RepositoryArma>();
 builder.Services.AddScoped<IRepositoryEstiloDePelea, RepositoryEstiloDePelea>();
+builder.Services.AddScoped<IRepositoryUsuario, RepositoryUsuario>();
+builder.Services.AddScoped<IRepositoryRol,  RepositoryRol>();
 //service
 builder.Services.AddScoped<IServicePersonaje,ServicePersonaje>();
 builder.Services.AddScoped<IServiceClan, ServiceClan>();
 builder.Services.AddScoped<IServiceReino, ServiceReino>();
 builder.Services.AddScoped<IServiceArma, ServiceArma>();
 builder.Services.AddScoped<IServiceEstiloDePelea, ServiceEstiloDePelea>();
+builder.Services.AddScoped<IServiceUsuario, ServiceUsuario>();
+builder.Services.AddScoped<IServiceRol, ServiceRol>();
 //fluent validation
 builder.Services.AddScoped<IValidator<PersonajeCreateDto>, PersonajeCreateValidator>();
 builder.Services.AddScoped<IValidator<PersonajeUpdateDto>, PersonajeUpdateValidator>();
@@ -56,6 +61,8 @@ builder.Services.AddScoped<IValidator<ArmaCreateDto>, ArmaCreateValidator>();
 builder.Services.AddScoped<IValidator<ArmaUpdateDto>, ArmaUpdateValidator>();
 builder.Services.AddScoped<IValidator<EstiloDePeleaCreateDto>, EstiloDePeleaCreateValidator>();
 builder.Services.AddScoped<IValidator<EstiloDePeleaUpdateDto>, EstiloDePeleaUpdateValidator>();
+builder.Services.AddScoped<IValidator<UsuarioCreateDto>, UsuarioCreateValidator>();
+builder.Services.AddScoped<IValidator<UsuarioUpdateDto>, UsuarioUpdateValidator>();
 
 var app = builder.Build();
 

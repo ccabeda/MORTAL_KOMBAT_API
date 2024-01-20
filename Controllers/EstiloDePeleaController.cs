@@ -19,9 +19,9 @@ namespace API_MortalKombat.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<APIResponse>> GetEstilosDePeleas()
+        public async Task<ActionResult<APIResponse>> GetEstilosDePelea()
         {
-            var result = await _service.GetEstilosDePeleas();
+            var result = await _service.GetEstilosDePelea();
             if (result.statusCode == HttpStatusCode.OK)
             {
                 return Ok(result);
@@ -102,13 +102,12 @@ namespace API_MortalKombat.Controllers
             {
                 return NotFound(result);
             }
-
         }
 
         [HttpPut(("{id}"), Name = "PutEstiloDePeleabyId")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<APIResponse>> PutArma(int id, [FromBody] EstiloDePeleaUpdateDto estiloUpdateDto)
+        public async Task<ActionResult<APIResponse>> PutEstiloDePelea(int id, [FromBody] EstiloDePeleaUpdateDto estiloUpdateDto)
         {
             var result = await _service.UpdateEstiloDePelea(id, estiloUpdateDto);
             if (result.statusCode == HttpStatusCode.OK)

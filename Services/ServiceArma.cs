@@ -7,7 +7,6 @@ using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
-
 namespace API_MortalKombat.Service
 {
     public class ServiceArma : IServiceArma
@@ -27,8 +26,8 @@ namespace API_MortalKombat.Service
             _repository = repository;
             _validator = validator;
             _validatorUpdate = validatorUpdate;
-
         }
+
         public async Task<APIResponse> GetArmaById(int id)
         {
             try
@@ -45,7 +44,7 @@ namespace API_MortalKombat.Service
                 {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("El id " + id + "no esta registrado");
+                    _logger.LogError("El id " + id + "no esta registrado.");
                     return _apiresponse;
                 }
                 _apiresponse.Result = _mapper.Map<ArmaDto>(arma);
@@ -77,7 +76,7 @@ namespace API_MortalKombat.Service
                 {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("El arma " + name + " no esta registrado");
+                    _logger.LogError("El arma " + name + " no esta registrado.");
                     return _apiresponse;
                 }
                 _apiresponse.Result = _mapper.Map<ArmaDto>(arma);
@@ -104,7 +103,7 @@ namespace API_MortalKombat.Service
             }
             catch (Exception ex)
             {
-                _logger.LogError("Ocurrió un error al obtener la lista de armas: " + ex.Message);
+                _logger.LogError("Ocurrió un error al obtener la lista de Armas: " + ex.Message);
                 _apiresponse.isExit = false;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
             }
@@ -116,7 +115,6 @@ namespace API_MortalKombat.Service
             try
             {
                 var fluent_validation = await _validator.ValidateAsync(armaCreateDto); //uso de fluent validations
-
                 if (!fluent_validation.IsValid)
                 {
                     var errors = fluent_validation.Errors.Select(error => error.ErrorMessage).ToList();
@@ -180,7 +178,7 @@ namespace API_MortalKombat.Service
                 await _repository.Eliminar(arma);
                 _apiresponse.statusCode = HttpStatusCode.OK;
                 _apiresponse.Result = _mapper.Map<ArmaDto>(arma);
-                _logger.LogError("El arma fue eliminado con exito.");
+                _logger.LogInformation("El arma fue eliminado con exito.");
                 return _apiresponse;
             }
             catch (Exception ex)
@@ -197,7 +195,6 @@ namespace API_MortalKombat.Service
             try
             {
                 var fluent_validation = await _validatorUpdate.ValidateAsync(armaUpdateDto); //uso de fluent validations
-
                 if (!fluent_validation.IsValid)
                 {
                     var errors = fluent_validation.Errors.Select(error => error.ErrorMessage).ToList();
@@ -207,7 +204,6 @@ namespace API_MortalKombat.Service
                     _apiresponse.ErrorList = errors;
                     return _apiresponse;
                 }
-
                 if (id == 0 || id != armaUpdateDto.Id)
                 {
                     _apiresponse.isExit = false;
@@ -215,7 +211,6 @@ namespace API_MortalKombat.Service
                     _logger.LogError("Error con la id ingresada.");
                     return _apiresponse;
                 }
-
                 var existearma = await _repository.ObtenerPorId(id);
                 if (existearma == null)
                 {
@@ -231,7 +226,6 @@ namespace API_MortalKombat.Service
                 _logger.LogInformation("¡Arma Actualizado con exito!");
                 await _repository.Actualizar(existearma);
                 return _apiresponse;
-
             }
             catch (Exception ex) 
             {

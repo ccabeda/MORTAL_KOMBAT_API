@@ -20,7 +20,7 @@ namespace API_MortalKombat.Repository
 
         public async Task<Clan> ObtenerPorNombre(string name)
         {
-            return await _context.Clanes.FirstOrDefaultAsync(p => p.Nombre.ToLower() == name.ToLower());
+            return await _context.Clanes.FirstOrDefaultAsync(c => c.Nombre.ToLower() == name.ToLower());
         }
 
         public async Task<List<Clan>> ObtenerTodos()
@@ -45,6 +45,7 @@ namespace API_MortalKombat.Repository
             _context.Update(clan);
             await Guardar();
         }
+
         public async Task Guardar()
         {
             await _context.SaveChangesAsync();  

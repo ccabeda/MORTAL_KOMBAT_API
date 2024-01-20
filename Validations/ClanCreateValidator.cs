@@ -7,8 +7,8 @@ namespace API_MortalKombat.Validations
     {
         public ClanCreateValidator() 
         {
-            RuleFor(n => n.Nombre).NotEmpty().WithMessage("El nombre no puede estar vacio.");
-            RuleFor(n => n.Descripcion).NotEmpty().WithMessage("La descripción no puede estar vacio.");
+            RuleFor(c => c.Nombre).NotEmpty().WithMessage("El nombre no puede estar vacio.");
+            RuleFor(c => c.Descripcion).NotEmpty().WithMessage("La descripción no puede estar vacio.");
         }
     }
 }

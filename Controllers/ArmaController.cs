@@ -102,7 +102,6 @@ namespace API_MortalKombat.Controllers
             {
                 return NotFound(result);
             }
-
         }
 
         [HttpPut(("{id}"), Name = "PutArmabyId")]
@@ -136,6 +135,5 @@ namespace API_MortalKombat.Controllers
                 return NotFound(result);
             }
         }
-
     }
 }

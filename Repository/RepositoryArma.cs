@@ -3,7 +3,6 @@ using API_MortalKombat.Models;
 using API_MortalKombat.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace API_MortalKombat.Repository
 {
     public class RepositoryArma : IRepositoryArma
@@ -21,7 +20,7 @@ namespace API_MortalKombat.Repository
 
         public async Task<Arma> ObtenerPorNombre(string name)
         {
-            return await _context.Armas.FirstOrDefaultAsync(p => p.Nombre.ToLower() == name.ToLower());
+            return await _context.Armas.FirstOrDefaultAsync(a => a.Nombre.ToLower() == name.ToLower());
         }
 
         public async Task<List<Arma>> ObtenerTodos()

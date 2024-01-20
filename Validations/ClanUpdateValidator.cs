@@ -7,9 +7,9 @@ namespace API_MortalKombat.Validations
     {
         public ClanUpdateValidator()
         {
-            RuleFor(i => i.Id).NotEqual(0).WithMessage("El id no puede ser 0");
-            RuleFor(n => n.Nombre).NotEmpty().WithMessage("El nombre no puede estar vacio.");
-            RuleFor(n => n.Descripcion).NotEmpty().WithMessage("La descripción no puede estar vacio.");
+            RuleFor(c => c.Id).NotEqual(0).WithMessage("El id no puede ser 0");
+            RuleFor(c => c.Nombre).NotEmpty().WithMessage("El nombre no puede estar vacio.");
+            RuleFor(c => c.Descripcion).NotEmpty().WithMessage("La descripción no puede estar vacio.");
         }
     }
 }
