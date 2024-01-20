@@ -149,7 +149,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 - Parametros:
 	Ninguno
 - Respuesta:
-	200: Lista de todas los personajes (DTO)  
+	200: Lista de todas los personajes (DTO)
 	404: Error
 
 ### Get Personaje By Id
@@ -167,7 +167,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 - Parametros:
   	Id (URL)
 - Respuesta:  
-	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino. (DTO)  
+	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino (DTO)  
 	400 - 404: Error
 
 ### Get Personaje By Name
@@ -185,7 +185,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 - Parametros:
   	Nombre (URl)
 - Respuesta:  
-	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino. (DTO)  
+	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino (DTO)  
 	400 - 404: Error
 
 ### Create Personaje
@@ -204,7 +204,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 - Parametros:
   	Datos personales en formato Json (body)
 - Respuesta:  
-	200: Id, Nombre, ImagenURl, Alineación, Raza, Descripción, ClanId y ReinoId (DTO).  
+	200: Id, Nombre, ImagenURl, Alineación, Raza, Descripción, ClanId y ReinoId (DTO) 
 	400, 404, 409: Error
 
 ### Update Personaje
@@ -227,7 +227,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 - Parametros:
   Id (URL), datos personales en formato Json (body)
 - Respuesta:
-	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino. (DTO).
+	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino (DTO)
 
   404: Error
 
@@ -247,7 +247,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 - Parametros:
   Id (URL)
 - Respuesta:
-	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino. (DTO que se desea eliminar).
+	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino. (DTO que se desea eliminar)
 
   404: Error
 
@@ -273,7 +273,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 - Parametros:
   Id del personaje (URL), Id del arma (URL)
 - Respuesta:
-	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino (DTO).
+	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino (DTO)
 
   404: Error
   
@@ -296,7 +296,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 - Parametros:
   Id del personaje (URL), Id del arma (URL)
 - Respuesta:
-	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino (DTO).
+	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino (DTO)
 
   400, 404: Error
 
@@ -322,7 +322,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 - Parametros:
   Id del personaje (URL), Id del estilo de pelea (URL)
 - Respuesta:
-	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino (DTO).
+	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino (DTO)
 
   404: Error
   
@@ -345,7 +345,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 - Parametros:
   Id del personaje (URL), Id del estilo de pelea (URL)
 - Respuesta:
-	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino (DTO).
+	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino (DTO)
 
   400, 404: Error
   
@@ -366,7 +366,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 - Parametros:
 	Ninguno
 - Respuesta:
-	200: Lista de todos los clanes (DTO).  
+	200: Lista de todos los clanes (DTO) 
 	404: Error
 
 ### Get Clan By Id
@@ -384,7 +384,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 - Parametros:
   	Id (URL)
 - Respuesta:  
-	200: Id, Nombre, Descripción (DTO).  
+	200: Id, Nombre, Descripción (DTO) 
 	400 - 404: Error
 
 ### Get Clan By Name
@@ -402,7 +402,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 - Parametros:
   	Nombre (URl)
 - Respuesta:  
-	200: Id, Nombre, Descripción (DTO).  
+	200: Id, Nombre, Descripción (DTO)  
 	400 - 404: Error
 
 ### Create Clan
@@ -421,7 +421,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 - Parametros:
   	Datos personales en formato Json (body)
 - Respuesta:  
-	200: Id, Nombre, Descripción (DTO).
+	200: Id, Nombre, Descripción (DTO)
 	400, 404, 409: Error
 
 ### Update Clan
@@ -444,7 +444,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 - Parametros:
   Id (URL), datos personales en formato Json (body)
 - Respuesta:
-	200: Id, Nombre, Descripción. (DTO).
+	200: Id, Nombre, Descripción. (DTO)
 
  404: Error
 
@@ -464,7 +464,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 - Parametros:
   Id (URL)
 - Respuesta:
-	200: Id, Nombre, Descripción. (DTO que se desea eliminar).
+	200: Id, Nombre, Descripción. (DTO que se desea eliminar)
 
   404: Error
 
@@ -485,7 +485,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 - Parametros:
 	Ninguno
 - Respuesta:
-	200: Lista de todos los reinos (DTO).  
+	200: Lista de todos los reinos (DTO)  
 	404: Error
 
 ### Get By Id
@@ -503,7 +503,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 - Parametros:
   	Id (URL)
 - Respuesta:  
-	200: Id, Nombre, Descripción (DTO).  
+	200: Id, Nombre, Descripción (DTO)  
 	400 - 404: Error
 
 ### Get Reino By Name
@@ -521,7 +521,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 - Parametros:
   	Nombre (URl)
 - Respuesta:  
-	200: Id, Nombre, Descripción (DTO).  
+	200: Id, Nombre, Descripción (DTO)  
 	400 - 404: Error
 
 ### Create Reino
@@ -540,7 +540,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 - Parametros:
   	Datos personales en formato Json (body)
 - Respuesta:  
-	200: Id, Nombre, Descripción (DTO).
+	200: Id, Nombre, Descripción (DTO)
 	400, 404, 409: Error
 
 ### Update Reino
@@ -563,7 +563,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 - Parametros:
   Id (URL), datos personales en formato Json (body)
 - Respuesta:
-	200: Id, Nombre, Descripción. (DTO).
+	200: Id, Nombre, Descripción. (DTO)
 
   404: Error
 
@@ -583,7 +583,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 - Parametros:
   Id (URL)
 - Respuesta:
-	200: Id, Nombre, Descripción. (DTO que se desea eliminar).
+	200: Id, Nombre, Descripción. (DTO que se desea eliminar)
 
   404: Error
 
@@ -604,7 +604,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 - Parametros:
 	Ninguno
 - Respuesta:
-	200: Lista de todos las armas (DTO).  
+	200: Lista de todos las armas (DTO)  
 	404: Error
 
 ### Get Arma By Id
@@ -622,7 +622,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 - Parametros:
   	Id (URL)
 - Respuesta:  
-	200: Id, Nombre, Descripción (DTO).  
+	200: Id, Nombre, Descripción (DTO)  
 	400 - 404: Error
 
 ### Get Arma By Name
@@ -640,7 +640,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 - Parametros:
   	Nombre (URl)
 - Respuesta:  
-	200: Id, Nombre, Descripción (DTO).  
+	200: Id, Nombre, Descripción (DTO)  
 	400 - 404: Error
 
 ### Create Arma
@@ -659,7 +659,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 - Parametros:
   	Datos personales en formato Json (body)
 - Respuesta:  
-	200: Id, Nombre, Descripción (DTO).
+	200: Id, Nombre, Descripción (DTO)
 	400, 404, 409: Error
 
 ### Update Arma
@@ -682,7 +682,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 - Parametros:
   Id (URL), datos personales en formato Json (body)
 - Respuesta:
-	200: Id, Nombre, Descripción. (DTO).
+	200: Id, Nombre, Descripción. (DTO)
 
   404: Error
 
@@ -702,7 +702,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 - Parametros:
   Id (URL)
 - Respuesta:
-	200: Id, Nombre, Descripción (DTO que se desea eliminar).
+	200: Id, Nombre, Descripción (DTO que se desea eliminar)
 
   404: Error
 
@@ -723,7 +723,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 - Parametros:
 	Ninguno
 - Respuesta:
-	200: Lista de todos lps estilos de pelea (DTO).  
+	200: Lista de todos lps estilos de pelea (DTO)  
 	404: Error
 
 ### Get EstiloDePelea By Id
@@ -741,7 +741,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 - Parametros:
   	Id (URL)
 - Respuesta:  
-	200: Id, Nombre, Descripción (DTO).  
+	200: Id, Nombre, Descripción (DTO)  
 	400 - 404: Error
 
 ### Get EstiloDePelea By Name
@@ -759,7 +759,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 - Parametros:
   	Nombre (URl)
 - Respuesta:  
-	200: Id, Nombre, Descripción (DTO).  
+	200: Id, Nombre, Descripción (DTO)  
 	400 - 404: Error
 
 ### Create EstiloDePelea
@@ -778,7 +778,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 - Parametros:
   	Datos personales en formato Json (body)
 - Respuesta:  
-	200: Id, Nombre, Descripción (DTO).
+	200: Id, Nombre, Descripción (DTO)
 	400, 404, 409: Error
 
 ### Update EstiloDePelea
@@ -801,7 +801,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 - Parametros:
   Id (URL), datos personales en formato Json (body)
 - Respuesta:
-	200: Id, Nombre, Descripción. (DTO).
+	200: Id, Nombre, Descripción. (DTO)
 
   404: Error
 
@@ -821,7 +821,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 - Parametros:
   Id (URL)
 - Respuesta:
-	200: Id, Nombre, Descripción (DTO que se desea eliminar).
+	200: Id, Nombre, Descripción (DTO que se desea eliminar)
 
   404: Error
   
@@ -843,7 +843,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 - Parametros:
 	Ninguno
 - Respuesta:
-	200: Lista de todos los usuarios (DTO).  
+	200: Lista de todos los usuarios (DTO)  
 	404: Error
 
 ### Get Usuario By Id
@@ -862,7 +862,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 - Parametros:
   	Id (URL)
 - Respuesta:  
-	200: Id, Nombre, Apellido, Mail, NombreDeUsuario, Rol (DTO).  
+	200: Id, Nombre, Apellido, Mail, NombreDeUsuario, Rol (DTO)  
 	400 - 404: Error
 
 ### Get Usuario By Name
@@ -881,7 +881,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 - Parametros:
   	Nombre (URl)
 - Respuesta:  
-	200: Id, Nombre, Apellido, Mail, NombreDeUsuario, Rol (DTO).  
+	200: Id, Nombre, Apellido, Mail, NombreDeUsuario, Rol (DTO)  
 	400 - 404: Error
 
 ### Create Usuario
@@ -899,7 +899,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 - Parametros:
   	Datos personales en formato Json (body)
 - Respuesta:  
-	200: Id, Nombre, Apellido, Mail, NombreDeUsuario (DTO).
+	200: Id, Nombre, Apellido, Mail, NombreDeUsuario (DTO)
 	400, 404, 409: Error
 
 ### Update Usuario
@@ -916,13 +916,12 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 | :-------- | :------- | :------------------------- |
 | `Usuario` | `UsuarioUpdateDto` | **Requerido** por body.  |
 
-
 - URL: https://localhost:7104/api/Usuario/{id}
 - Metodo: PUT
 - Parametros:
   Id (URL), datos personales en formato Json (body)
 - Respuesta:
-	200: Id, Nombre, Apellido, Mail, NombreDeUsuario (DTO).
+	200: Id, Nombre, Apellido, Mail, NombreDeUsuario (DTO)
 
   404: Error
 
@@ -942,11 +941,10 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 - Parametros:
   Id (URL)
 - Respuesta:
-	200: Id, Nombre, Apellido, Mail, NombreDeUsuario (DTO que se desea eliminar).
+	200: Id, Nombre, Apellido, Mail, NombreDeUsuario (DTO que se desea eliminar)
 
   404: Error
 
-SALKHFGJKLGHGKLGHFGLKFSDHAGFHSDFKGHFGDKGFHSGFLKDJGHFKLGHLSFDJJJHJGFSDJKLGHJSKDLGHFEDSKLJGHFSKLFGHFSDKLJHGFDJKFGD
      ## Rol
 
 ### Get All Roles
@@ -965,7 +963,7 @@ SALKHFGJKLGHGKLGHFGLKFSDHAGFHSDFKGHFGDKGFHSGFLKDJGHFKLGHLSFDJJJHJGFSDJKLGHJSKDLG
 - Parametros:
 	Ninguno
 - Respuesta:
-	200: Lista de todos los roles (DTO).  
+	200: Lista de todos los roles (DTO)  
 	404: Error
 
 ### Get Rol By Id
@@ -984,7 +982,7 @@ SALKHFGJKLGHGKLGHFGLKFSDHAGFHSDFKGHFGDKGFHSGFLKDJGHFKLGHLSFDJJJHJGFSDJKLGHJSKDLG
 - Parametros:
   	Id (URL)
 - Respuesta:  
-	200: Id, Nombre,Descripción (DTO).  
+	200: Id, Nombre,Descripción (DTO)  
 	400 - 404: Error
 
 ### Get Rol By Name
@@ -1003,7 +1001,7 @@ SALKHFGJKLGHGKLGHFGLKFSDHAGFHSDFKGHFGDKGFHSGFLKDJGHFKLGHLSFDJJJHJGFSDJKLGHJSKDLG
 - Parametros:
   	Nombre (URl)
 - Respuesta:  
-	200: Id, Nombre, Descripción (DTO).  
+	200: Id, Nombre, Descripción (DTO)  
 	400 - 404: Error
 
 ### Create Rol
@@ -1022,7 +1020,7 @@ SALKHFGJKLGHGKLGHFGLKFSDHAGFHSDFKGHFGDKGFHSGFLKDJGHFKLGHLSFDJJJHJGFSDJKLGHJSKDLG
 - Parametros:
   	Datos personales en formato Json (body)
 - Respuesta:  
-	200: Id, Nombre, Descripción (DTO).
+	200: Id, Nombre, Descripción (DTO)
 	400, 404, 409: Error
 
 ### Update Rol
@@ -1044,7 +1042,7 @@ SALKHFGJKLGHGKLGHFGLKFSDHAGFHSDFKGHFGDKGFHSGFLKDJGHFKLGHLSFDJJJHJGFSDJKLGHJSKDLG
 - Parametros:
   Id (URL), datos personales en formato Json (body)
 - Respuesta:
-	200: Id, Nombre, Descripción (DTO).
+	200: Id, Nombre, Descripción (DTO)
 
   404: Error
 
@@ -1064,7 +1062,7 @@ SALKHFGJKLGHGKLGHFGLKFSDHAGFHSDFKGHFGDKGFHSGFLKDJGHFKLGHLSFDJJJHJGFSDJKLGHJSKDLG
 - Parametros:
   Id (URL)
 - Respuesta:
-	200: Id, Nombre, Descripción (DTO que se desea eliminar).
+	200: Id, Nombre, Descripción (DTO que se desea eliminar)
 
   404: Error
 
