@@ -1008,7 +1008,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 
 [Autorización: Super Administrador]
 ```http
-  POST localhost:{su_puerto}/api/UsuaRolrio
+  POST localhost:{su_puerto}/api/Rol
 ```
 
 | Parametro | Tipo     | Descripción              |
