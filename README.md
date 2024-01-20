@@ -48,6 +48,13 @@ Proximamente agregare una interfaz simple, ya que mi objetivo es enfocarme en el
   - [Create EstiloDePelea](#Create-Estilo-De-Pelea)
   - [Update EstiloDePelea](#Update-Estilo-De-Pelea)
   - [Delete EstiloDePelea](#Delete-Estilo-De-Pelea)
+- [Usuario](#Usuario)
+	- [Get All Usuarios](#Get-All-Usuarios)
+   	- [Get Usuario by Id](#Get-Usuario-By-Id)
+  - [Get Usuario by Name](#Get-Usuario-By-Name)
+  - [Create Usuario](#Create-Usuario)
+  - [Update Usuario](#Update-Usuario)
+  - [Delete Usuario](#Delete-Usuario)
 - [Proximamente](#Proximamente)
    
    
@@ -764,8 +771,5 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
   Id (URL)
 - Respuesta:
 	200: Id, Nombre, Descripción (DTO que se desea eliminar).
+  	404: Error
 
-  404: Error
-  
-## Proximamente
-- ¡Agregare test unitarios en xUnit, Kafka y mas cosas!
