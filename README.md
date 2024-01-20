@@ -4,11 +4,12 @@ CRUD hecho con C# y .NET (NetCore). Aplique patrones como DTO, Repository, IoC, 
 Proximamente agregare una interfaz simple, ya que mi objetivo es enfocarme en el Back-end.
 
 
-
 ---
 - [Instalacion](#Instalación)
-- [Endpoints](#Endpoints-api)
+- [Nugets](#NuGets)
 - [Documentación Swagger](#Documentación-swagger)
+- [Autentificación por token Jwt](#Autentificación-por-token-Jwt)
+- [Endpoints](#Endpoints-api)
 - [Personaje](#Personaje)
 	- [Get All Personajes](#Get-All-Personajes)
    	- [Get Personaje by Id](#Get-Personaje-By-Id)
@@ -55,11 +56,13 @@ Proximamente agregare una interfaz simple, ya que mi objetivo es enfocarme en el
   - [Create Usuario](#Create-Usuario)
   - [Update Usuario](#Update-Usuario)
   - [Delete Usuario](#Delete-Usuario)
-- [Proximamente](#Proximamente)
-   
-   
+  - [Login](#Login)
+	- [Login Usuario](#Login-Usuario)
 
+
+   
 ## Instalación
+
 
 ### Configuración y ejecución de la aplicación
 Para configurar, instalar y ejecutar la aplicación siga estos pasos. Asegurate de tener .NET 8.0 y MS SQL Server.
@@ -70,7 +73,7 @@ Primero, cloná este repositorio en tu máquina local usando el siguiente comand
 git clone https://github.com/ccabeda/MORTAL_KOMBAT_API
 
 ### Abrí el Proyecto en tu Entorno de Desarrollo (IDE)
-Abrí tu entorno de desarrollo preferido (recomiendo Visual Studio). Navegá hasta la carpeta del proyecto que acabas de clonar y ábrilo.
+Abrí tu entorno de desarrollo preferido (recomiendo Visual Studio). Navegá hasta la carpeta del proyecto que acabas de clonar y abrilo.
 
 ### Configurá la base de datos
 En el archivo appsetting.json,modificar lo siguiente:
@@ -79,20 +82,53 @@ En el archivo appsetting.json,modificar lo siguiente:
   "Nombre_de_tu_conexión": "Server=Nombre_de_tu_server;Database=Nombre_de_tu_Base_de_datos;TrustServerCertificate=True;Trusted_Connection=true;MultipleActiveResultSets=true"
    
 Reemplazá Nombre_de_tu_conexión, Nombre_de_tu_server, Nombre_de_tu_Base_de_datos por los datos que quieras poner.
-En el archivo Program.cs, en la inyección de la base de datos, poner el mismo nombre que se utilizo para reemplazar Nombre_de_tu_conexión.
+En el archivo Program.cs, en la inyección de la base de datos, poner el mismo nombre que se utilizó para reemplazar Nombre_de_tu_conexión.
 
 ### Creá la Base de Datos con Entity
-Para crear la base de datos, es mediante la migración de los datos de las tablas creadas en Entity Framework hacia MS SQL Server, ya que utilize first-code.
-Para eso, deberan abrir la Consola del administrador de paquetes, que se encuentra clikeando en "Herramientas" y luego en "Administrador de paquetes NuGet"
+Para crear la base de datos, es mediante la migración de los datos de las tablas creadas en Entity Framework hacia MS SQL Server, ya que utiliza first-code.
+Para eso, deberan abrir la Consola del administrador de paquetes, que se encuentra cliqueando en "Herramientas" y luego en "Administrador de paquetes NuGet"
 En la consola, primero agregan la migración con el comando "Add-Migration" seguido del nombre que quieran darle.
-Seguido, utilizan el comando "Update-Database" y ya les apareceran la tablas en la base de datos.
+Seguido, utilizan el comando "Update-Database" y ya les aparecerán la tablas en la base de datos.
 
 ### Ejecutá la Aplicación
-Una vez que hayas configurado la base de datos y guardado los cambios, podes ejecutar la aplicación, dandole al botón de "https" (en Visual Studio). Alli se te deberia abrir la interfaz de Swagger para porbar los EndPoints.
+Una vez que hayas configurado la base de datos y guardado los cambios, podés ejecutar la aplicación, dándole al botón de "https" (en Visual Studio). Alli se te debería abrir la interfaz de Swagger para probar los EndPoints.
 
-### Documentación Swagger
+## NuGets
+
+NuGets necesarias para esta API:
+- AutoMapper
+- AutoMapper.Extensions.Microsoft.DependencyInjection
+- FluentValidation
+- FluentValidation.DependencyInjectionExtensions
+- Microsoft.AspNetCore.Authentication.JwtBearer
+- Microsoft.EntityFrameworkCore
+- Microsoft.EntityFrameworkCore.InMemory
+- Microsoft.EntityFrameworkCore.SqlServer
+- Microsoft.EntityFrameworkCore.Tools
+- Swashbuckle.AspNetCore
+
+## Documentación Swagger
 
 Para acceder a la documentación, una vez corrido el programa, ingrese a: https://localhost:{su_puerto}/swagger/index.html
+
+## Autentificación por token Jwt
+
+Se agregó la autentificación por token Jwt, que consiste en un login que devuelve un token Jwt unico por usuario. Una vez "iniciada sesión" hay diferentes tipos de roles (Super Administrador, Administrador y Público), y dependiendo el rango puedes acceder a diferentes
+Endpoints. Todos los usuarios vienen por defecto con el rol Público. Se aclarará arriba de cada uno de los Endpoints el nivel necesario para utilizarlos.
+
+Hay dos maneras de utilizar la API, con la interfaz Swagger, y con la aplicación Postman. A continuación, explicaré como utilizar la autentificación en cada uno.
+
+- [Swagger](#Swagger)
+- [Postman](#Postman)
+
+## Swagger
+
+Se añadió un botón de autorización arriba a la derecha, donde se deberá ingresar la palabra clave "Bearer" seguido del token que se recibe una vez iniciada sesión. Dependiendo el rol del usuario con el que inicies sesión, podrás acceder o no al Endpoint.
+
+## PostMan
+
+Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas utilizar y en la parte de Headers, seleccionas Key = Authorization y en la parte de Value ingresas la palabra "Bearer" seguido del token. Dependiendo el rol del usuario con el que inicies sesión, podrás acceder o no al Endpoint.
+
 
 ## Endpoints API
 
@@ -154,6 +190,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 
 ### Create Personaje
 
+[Autorización: Super Administrador y Administrador]
 ```http
   POST localhost:{su_puerto}/api/Personaje
 ```
@@ -167,11 +204,12 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 - Parametros:
   	Datos personales en formato Json (body)
 - Respuesta:  
-	200: Id, Nombre, ImagenURl, Alineación, Raza, Descripción, Estilo De Pelea, Armas, ClanId y ReinoId.  
+	200: Id, Nombre, ImagenURl, Alineación, Raza, Descripción, ClanId y ReinoId (DTO).  
 	400, 404, 409: Error
 
 ### Update Personaje
 
+[Autorización: Super Administrador y Administrador]
 ```http
   PUT localhost:{su_puerto}/api/Personaje/{id}
 ```
@@ -195,6 +233,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 
 ### Delete Personaje
 
+[Autorización: Super Administrador y Administrador]
 ```http
   DELETE localhost:{su_puerto}/api/Personaje/{id}
 ```
@@ -217,6 +256,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 
   ### Add Weapon To Personaje
 
+[Autorización: Super Administrador y Administrador]
 ```http
   PUT localhost:{su_puerto}/api/Personaje/{id_personaje}/AddWeapon/{id_rama}
 ```
@@ -228,18 +268,18 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 | :-------- | :------- | :------------------------- |
 | `Id_arma` | `int`    | **Requerido** por URL.  |
 
-
 - URL: https://localhost:7104/api/Personaje/{id_personaje}/AddWeapon/{id_rama}
 - Metodo: PUT
 - Parametros:
   Id del personaje (URL), Id del arma (URL)
 - Respuesta:
-	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino.
+	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino (DTO).
 
   404: Error
   
     ### Remove Weapon To Personaje
 
+[Autorización: Super Administrador y Administrador]
 ```http
   PUT localhost:{su_puerto}/api/Personaje/{id_personaje}/RemoveWeapon/{id_rama}
 ```
@@ -251,13 +291,12 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 | :-------- | :------- | :------------------------- |
 | `Id_arma` | `int`    | **Requerido** por URL.  |
 
-
 - URL: https://localhost:7104/api/Personaje/{id_personaje}/RemoveWeapon/{id_rama}
 - Metodo: PUT
 - Parametros:
   Id del personaje (URL), Id del arma (URL)
 - Respuesta:
-	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino.
+	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino (DTO).
 
   400, 404: Error
 
@@ -266,6 +305,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 
   ### Add Style To Personaje
 
+[Autorización: Super Administrador y Administrador]
 ```http
   PUT localhost:{su_puerto}/api/Personaje/{id_personaje}/AddStyle/{id_estilo_de_pelea}
 ```
@@ -277,18 +317,18 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 | :-------- | :------- | :------------------------- |
 | `Id_estilo_de_pelea` | `int`    | **Requerido** por URL.  |
 
-
 - URL: https://localhost:7104/api/Personaje/{id_personaje}/AddStyle/{id_estilo_de_pelea}
 - Metodo: PUT
 - Parametros:
   Id del personaje (URL), Id del estilo de pelea (URL)
 - Respuesta:
-	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino.
+	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino (DTO).
 
   404: Error
   
     ### Remove Style To Personaje
 
+[Autorización: Super Administrador y Administrador]
 ```http
   PUT localhost:{su_puerto}/api/Personaje/{id_personaje}/RemoveStyle/{id_estilo_de_pelea}
 ```
@@ -300,13 +340,12 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 | :-------- | :------- | :------------------------- |
 | `Id_estilo_de_pelea` | `int`    | **Requerido** por URL.  |
 
-
 - URL: https://localhost:7104/api/Personaje/{id_personaje}/RemoveStyle/{id_estilo_de_pelea}
 - Metodo: PUT
 - Parametros:
   Id del personaje (URL), Id del estilo de pelea (URL)
 - Respuesta:
-	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino.
+	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino (DTO).
 
   400, 404: Error
   
@@ -368,6 +407,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 
 ### Create Clan
 
+[Autorización: Super Administrador y Administrador]
 ```http
   POST localhost:{su_puerto}/api/Clan
 ```
@@ -381,11 +421,12 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 - Parametros:
   	Datos personales en formato Json (body)
 - Respuesta:  
-	200: Id, Nombre, Descripción
+	200: Id, Nombre, Descripción (DTO).
 	400, 404, 409: Error
 
 ### Update Clan
 
+[Autorización: Super Administrador y Administrador]
 ```http
   PUT localhost:{su_puerto}/api/Clan/{id}
 ```
@@ -409,6 +450,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 
 ### Delete Clan
 
+[Autorización: Super Administrador y Administrador]
 ```http
   DELETE localhost:{su_puerto}/api/Clan/{id}
 ```
@@ -484,6 +526,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 
 ### Create Reino
 
+[Autorización: Super Administrador y Administrador]
 ```http
   POST localhost:{su_puerto}/api/Reino
 ```
@@ -497,11 +540,12 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 - Parametros:
   	Datos personales en formato Json (body)
 - Respuesta:  
-	200: Id, Nombre, Descripción
+	200: Id, Nombre, Descripción (DTO).
 	400, 404, 409: Error
 
 ### Update Reino
 
+[Autorización: Super Administrador y Administrador]
 ```http
   PUT localhost:{su_puerto}/api/Reino/{id}
 ```
@@ -525,6 +569,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 
 ### Delete Reino
 
+[Autorización: Super Administrador y Administrador]
 ```http
   DELETE localhost:{su_puerto}/api/Reino/{id}
 ```
@@ -600,6 +645,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 
 ### Create Arma
 
+[Autorización: Super Administrador y Administrador]
 ```http
   POST localhost:{su_puerto}/api/Arma
 ```
@@ -613,11 +659,12 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 - Parametros:
   	Datos personales en formato Json (body)
 - Respuesta:  
-	200: Id, Nombre, Descripción
+	200: Id, Nombre, Descripción (DTO).
 	400, 404, 409: Error
 
 ### Update Arma
 
+[Autorización: Super Administrador y Administrador]
 ```http
   PUT localhost:{su_puerto}/api/Arma/{id}
 ```
@@ -641,6 +688,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 
 ### Delete Arma
 
+[Autorización: Super Administrador y Administrador]
 ```http
   DELETE localhost:{su_puerto}/api/Arma/{id}
 ```
@@ -670,7 +718,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 | :-------- | :------- | :-------------------------------- |
 |      |  | **No se requieren parametros**  |
 
-- URL: https://localhost:7104/api/Arma
+- URL: https://localhost:7104/api/EstiloDePelea
 - Metodo GET
 - Parametros:
 	Ninguno
@@ -716,6 +764,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 
 ### Create EstiloDePelea
 
+[Autorización: Super Administrador y Administrador]
 ```http
   POST localhost:{su_puerto}/api/EstiloDePelea
 ```
@@ -729,11 +778,12 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 - Parametros:
   	Datos personales en formato Json (body)
 - Respuesta:  
-	200: Id, Nombre, Descripción
+	200: Id, Nombre, Descripción (DTO).
 	400, 404, 409: Error
 
 ### Update EstiloDePelea
 
+[Autorización: Super Administrador y Administrador]
 ```http
   PUT localhost:{su_puerto}/api/EstiloDePelea/{id}
 ```
@@ -757,6 +807,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 
 ### Delete EstiloDePelea
 
+[Autorización: Super Administrador y Administrador]
 ```http
   DELETE localhost:{su_puerto}/api/EstiloDePelea/{id}
 ```
@@ -773,12 +824,12 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 	200: Id, Nombre, Descripción (DTO que se desea eliminar).
 
   404: Error
-
-  dfsñljgklagnjalñgnlñgdfjgfedhlñgjndflñagfjgfalñjfgkfagñdjlñfagdgakfjlgfaklñdgfjlgfñda
+  
       ## Usuario
 
 ### Get All Usuarios
 
+[Autorización: Super Administrador y Administrador]
 ```http
   GET localhost:{su_puerto}/api/Usuario
 ```
@@ -797,6 +848,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 
 ### Get Usuario By Id
 
+[Autorización: Super Administrador y Administrador]
 ```http
   GET localhost:{su_puerto}/api/Usuario/{id}
 ```
@@ -815,8 +867,9 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 
 ### Get Usuario By Name
 
+[Autorización: Super Administrador y Administrador]
 ```http
-  GET localhost:{su_puerto}/api/NombreDeUsuario/nombre/{name}
+  GET localhost:{su_puerto}/api/Usuario/NombreDeUsuario/{name}
 ```
 
 | Parametro | Tipo     | Descripción                     |
@@ -846,11 +899,12 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 - Parametros:
   	Datos personales en formato Json (body)
 - Respuesta:  
-	200: Id, Nombre, Apellido, Mail, NombreDeUsuario
+	200: Id, Nombre, Apellido, Mail, NombreDeUsuario (DTO).
 	400, 404, 409: Error
 
 ### Update Usuario
 
+[Autorización: Super Administrador y Administrador]
 ```http
   PUT localhost:{su_puerto}/api/Usuario/{id}
 ```
@@ -874,6 +928,7 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 
 ### Delete Usuario
 
+[Autorización: Super Administrador]
 ```http
   DELETE localhost:{su_puerto}/api/Usuario/{id}
 ```
@@ -891,3 +946,145 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 
   404: Error
 
+SALKHFGJKLGHGKLGHFGLKFSDHAGFHSDFKGHFGDKGFHSGFLKDJGHFKLGHLSFDJJJHJGFSDJKLGHJSKDLGHFEDSKLJGHFSKLFGHFSDKLJHGFDJKFGD
+     ## Rol
+
+### Get All Roles
+
+[Autorización: Super Administrador]
+```http
+  GET localhost:{su_puerto}/api/Rol
+```
+
+| Parametro | Tipo     | Descripción                     |
+| :-------- | :------- | :-------------------------------- |
+|      |  | **No se requieren parametros**  |
+
+- URL: https://localhost:7104/api/Rol
+- Metodo GET
+- Parametros:
+	Ninguno
+- Respuesta:
+	200: Lista de todos los roles (DTO).  
+	404: Error
+
+### Get Rol By Id
+
+[Autorización: Super Administrador]
+```http
+  GET localhost:{su_puerto}/api/Rol/{id}
+```
+
+| Parametro | Tipo     | Descripción                     |
+| :-------- | :------- | :-------------------------------- |
+| `Id`      | `int` | **Requerido** por URL.  |
+
+- URL: https://localhost:7104/api/Rol/{id}
+- Metodo GET
+- Parametros:
+  	Id (URL)
+- Respuesta:  
+	200: Id, Nombre,Descripción (DTO).  
+	400 - 404: Error
+
+### Get Rol By Name
+
+[Autorización: Super Administrador]
+```http
+  GET localhost:{su_puerto}/api/Rol/nombre/{name}
+```
+
+| Parametro | Tipo     | Descripción                     |
+| :-------- | :------- | :-------------------------------- |
+| `Nombre`  | `string` | **Requerido** por URL.  |
+
+- URL: https://localhost:7104/api/Rol/nombre/{name}
+- Metodo GET
+- Parametros:
+  	Nombre (URl)
+- Respuesta:  
+	200: Id, Nombre, Descripción (DTO).  
+	400 - 404: Error
+
+### Create Rol
+
+[Autorización: Super Administrador]
+```http
+  POST localhost:{su_puerto}/api/UsuaRolrio
+```
+
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `Rol` | `RolCreateDto` | **Requerido** por body.  |
+
+- URL: https://localhost:7104/api/Rol
+- Metodo: POST
+- Parametros:
+  	Datos personales en formato Json (body)
+- Respuesta:  
+	200: Id, Nombre, Descripción (DTO).
+	400, 404, 409: Error
+
+### Update Rol
+
+[Autorización: Super Administrador]
+```http
+  PUT localhost:{su_puerto}/api/Rol/{id}
+```
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `Id` | `int` | **Requerido** por URL.  |
+
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `Rol` | `RolUpdateDto` | **Requerido** por body.  |
+
+- URL: https://localhost:7104/api/Rol/{id}
+- Metodo: PUT
+- Parametros:
+  Id (URL), datos personales en formato Json (body)
+- Respuesta:
+	200: Id, Nombre, Descripción (DTO).
+
+  404: Error
+
+### Delete Rol
+
+[Autorización: Super Administrador]
+```http
+  DELETE localhost:{su_puerto}/api/Rol/{id}
+```
+
+| Parametro | Tipo     | Descripción                     |
+| :-------- | :------- | :-------------------------------- |
+| `Id`      | `int`    | **Requerido** por URL.  |
+
+- URL: https://localhost:7104/api/Rol/{id}
+- Metodo DELETE
+- Parametros:
+  Id (URL)
+- Respuesta:
+	200: Id, Nombre, Descripción (DTO que se desea eliminar).
+
+  404: Error
+
+  ##  Login
+
+### Login Usuario
+
+```http
+  Post localhost:{su_puerto}/api/Login
+```
+
+| Parametro | Tipo     | Descripción                     |
+| :-------- | :------- | :-------------------------------- |
+| `Usuario`      | `Login`    | **Requerido** por URL.  |
+
+
+- URL: https://localhost:7104/api/Login
+- Metodo POST
+- Parametros:
+	datos de inicio de sesión en formato Json (body)
+- Respuesta:
+	200: Token  
+	400: Error
