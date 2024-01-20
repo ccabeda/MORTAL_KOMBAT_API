@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using API_MortalKombat.Models.DTOs.RolDTO;
 
-namespace API_MortalKombat.Services
+namespace API_MortalKombat.Service
 {
     public class ServiceRol : IServiceRol
     {

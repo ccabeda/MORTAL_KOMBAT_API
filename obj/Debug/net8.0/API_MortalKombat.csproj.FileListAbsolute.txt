@@ -142,3 +142,4 @@ C:\Users\cabed\OneDrive\Desktop\Curso\c_sharp\API_MortalKombat\obj\Debug\net8.0\
 C:\Users\cabed\OneDrive\Desktop\Curso\c_sharp\API_MortalKombat\obj\Debug\net8.0\ref\API_MortalKombat.dll
 C:\Users\cabed\OneDrive\Desktop\Curso\c_sharp\API_MortalKombat\bin\Debug\net8.0\Castle.Core.dll
 C:\Users\cabed\OneDrive\Desktop\Curso\c_sharp\API_MortalKombat\bin\Debug\net8.0\Moq.dll
+C:\Users\cabed\OneDrive\Desktop\Curso\c_sharp\API_MortalKombat\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

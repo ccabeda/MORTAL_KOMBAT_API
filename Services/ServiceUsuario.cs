@@ -7,7 +7,7 @@ using API_MortalKombat.Services.IService;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
-namespace API_MortalKombat.Services
+namespace API_MortalKombat.Service
 {
     public class ServiceUsuario : IServiceUsuario
     {

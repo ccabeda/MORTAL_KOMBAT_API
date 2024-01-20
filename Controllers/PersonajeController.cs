@@ -1,6 +1,7 @@
 ﻿using API_MortalKombat.Models;
 using API_MortalKombat.Models.DTOs.PersonajeDTO;
 using API_MortalKombat.Service.IService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -75,6 +76,8 @@ namespace API_MortalKombat.Controllers
         } 
 
         [HttpPost]
+        [Authorize(Roles = "1,2")]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -105,6 +108,8 @@ namespace API_MortalKombat.Controllers
         }
 
         [HttpPut(("{id}"), Name = "PutPersonabyId")]
+        [Authorize(Roles = "1,2")]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<APIResponse>> UpdatePersonaje (int id, [FromBody] PersonajeUpdateDto personajeUpdateDto)
@@ -121,6 +126,8 @@ namespace API_MortalKombat.Controllers
         }
 
         [HttpDelete(("{id}"), Name = "DeletePersonaje")]
+        [Authorize(Roles = "1,2")]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<APIResponse>> DeletePersonaje(int id)
@@ -137,6 +144,8 @@ namespace API_MortalKombat.Controllers
         }
 
         [HttpPut(("{id_personaje}/AddWeapon/{id_arma}"), Name = "AddWeaponToPersonaje")]
+        [Authorize(Roles = "1,2")]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<APIResponse>> AddWeaponToPersonaje(int id_personaje, int id_arma)
@@ -153,6 +162,8 @@ namespace API_MortalKombat.Controllers
         }
 
         [HttpPut(("{id_personaje}/RemoveWeapon/{id_arma}"), Name = "RemoveWeaponToPersonaje")]
+        [Authorize(Roles = "1,2")]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -174,6 +185,8 @@ namespace API_MortalKombat.Controllers
         }
 
         [HttpPut(("{id_personaje}/AddStyle/{id_estilo_de_pelea}"), Name = "AddStyleToPersonaje")]
+        [Authorize(Roles = "1,2")]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<APIResponse>> AddStyleToPersonaje(int id_personaje, int id_estilo_de_pelea)
@@ -190,6 +203,8 @@ namespace API_MortalKombat.Controllers
         }
 
         [HttpPut(("{id_personaje}/RemoveStyle/{id_estilo_de_pelea}"), Name = "RemoveStyleToPersonaje")]
+        [Authorize(Roles = "1,2")]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

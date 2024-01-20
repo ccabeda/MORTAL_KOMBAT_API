@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using API_MortalKombat.Services.IService;
 using API_MortalKombat.Models.DTOs.UsuarioDTO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API_MortalKombat.Controllers
 {
@@ -17,6 +18,8 @@ namespace API_MortalKombat.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "1,2")]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<APIResponse>> GetUsuarios()
@@ -33,6 +36,8 @@ namespace API_MortalKombat.Controllers
         }
 
         [HttpGet(("{id}"), Name = "GetUsuariobyId")]
+        [Authorize(Roles = "1,2")]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -54,6 +59,8 @@ namespace API_MortalKombat.Controllers
         }
 
         [HttpGet(("nombre de usuario/{name}"), Name = "GetUsuariobyName")]
+        [Authorize(Roles = "1,2")]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -105,6 +112,8 @@ namespace API_MortalKombat.Controllers
         }
 
         [HttpPut(("{id}"), Name = "PutUsuariobyId")]
+        [Authorize(Roles = "1,2")]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<APIResponse>> PutUsuario(int id, [FromBody] UsuarioUpdateDto usuarioUpdateDto)
@@ -121,6 +130,8 @@ namespace API_MortalKombat.Controllers
         }
 
         [HttpDelete(("{id}"), Name = "DeleteUsuario")]
+        [Authorize(Roles = "1")]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<APIResponse>> DeleteUsuario(int id)

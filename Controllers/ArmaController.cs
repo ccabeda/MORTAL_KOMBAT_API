@@ -1,6 +1,7 @@
 ﻿using API_MortalKombat.Models;
 using API_MortalKombat.Models.DTOs.ArmaDTO;
 using API_MortalKombat.Service.IService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -75,6 +76,8 @@ namespace API_MortalKombat.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "1,2")]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -105,6 +108,8 @@ namespace API_MortalKombat.Controllers
         }
 
         [HttpPut(("{id}"), Name = "PutArmabyId")]
+        [Authorize(Roles = "1,2")]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<APIResponse>> PutArma(int id, [FromBody] ArmaUpdateDto armaUpdateDto)
@@ -121,6 +126,8 @@ namespace API_MortalKombat.Controllers
         }
 
         [HttpDelete(("{id}"), Name = "DeleteArma")]
+        [Authorize(Roles = "1,2")]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<APIResponse>> DeleteArma(int id)

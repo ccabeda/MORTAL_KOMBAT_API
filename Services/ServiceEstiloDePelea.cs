@@ -7,7 +7,7 @@ using System.Net;
 using API_MortalKombat.Services.IService;
 using API_MortalKombat.Models.DTOs.EstiloDePeleaDTO;
 
-namespace API_MortalKombat.Services
+namespace API_MortalKombat.Service
 {
     public class ServiceEstiloDePelea : IServiceEstiloDePelea
     {

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using API_MortalKombat.Services.IService;
 using API_MortalKombat.Models.DTOs.EstiloDePeleaDTO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API_MortalKombat.Controllers
 {
@@ -75,6 +76,8 @@ namespace API_MortalKombat.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "1,2")]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -105,6 +108,8 @@ namespace API_MortalKombat.Controllers
         }
 
         [HttpPut(("{id}"), Name = "PutEstiloDePeleabyId")]
+        [Authorize(Roles = "1,2")]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<APIResponse>> PutEstiloDePelea(int id, [FromBody] EstiloDePeleaUpdateDto estiloUpdateDto)
@@ -121,6 +126,8 @@ namespace API_MortalKombat.Controllers
         }
 
         [HttpDelete(("{id}"), Name = "DeleteEstiloDePelea")]
+        [Authorize(Roles = "1,2")]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<APIResponse>> DeleteEstiloDePelea(int id)

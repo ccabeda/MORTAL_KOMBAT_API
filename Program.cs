@@ -15,7 +15,12 @@ using API_MortalKombat.Services;
 using API_MortalKombat.Services.IService;
 using API_MortalKombat.Validations;
 using FluentValidation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,7 +28,36 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+//configurar swagger para autentication, si usas postman no influye. Configuración sacada de internet para logearse en la interfaz Swagger
+builder.Services.AddSwaggerGen(c =>
+{
+    //Titulo y diseño
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Village API", Version = "V2" });
+    //boton de autorización
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "Jwt Authorization",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "bearer",
+    });
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+      {
+        new OpenApiSecurityScheme
+        {
+            Reference = new OpenApiReference
+            {
+                Type = ReferenceType.SecurityScheme,
+                Id = "Bearer"
+            }
+        },
+        new string[] {}
+      }
+    });
+});
 
 builder.Services.AddDbContext<AplicationDbContext>(option => //Aquí se establece cómo el contexto de la base de datos se conectará a la base de datos,                                                             //qué proveedor de base de datos se utilizará y otra configuración relacionada con la conexión.
 {
@@ -34,6 +68,23 @@ builder.Services.AddDbContext<AplicationDbContext>(option => //Aquí se establece
 builder.Services.AddAutoMapper(typeof(AutomapperConfig));
 //APIResponse
 builder.Services.AddScoped<APIResponse>();
+
+//autenticación con token
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+{
+    options.RequireHttpsMetadata = false;
+    options.SaveToken = true;
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+    };
+});
 //repository
 builder.Services.AddScoped<IRepositoryPersonaje, RepositoryPersonaje>();
 builder.Services.AddScoped<IRepositoryClan, RepositoryClan>();
@@ -42,6 +93,7 @@ builder.Services.AddScoped<IRepositoryArma, RepositoryArma>();
 builder.Services.AddScoped<IRepositoryEstiloDePelea, RepositoryEstiloDePelea>();
 builder.Services.AddScoped<IRepositoryUsuario, RepositoryUsuario>();
 builder.Services.AddScoped<IRepositoryRol,  RepositoryRol>();
+builder.Services.AddScoped<IRepositoryLogin, RepositoryLogin>();
 //service
 builder.Services.AddScoped<IServicePersonaje,ServicePersonaje>();
 builder.Services.AddScoped<IServiceClan, ServiceClan>();
@@ -50,6 +102,7 @@ builder.Services.AddScoped<IServiceArma, ServiceArma>();
 builder.Services.AddScoped<IServiceEstiloDePelea, ServiceEstiloDePelea>();
 builder.Services.AddScoped<IServiceUsuario, ServiceUsuario>();
 builder.Services.AddScoped<IServiceRol, ServiceRol>();
+builder.Services.AddScoped<IServiceLogin, ServiceLogin>();
 //fluent validation
 builder.Services.AddScoped<IValidator<PersonajeCreateDto>, PersonajeCreateValidator>();
 builder.Services.AddScoped<IValidator<PersonajeUpdateDto>, PersonajeUpdateValidator>();
@@ -64,6 +117,7 @@ builder.Services.AddScoped<IValidator<EstiloDePeleaUpdateDto>, EstiloDePeleaUpda
 builder.Services.AddScoped<IValidator<UsuarioCreateDto>, UsuarioCreateValidator>();
 builder.Services.AddScoped<IValidator<UsuarioUpdateDto>, UsuarioUpdateValidator>();
 
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -74,6 +128,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

@@ -3,11 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using API_MortalKombat.Services.IService;
 using API_MortalKombat.Models.DTOs.RolDTO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API_MortalKombat.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "1")]
     public class RolController : ControllerBase
     {
         private readonly IServiceRol _service;
@@ -17,6 +19,7 @@ namespace API_MortalKombat.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<APIResponse>> GetRoles()
@@ -33,6 +36,7 @@ namespace API_MortalKombat.Controllers
         }
 
         [HttpGet(("{id}"), Name = "GetRolbyId")]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -54,6 +58,7 @@ namespace API_MortalKombat.Controllers
         }
 
         [HttpGet(("nombre/{name}"), Name = "GetRolbyName")]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -75,6 +80,7 @@ namespace API_MortalKombat.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -105,6 +111,7 @@ namespace API_MortalKombat.Controllers
         }
 
         [HttpPut(("{id}"), Name = "PutRolbyId")]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<APIResponse>> PutRol(int id, [FromBody] RolUpdateDto rolUpdateDto)
@@ -121,6 +128,7 @@ namespace API_MortalKombat.Controllers
         }
 
         [HttpDelete(("{id}"), Name = "DeleteRol")]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<APIResponse>> DeleteRol(int id)
