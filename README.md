@@ -869,7 +869,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 
 [Autorización: Super Administrador y Administrador]
 ```http
-  GET localhost:{su_puerto}/api/Usuario/NombreDeUsuario/{name}
+  GET localhost:{su_puerto}/api/Usuario/nombreDeUsuario/{name}
 ```
 
 | Parametro | Tipo     | Descripción                     |
