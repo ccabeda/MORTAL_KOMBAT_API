@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using API_MortalKombat.Services.IService;
 using API_MortalKombat.Models.DTOs.EstiloDePeleaDTO;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace API_MortalKombat.Service
 {
@@ -232,6 +233,54 @@ namespace API_MortalKombat.Service
                 _logger.LogError("Ocurrió un error al intentar actualizar el estilo de pelea: " + ex.Message);
                 _apiresponse.isExit = false;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
+            }
+            return _apiresponse;
+        }
+
+        public async Task<APIResponse> UpdatePartialEstiloDePelea(int id, JsonPatchDocument<EstiloDePeleaUpdateDto> estiloDePeleaUpdateDto)
+        {
+            try
+            {
+                if (estiloDePeleaUpdateDto == null || id == 0)
+                {
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
+                    _logger.LogError("Error al ingresar los datos.");
+                    return _apiresponse;
+                }
+                var estiloDePelea = await _repository.ObtenerPorId(id);
+                if (estiloDePelea == null)
+                {
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
+                    _logger.LogError("El id ingresado no esta registrado");
+                    return _apiresponse;
+                }
+                var estiloDePeleaDTO = _mapper.Map<EstiloDePeleaUpdateDto>(estiloDePelea);
+                estiloDePeleaUpdateDto.ApplyTo(estiloDePeleaDTO);
+                var fluent_validation = await _validatorUpdate.ValidateAsync(estiloDePeleaDTO);
+                if (!fluent_validation.IsValid)
+                {
+                    var errors = fluent_validation.Errors.Select(error => error.ErrorMessage).ToList();
+                    _logger.LogError("Error al validar los datos de entrada.");
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
+                    _apiresponse.ErrorList = errors;
+                    return _apiresponse;
+
+                }
+                _mapper.Map(estiloDePeleaDTO, estiloDePelea);
+                estiloDePelea.FechaActualizacion = DateTime.Now;
+                await _repository.Actualizar(estiloDePelea);
+                _apiresponse.statusCode = HttpStatusCode.OK;
+                _apiresponse.Result = estiloDePeleaDTO;
+                return _apiresponse;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Ocurrió un error al intentar actualizar el estilo de pelea de id: " + id + ". Error: " + ex.Message);
+                _apiresponse.isExit = false;
+                _apiresponse.ErrorList = new List<string> { ex.ToString() };
             }
             return _apiresponse;
         }

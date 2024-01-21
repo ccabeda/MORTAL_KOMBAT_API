@@ -4,6 +4,7 @@ using System.Net;
 using API_MortalKombat.Services.IService;
 using API_MortalKombat.Models.DTOs.RolDTO;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace API_MortalKombat.Controllers
 {
@@ -141,6 +142,22 @@ namespace API_MortalKombat.Controllers
             else
             {
                 return NotFound(result);
+            }
+        }
+
+        [HttpPatch(("{id}"), Name = "UpdatePartialRol")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> UpdatePartiaRol(int id, JsonPatchDocument<RolUpdateDto> rolUpdateDto)
+        {
+            var result = await _service.UpdatePartialRol(id, rolUpdateDto);
+            if (result.statusCode == HttpStatusCode.BadRequest)
+            {
+                return BadRequest(result);
+            }
+            else
+            {
+                return Ok(result);
             }
         }
     }

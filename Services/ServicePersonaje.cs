@@ -4,6 +4,7 @@ using API_MortalKombat.Repository.IRepository;
 using API_MortalKombat.Service.IService;
 using AutoMapper;
 using FluentValidation;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -426,6 +427,54 @@ namespace API_MortalKombat.Service
                 _logger.LogError("Ocurrió un error al intentar agregar un estilo de pelea al personaje: " + ex.Message);
                 _apiresponse.isExit = false;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
+            }
+            return _apiresponse;
+        }
+
+        public async Task<APIResponse> UpdatePartialPersonaje(int id, JsonPatchDocument<PersonajeUpdateDto> personajeUpdateDto)
+        {
+            try
+            {
+                if (personajeUpdateDto == null || id == 0)
+                {
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
+                    _logger.LogError("Error al ingresar los datos.");
+                    return _apiresponse;
+                }
+                var personaje = await _repository.ObtenerPorId(id);
+                if (personaje == null)
+                {
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
+                    _logger.LogError("El id ingresado no esta registrado");
+                    return _apiresponse;
+                }
+                var personajeDTO = _mapper.Map<PersonajeUpdateDto>(personaje);
+                personajeUpdateDto.ApplyTo(personajeDTO);
+                var fluent_validation = await _validatorUpdate.ValidateAsync(personajeDTO);
+                if (!fluent_validation.IsValid)
+                {
+                    var errors = fluent_validation.Errors.Select(error => error.ErrorMessage).ToList();
+                    _logger.LogError("Error al validar los datos de entrada.");
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
+                    _apiresponse.ErrorList = errors;
+                    return _apiresponse;
+
+                }
+                _mapper.Map(personajeDTO, personaje);
+                personaje.FechaActualizacion = DateTime.Now;
+                await _repository.Actualizar(personaje);
+                _apiresponse.statusCode = HttpStatusCode.OK;
+                _apiresponse.Result = personajeDTO;
+                return _apiresponse;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Ocurrió un error al intentar actualizar el personaje de id: " + id + ". Error: " + ex.Message);
+                _apiresponse.isExit = false;
+                _apiresponse.ErrorList = new List<string> { ex.ToString() };
             }
             return _apiresponse;
         }

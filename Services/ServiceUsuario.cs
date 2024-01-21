@@ -6,6 +6,8 @@ using API_MortalKombat.Models.DTOs.UsuarioDTO;
 using API_MortalKombat.Services.IService;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using API_MortalKombat.Models.DTOs.RolDTO;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace API_MortalKombat.Service
 {
@@ -233,6 +235,43 @@ namespace API_MortalKombat.Service
                 _logger.LogError("Ocurrió un error al intentar actualizar al Usuario: " + ex.Message);
                 _apiresponse.isExit = false;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
+            }
+            return _apiresponse;
+        }
+
+        public async Task<APIResponse> UpdatePartialUsuario(int id, JsonPatchDocument<UsuarioUpdateDto> usuarioUpdateDto)
+        {
+            try
+            {
+                if (usuarioUpdateDto == null || id == 0)
+                {
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
+                    _logger.LogError("Error al ingresar los datos.");
+                    return _apiresponse;
+                }
+                var usuario = await _repository.ObtenerPorId(id);
+                if (usuario == null)
+                {
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
+                    _logger.LogError("El id ingresado no esta registrado");
+                    return _apiresponse;
+                }
+                var usuarioDTO = _mapper.Map<UsuarioUpdateDto>(usuario);
+                usuarioUpdateDto.ApplyTo(usuarioDTO);
+                _mapper.Map(usuarioDTO, usuario);
+                usuario.FechaActualizacion = DateTime.Now;
+                await _repository.Actualizar(usuario);
+                _apiresponse.statusCode = HttpStatusCode.OK;
+                _apiresponse.Result = usuarioDTO;
+                return _apiresponse;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Ocurrió un error al intentar actualizar el usuario de id: " + id + ". Error: " + ex.Message);
+                _apiresponse.isExit = false;
+                _apiresponse.ErrorList = new List<string> { ex.ToString() };
             }
             return _apiresponse;
         }

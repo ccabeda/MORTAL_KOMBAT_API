@@ -4,6 +4,7 @@ using System.Net;
 using API_MortalKombat.Services.IService;
 using API_MortalKombat.Models.DTOs.EstiloDePeleaDTO;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace API_MortalKombat.Controllers
 {
@@ -140,6 +141,23 @@ namespace API_MortalKombat.Controllers
             else
             {
                 return NotFound(result);
+            }
+        }
+
+        [HttpPatch(("{id}"), Name = "UpdatePartialEstiloDePelea")]
+        [Authorize(Roles = "1,2")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> UpdatePartiaEstiloDePelea(int id, JsonPatchDocument<EstiloDePeleaUpdateDto> estiloDePeleaUpdateDto) 
+        {
+            var result = await _service.UpdatePartialEstiloDePelea(id, estiloDePeleaUpdateDto);
+            if (result.statusCode == HttpStatusCode.BadRequest)
+            {
+                return BadRequest(result);
+            }
+            else
+            {
+                return Ok(result);
             }
         }
     }

@@ -2,6 +2,7 @@
 using API_MortalKombat.Models.DTOs.ClanDTO;
 using API_MortalKombat.Service.IService;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -140,6 +141,23 @@ namespace API_MortalKombat.Controllers
             else
             {
                 return NotFound(result);
+            }
+        }
+
+        [HttpPatch(("{id}"), Name = "UpdatePartialClan")]
+        [Authorize(Roles = "1,2")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> UpdatePartiaArma(int id, JsonPatchDocument<ClanUpdateDto> clanUpdateDto)
+        {
+            var result = await _service.UpdatePartialClan(id, clanUpdateDto);
+            if (result.statusCode == HttpStatusCode.BadRequest)
+            {
+                return BadRequest(result);
+            }
+            else
+            {
+                return Ok(result);
             }
         }
     }

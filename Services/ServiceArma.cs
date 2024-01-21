@@ -4,6 +4,7 @@ using API_MortalKombat.Repository.IRepository;
 using API_MortalKombat.Service.IService;
 using AutoMapper;
 using FluentValidation;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -232,6 +233,54 @@ namespace API_MortalKombat.Service
                 _logger.LogError("Ocurrió un error al intentar actualizar el arma: " + ex.Message);
                 _apiresponse.isExit = false;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
+            }
+            return _apiresponse;
+        }
+
+        public async Task<APIResponse> UpdatePartialArma(int id, JsonPatchDocument<ArmaUpdateDto> armaUpdateDto)
+        {
+            try
+            {
+                if (armaUpdateDto == null || id == 0) //verifico que la id no sea 0 o que el json sea null
+                {
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
+                    _logger.LogError("Error al ingresar los datos.");
+                    return _apiresponse;
+                }
+                var arma = await _repository.ObtenerPorId(id);
+                if (arma == null)
+                {
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
+                    _logger.LogError("El id ingresado no esta registrado");
+                        return _apiresponse;
+                }
+                var armaDTO = _mapper.Map<ArmaUpdateDto>(arma); 
+                armaUpdateDto.ApplyTo(armaDTO); 
+                var fluent_validation = await _validatorUpdate.ValidateAsync(armaDTO);
+                if (!fluent_validation.IsValid)
+                {
+                    var errors = fluent_validation.Errors.Select(error => error.ErrorMessage).ToList();
+                    _logger.LogError("Error al validar los datos de entrada.");
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
+                    _apiresponse.ErrorList = errors;
+                    return _apiresponse;
+
+                }
+                _mapper.Map(armaDTO, arma);
+                arma.FechaActualizacion = DateTime.Now;
+                await _repository.Actualizar(arma); 
+                _apiresponse.statusCode = HttpStatusCode.OK;
+                _apiresponse.Result = armaDTO;
+                return _apiresponse;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Ocurrió un error al intentar actualizar el arma de id: " + id + ". Error: " + ex.Message);
+                _apiresponse.isExit = false;
+                _apiresponse.ErrorList = new List<string> { ex.ToString() }; 
             }
             return _apiresponse;
         }

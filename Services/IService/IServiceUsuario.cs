@@ -1,6 +1,7 @@
 ﻿using API_MortalKombat.Models;
 using Microsoft.AspNetCore.Mvc;
 using API_MortalKombat.Models.DTOs.UsuarioDTO;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace API_MortalKombat.Services.IService
 {
@@ -12,5 +13,6 @@ namespace API_MortalKombat.Services.IService
         public Task<APIResponse> CreateUsuario([FromBody] UsuarioCreateDto usuarioCreateDto);
         public Task<APIResponse> UpdateUsuario(int id, [FromBody] UsuarioUpdateDto usuarioUpdateDto);
         public Task<APIResponse> DeleteUsuario(int id);
+        public Task<APIResponse> UpdatePartialUsuario(int id, JsonPatchDocument<UsuarioUpdateDto> usuarioUpdateDto);
     }
 }

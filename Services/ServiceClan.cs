@@ -4,6 +4,7 @@ using API_MortalKombat.Repository.IRepository;
 using API_MortalKombat.Service.IService;
 using AutoMapper;
 using FluentValidation;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -232,6 +233,54 @@ namespace API_MortalKombat.Service
                 _logger.LogError("Ocurrió un error al intentar actualizar el clan: " + ex.Message);
                 _apiresponse.isExit = false;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
+            }
+            return _apiresponse;
+        }
+
+        public async Task<APIResponse> UpdatePartialClan(int id, JsonPatchDocument<ClanUpdateDto> clanUpdateDto)
+        {
+            try
+            {
+                if (clanUpdateDto == null || id == 0) 
+                {
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
+                    _logger.LogError("Error al ingresar los datos.");
+                    return _apiresponse;
+                }
+                var clan = await _repository.ObtenerPorId(id);
+                if (clan == null)
+                {
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
+                    _logger.LogError("El id ingresado no esta registrado");
+                    return _apiresponse;
+                }
+                var clanDTO = _mapper.Map<ClanUpdateDto>(clan); 
+                clanUpdateDto.ApplyTo(clanDTO); 
+                var fluent_validation = await _validatorUpdate.ValidateAsync(clanDTO); 
+                if (!fluent_validation.IsValid)
+                {
+                    var errors = fluent_validation.Errors.Select(error => error.ErrorMessage).ToList();
+                    _logger.LogError("Error al validar los datos de entrada.");
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
+                    _apiresponse.ErrorList = errors;
+                    return _apiresponse;
+
+                }
+                _mapper.Map(clanDTO, clan); 
+                clan.FechaActualizacion = DateTime.Now;
+                await _repository.Actualizar(clan); 
+                _apiresponse.statusCode = HttpStatusCode.OK;
+                _apiresponse.Result = clanDTO;
+                return _apiresponse;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Ocurrió un error al intentar actualizar el clan de id: " + id + ". Error: " + ex.Message);
+                _apiresponse.isExit = false;
+                _apiresponse.ErrorList = new List<string> { ex.ToString() }; 
             }
             return _apiresponse;
         }

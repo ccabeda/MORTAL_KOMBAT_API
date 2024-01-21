@@ -2,6 +2,7 @@
 using API_MortalKombat.Models.DTOs.PersonajeDTO;
 using API_MortalKombat.Service.IService;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -222,6 +223,23 @@ namespace API_MortalKombat.Controllers
             else
             {
                 return BadRequest(result);
+            }
+        }
+
+        [HttpPatch(("{id}"), Name = "UpdatePartialPersonaje")]
+        [Authorize(Roles = "1,2")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> UpdatePartiaPersonaje(int id, JsonPatchDocument<PersonajeUpdateDto> personajeUpdateDto)
+        {
+            var result = await _service.UpdatePartialPersonaje(id, personajeUpdateDto);
+            if (result.statusCode == HttpStatusCode.BadRequest)
+            {
+                return BadRequest(result);
+            }
+            else
+            {
+                return Ok(result);
             }
         }
     }

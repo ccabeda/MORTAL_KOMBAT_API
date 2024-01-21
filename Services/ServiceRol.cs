@@ -5,6 +5,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using API_MortalKombat.Models.DTOs.RolDTO;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace API_MortalKombat.Service
 {
@@ -205,6 +206,43 @@ namespace API_MortalKombat.Service
                 _logger.LogError("Ocurrió un error al intentar actualizar al personaje: " + ex.Message);
                 _apiresponse.isExit = false;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
+            }
+            return _apiresponse;
+        }
+
+        public async Task<APIResponse> UpdatePartialRol(int id, JsonPatchDocument<RolUpdateDto> rolUpdateDto)
+        {
+            try
+            {
+                if (rolUpdateDto == null || id == 0)
+                {
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
+                    _logger.LogError("Error al ingresar los datos.");
+                    return _apiresponse;
+                }
+                var rol = await _repository.ObtenerPorId(id);
+                if (rol == null)
+                {
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
+                    _logger.LogError("El id ingresado no esta registrado");
+                    return _apiresponse;
+                }
+                var rolDTO = _mapper.Map<RolUpdateDto>(rol);
+                rolUpdateDto.ApplyTo(rolDTO);
+                _mapper.Map(rolDTO, rol);
+                rol.FechaActualizacion = DateTime.Now;
+                await _repository.Actualizar(rol);
+                _apiresponse.statusCode = HttpStatusCode.OK;
+                _apiresponse.Result = rolDTO;
+                return _apiresponse;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Ocurrió un error al intentar actualizar el rol de id: " + id + ". Error: " + ex.Message);
+                _apiresponse.isExit = false;
+                _apiresponse.ErrorList = new List<string> { ex.ToString() };
             }
             return _apiresponse;
         }

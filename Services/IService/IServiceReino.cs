@@ -1,5 +1,6 @@
 ﻿using API_MortalKombat.Models;
 using API_MortalKombat.Models.DTOs.ReinoDTO;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API_MortalKombat.Service.IService
@@ -12,5 +13,6 @@ namespace API_MortalKombat.Service.IService
         public Task<APIResponse> CreateReino([FromBody] ReinoCreateDto reinoCreateDto);
         public Task<APIResponse> UpdateReino(int id, [FromBody] ReinoUpdateDto reinoUpdateDto);
         public Task<APIResponse> DeleteReino(int id);
+        public Task<APIResponse> UpdatePartialReino(int id, JsonPatchDocument<ReinoUpdateDto> reinoUpdateDto);
     }
 }

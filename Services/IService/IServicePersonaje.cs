@@ -1,5 +1,6 @@
 ﻿using API_MortalKombat.Models;
 using API_MortalKombat.Models.DTOs.PersonajeDTO;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API_MortalKombat.Service.IService
@@ -16,5 +17,6 @@ namespace API_MortalKombat.Service.IService
         public Task<APIResponse> RemoveStyleToPersonaje(int id_personaje, int id_estilo_de_pelea);
         public Task<APIResponse> UpdatePersonaje(int id, [FromBody] PersonajeUpdateDto personajeUpdateDto);
         public Task<APIResponse> DeletePersonaje(int id);
+        public Task<APIResponse> UpdatePartialPersonaje(int id, JsonPatchDocument<PersonajeUpdateDto> personajeUpdateDto);
     }
 }

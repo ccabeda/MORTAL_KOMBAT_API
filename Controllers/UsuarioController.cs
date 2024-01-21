@@ -4,6 +4,8 @@ using System.Net;
 using API_MortalKombat.Services.IService;
 using API_MortalKombat.Models.DTOs.UsuarioDTO;
 using Microsoft.AspNetCore.Authorization;
+using API_MortalKombat.Models.DTOs.RolDTO;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace API_MortalKombat.Controllers
 {
@@ -112,7 +114,7 @@ namespace API_MortalKombat.Controllers
         }
 
         [HttpPut(("{id}"), Name = "PutUsuariobyId")]
-        [Authorize(Roles = "1,2")]
+        [Authorize(Roles = "1")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -144,6 +146,23 @@ namespace API_MortalKombat.Controllers
             else
             {
                 return NotFound(result);
+            }
+        }
+
+        [HttpPatch(("{id}"), Name = "UpdatePartialUsuario")]
+        [Authorize(Roles = "1")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> UpdatePartiaUsuario(int id, JsonPatchDocument<UsuarioUpdateDto> usuarioUpdateDto)
+        {
+            var result = await _service.UpdatePartialUsuario(id, usuarioUpdateDto);
+            if (result.statusCode == HttpStatusCode.BadRequest)
+            {
+                return BadRequest(result);
+            }
+            else
+            {
+                return Ok(result);
             }
         }
     }

@@ -2,6 +2,7 @@
 using API_MortalKombat.Models.DTOs.ArmaDTO;
 using API_MortalKombat.Service.IService;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -16,7 +17,7 @@ namespace API_MortalKombat.Controllers
         {
             _service = service;
         }
-        
+
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -140,6 +141,23 @@ namespace API_MortalKombat.Controllers
             else
             {
                 return NotFound(result);
+            }
+        }
+
+        [HttpPatch(("{id}"), Name = "UpdatePartialArma")]
+        [Authorize(Roles = "1,2")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> UpdatePartiaArma(int id, JsonPatchDocument<ArmaUpdateDto> armaUpdateDto)
+        {
+            var result = await _service.UpdatePartialArma(id, armaUpdateDto);
+            if (result.statusCode == HttpStatusCode.BadRequest)
+            {
+                return BadRequest(result);
+            }
+            else
+            {
+                return Ok(result);
             }
         }
     }
