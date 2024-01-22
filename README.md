@@ -243,7 +243,8 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
   Id (URL), datos personales en formato Json (body)
 - Respuesta:  
 	200: Id, Nombre, ImagenURl, Alineación, Raza, Descripción, Clan y Reino (DTO) 
-	400: Error
+
+  400: Error
 
 ### Update Partial Personaje
 
@@ -600,7 +601,8 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
   	Datos personales en formato Json (body)
 - Respuesta:  
 	200: Id, Nombre, Descripción (DTO)
-	400, 404, 409: Error
+
+  400, 404, 409: Error
 
 ### Update Reino
 
@@ -742,7 +744,8 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
   	Datos personales en formato Json (body)
 - Respuesta:  
 	200: Id, Nombre, Descripción (DTO)
-	400, 404, 409: Error
+
+  400, 404, 409: Error
 
 ### Update Arma
 
@@ -883,7 +886,8 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
   	Datos personales en formato Json (body)
 - Respuesta:  
 	200: Id, Nombre, Descripción (DTO)
-	400, 404, 409: Error
+
+  400, 404, 409: Error
 
 ### Update EstiloDePelea
 
@@ -1027,7 +1031,8 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
   	Datos personales en formato Json (body)
 - Respuesta:  
 	200: Id, Nombre, Apellido, Mail, NombreDeUsuario (DTO)
-	400, 404, 409: Error
+
+  400, 404, 409: Error
 
 ### Update Usuario
 
@@ -1171,7 +1176,8 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
   	Datos personales en formato Json (body)
 - Respuesta:  
 	200: Id, Nombre, Descripción (DTO)
-	400, 404, 409: Error
+
+  400, 404, 409: Error
 
 ### Update Rol
 
