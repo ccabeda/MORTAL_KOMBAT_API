@@ -237,7 +237,6 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 | :-------- | :------- | :------------------------- |
 | `Personaje` | `PersonajeUpdateDto` | **Requerido** por body.  |
 
-
 - URL: https://localhost:7104/api/Personaje/{id}
 - Metodo: PUT
 - Parametros:
@@ -247,7 +246,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 
   404: Error
 
-  ### Update Partial Personaje
+### Update Partial Personaje
 
 [Autorización: Super Administrador y Administrador]
 ```http
@@ -260,7 +259,6 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 | Parametro | Tipo     | Descripción              |
 | :-------- | :------- | :------------------------- |
 | `JsonPatchDocument` | `PersonajeUpdateDto` | **Requerido** por body.  |
-
 
 - URL: https://localhost:7104/api/Personaje/{id}
 - Metodo: PATCH
@@ -294,7 +292,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 ### Metodos Many-to-Many
 - Al hacer una relación Many-to-Many entre Personaje y Arma, se creo un metodo para asociar un arma existente con un personaje existente, y uno para eliminar una asociasión entre Arma y Personaje.
 
-  ### Add Weapon To Personaje
+### Add Weapon To Personaje
 
 [Autorización: Super Administrador y Administrador]
 ```http
@@ -317,7 +315,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 
   404: Error
   
-    ### Remove Weapon To Personaje
+### Remove Weapon To Personaje
 
 [Autorización: Super Administrador y Administrador]
 ```http
@@ -340,10 +338,10 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 
   400, 404: Error
 
-  ### Metodos Many-to-Many
+### Metodos Many-to-Many
 - Al hacer una relación Many-to-Many entre Personaje y EstiloDePelea, se creo un metodo para asociar un arma existente con un personaje existente, y uno para eliminar una asociasión entre EstiloDePelea y Personaje.
 
-  ### Add Style To Personaje
+### Add Style To Personaje
 
 [Autorización: Super Administrador y Administrador]
 ```http
@@ -366,7 +364,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 
   404: Error
   
-    ### Remove Style To Personaje
+### Remove Style To Personaje
 
 [Autorización: Super Administrador y Administrador]
 ```http
@@ -389,7 +387,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 
   400, 404: Error
   
-  ## Clan
+## Clan
 
 ### Get All Clanes
 
@@ -487,7 +485,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 
  404: Error
 
-   ### Update Partial Clan
+### Update Partial Clan
 
 [Autorización: Super Administrador y Administrador]
 ```http
@@ -530,7 +528,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 
   404: Error
 
-  ## Reino
+## Reino
 
 ### Get All Reinos
 
@@ -628,7 +626,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 
   404: Error
 
-   ### Update Partial Reino
+### Update Partial Reino
 
 [Autorización: Super Administrador y Administrador]
 ```http
@@ -672,7 +670,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 
   404: Error
 
-    ## Arma
+## Arma
 
 ### Get All Armas
 
@@ -770,7 +768,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 
   404: Error
 
-     ### Update Partial Arma
+### Update Partial Arma
 
 [Autorización: Super Administrador y Administrador]
 ```http
@@ -813,7 +811,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 
   404: Error
 
-     ## Estilo De Pelea
+## Estilo De Pelea
 
 ### Get All EstilosDePeleas
 
@@ -912,7 +910,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 
   404: Error
 
-   ### Update Partial EstiloDePelea
+### Update Partial EstiloDePelea
 
 [Autorización: Super Administrador y Administrador]
 ```http
@@ -955,7 +953,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 
   404: Error
   
-      ## Usuario
+## Usuario
 
 ### Get All Usuarios
 
@@ -1098,7 +1096,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 
   404: Error
 
-     ## Rol
+## Rol
 
 ### Get All Roles
 
@@ -1199,7 +1197,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 
   404: Error
 
-  ### Update Partial Rol
+### Update Partial Rol
 
 [Autorización: Super Administrador]
 ```http
@@ -1219,6 +1217,8 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
   Id (URL), dato a actualizar (body)
 - Respuesta:
 	200: Id, Nombre, Descripción (DTO)
+
+  404: Error
 
 
 ### Delete Rol
@@ -1241,7 +1241,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 
   404: Error
 
-  ##  Login
+##  Login
 
 ### Login Usuario
 
