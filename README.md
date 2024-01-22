@@ -242,8 +242,8 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 - Parametros:
   Id (URL), datos personales en formato Json (body)
 - Respuesta:
-200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino (DTO)
-404: Error
+  	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino (DTO)
+	404: Error
 
 ### Update Partial Personaje
 
