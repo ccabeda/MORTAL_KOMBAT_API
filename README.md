@@ -115,10 +115,12 @@ NuGets necesarias para esta API:
 - FluentValidation
 - FluentValidation.DependencyInjectionExtensions
 - Microsoft.AspNetCore.Authentication.JwtBearer
+- Microsoft.AspNetCore.Mvc.NewtonsoftJson
 - Microsoft.EntityFrameworkCore
 - Microsoft.EntityFrameworkCore.InMemory
 - Microsoft.EntityFrameworkCore.SqlServer
 - Microsoft.EntityFrameworkCore.Tools
+- Newtonsoft.Json
 - Swashbuckle.AspNetCore
 
 ## Documentación Swagger
@@ -242,6 +244,30 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
   Id (URL), datos personales en formato Json (body)
 - Respuesta:
 	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino (DTO)
+
+  404: Error
+
+  ### Update Partial Personaje
+
+[Autorización: Super Administrador y Administrador]
+```http
+  PATCH localhost:{su_puerto}/api/Personaje/{id}
+```
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `Id` | `int` | **Requerido** por URL.  |
+
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `JsonPatchDocument` | `PersonajeUpdateDto` | **Requerido** por body.  |
+
+
+- URL: https://localhost:7104/api/Personaje/{id}
+- Metodo: PATCH
+- Parametros:
+  Id (URL), dato a actualizar (body)
+- Respuesta:
+	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, ClanId y ReinoId (DTO)
 
   404: Error
 
@@ -452,7 +478,6 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 | :-------- | :------- | :------------------------- |
 | `Clan` | `ClanUpdateDto` | **Requerido** por body.  |
 
-
 - URL: https://localhost:7104/api/Clan/{id}
 - Metodo: PUT
 - Parametros:
@@ -461,6 +486,29 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 	200: Id, Nombre, Descripción. (DTO)
 
  404: Error
+
+   ### Update Partial Clan
+
+[Autorización: Super Administrador y Administrador]
+```http
+  PATCH localhost:{su_puerto}/api/Clan/{id}
+```
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `Id` | `int` | **Requerido** por URL.  |
+
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `JsonPatchDocument` | `ClanUpdateDto` | **Requerido** por body.  |
+
+- URL: https://localhost:7104/api/Clan/{id}
+- Metodo: PATCH
+- Parametros:
+  Id (URL), dato a actualizar (body)
+- Respuesta:
+	200: Id, Nombre, Descripción. (DTO)
+
+  404: Error
 
 ### Delete Clan
 
@@ -571,11 +619,34 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 | :-------- | :------- | :------------------------- |
 | `Reino` | `ReinoUpdateDto` | **Requerido** por body.  |
 
-
 - URL: https://localhost:7104/api/Reino/{id}
 - Metodo: PUT
 - Parametros:
   Id (URL), datos personales en formato Json (body)
+- Respuesta:
+	200: Id, Nombre, Descripción. (DTO)
+
+  404: Error
+
+   ### Update Partial Reino
+
+[Autorización: Super Administrador y Administrador]
+```http
+  PATCH localhost:{su_puerto}/api/Reino/{id}
+```
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `Id` | `int` | **Requerido** por URL.  |
+
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `JsonPatchDocument` | `ReinoUpdateDto` | **Requerido** por body.  |
+
+
+- URL: https://localhost:7104/api/Reino/{id}
+- Metodo: PATCH
+- Parametros:
+  Id (URL), dato a actualizar (body)
 - Respuesta:
 	200: Id, Nombre, Descripción. (DTO)
 
@@ -690,11 +761,33 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 | :-------- | :------- | :------------------------- |
 | `Arma` | `ArmaUpdateDto` | **Requerido** por body.  |
 
-
 - URL: https://localhost:7104/api/Arma/{id}
 - Metodo: PUT
 - Parametros:
   Id (URL), datos personales en formato Json (body)
+- Respuesta:
+	200: Id, Nombre, Descripción. (DTO)
+
+  404: Error
+
+     ### Update Partial Arma
+
+[Autorización: Super Administrador y Administrador]
+```http
+  PATCH localhost:{su_puerto}/api/Arma/{id}
+```
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `Id` | `int` | **Requerido** por URL.  |
+
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `JsonPatchDocument` | `ArmaUpdateDto` | **Requerido** por body.  |
+
+- URL: https://localhost:7104/api/Arma/{id}
+- Metodo: PATCH
+- Parametros:
+  Id (URL), dato a actualizar (body)
 - Respuesta:
 	200: Id, Nombre, Descripción. (DTO)
 
@@ -819,6 +912,29 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 
   404: Error
 
+   ### Update Partial EstiloDePelea
+
+[Autorización: Super Administrador y Administrador]
+```http
+  PATCH localhost:{su_puerto}/api/EstiloDePelea/{id}
+```
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `Id` | `int` | **Requerido** por URL.  |
+
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `JsonPatchDocument` | `EstiloDePeleaUpdateDto` | **Requerido** por body.  |
+
+- URL: https://localhost:7104/api/EstiloDePelea/{id}
+- Metodo: PATCH
+- Parametros:
+  Id (URL), dato a actualizar (body)
+- Respuesta:
+	200: Id, Nombre, Descripción. (DTO)
+
+  404: Error
+
 ### Delete EstiloDePelea
 
 [Autorización: Super Administrador y Administrador]
@@ -918,7 +1034,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 
 ### Update Usuario
 
-[Autorización: Super Administrador y Administrador]
+[Autorización: Super Administrador]
 ```http
   PUT localhost:{su_puerto}/api/Usuario/{id}
 ```
@@ -934,6 +1050,29 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 - Metodo: PUT
 - Parametros:
   Id (URL), datos personales en formato Json (body)
+- Respuesta:
+	200: Id, Nombre, Apellido, Mail, NombreDeUsuario (DTO)
+
+  404: Error
+
+### Update Partial Usuario
+
+[Autorización: Super Administrador]
+```http
+  PATCH localhost:{su_puerto}/api/Usuario/{id}
+```
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `Id` | `int` | **Requerido** por URL.  |
+
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `JsonPatchDocument` | `UsuarioUpdateDto` | **Requerido** por body.  |
+
+- URL: https://localhost:7104/api/Usuario/{id}
+- Metodo: PATCH
+- Parametros:
+  Id (URL), dato a actualizar (body)
 - Respuesta:
 	200: Id, Nombre, Apellido, Mail, NombreDeUsuario (DTO)
 
@@ -1059,6 +1198,28 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 	200: Id, Nombre, Descripción (DTO)
 
   404: Error
+
+  ### Update Partial Rol
+
+[Autorización: Super Administrador]
+```http
+  PATCH localhost:{su_puerto}/api/Rol/{id}
+```
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `Id` | `int` | **Requerido** por URL.  |
+
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `JsonPatchDocument` | `RolUpdateDto` | **Requerido** por body.  |
+
+- URL: https://localhost:7104/api/Rol/{id}
+- Metodo: PATCH
+- Parametros:
+  Id (URL), dato a actualizar (body)
+- Respuesta:
+	200: Id, Nombre, Descripción (DTO)
+
 
 ### Delete Rol
 
