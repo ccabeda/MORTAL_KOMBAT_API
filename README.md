@@ -141,7 +141,7 @@ Hay dos maneras de utilizar la API, con la interfaz Swagger, y con la aplicació
 
 Se añadió un botón de autorización arriba a la derecha, donde se deberá ingresar la palabra clave "Bearer" seguido del token que se recibe una vez iniciada sesión. Dependiendo el rol del usuario con el que inicies sesión, podrás acceder o no al Endpoint.
 
-## PostMan
+## Postman
 
 Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas utilizar y en la parte de Headers, seleccionas Key = Authorization y en la parte de Value ingresas la palabra "Bearer" seguido del token. Dependiendo el rol del usuario con el que inicies sesión, podrás acceder o no al Endpoint.
 
