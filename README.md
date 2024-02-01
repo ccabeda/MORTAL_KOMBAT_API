@@ -16,6 +16,7 @@ Proximamente agregare una interfaz simple, ya que mi objetivo es enfocarme en el
   - [Get Personaje by Name](#Get-Personaje-By-Name)
   - [Create Personaje](#Create-Personaje)
   - [Update Personaje](#Update-Personaje)
+  - [Update Partial Personaje](#Update-Partial-Personaje)
   - [Delete Personaje](#Delete-Personaje)
   - [Add Weapon To Personaje](#Add-Weapon-To-Personaje)
   - [Remove Weapon To Personaje](#Remove-Weapon-To-Personaje)
@@ -27,6 +28,7 @@ Proximamente agregare una interfaz simple, ya que mi objetivo es enfocarme en el
   - [Get Clan by Name](#Get-Clan-By-Name)
   - [Create Clan](#Create-Clan)
   - [Update Clan](#Update-Clan)
+  - [Update Partial Clan](#Update-Partial-Clan)
   - [Delete Clan](#Delete-Clan)
 - [Reino](#Reino)
 	- [Get All Reinos](#Get-All-Reinos)
@@ -34,6 +36,7 @@ Proximamente agregare una interfaz simple, ya que mi objetivo es enfocarme en el
   - [Get Reino by Name](#Get-Reino-By-Name)
   - [Create Reino](#Create-Reino)
   - [Update Reino](#Update-Reino)
+  - [Update Partial Reino](#Update-Partial-Reino)
   - [Delete Reino](#Delete-Reino)
 - [Arma](#Arma)
 	- [Get All Armas](#Get-All-Armas)
@@ -41,6 +44,7 @@ Proximamente agregare una interfaz simple, ya que mi objetivo es enfocarme en el
   - [Get Arma by Name](#Get-Arma-By-Name)
   - [Create Arma](#Create-Arma)
   - [Update Arma](#Update-Arma)
+  - [Update Partial Arma](#Update-Partial-Arma)
   - [Delete Arma](#Delete-Arma)
 - [Estilo De Pelea](#Estilo-De-Pelea)
 	- [Get All EstilosDePeleas](#Get-All-Estilos-De-Peleas)
@@ -48,6 +52,7 @@ Proximamente agregare una interfaz simple, ya que mi objetivo es enfocarme en el
   - [Get EstiloDePelea by Name](#Get-Estilo-De-Pelea-By-Name)
   - [Create EstiloDePelea](#Create-Estilo-De-Pelea)
   - [Update EstiloDePelea](#Update-Estilo-De-Pelea)
+  - [Update Partial EstiloDePelea](#Update-Partial-Estilo-De-Pelea)
   - [Delete EstiloDePelea](#Delete-Estilo-De-Pelea)
 - [Usuario](#Usuario)
 	- [Get All Usuarios](#Get-All-Usuarios)
@@ -55,8 +60,17 @@ Proximamente agregare una interfaz simple, ya que mi objetivo es enfocarme en el
   - [Get Usuario by Name](#Get-Usuario-By-Name)
   - [Create Usuario](#Create-Usuario)
   - [Update Usuario](#Update-Usuario)
+  - [Update Partial Usuario](#Update-Partial-Usuario)
   - [Delete Usuario](#Delete-Usuario)
-  - [Login](#Login)
+- [Rol](#Rol)
+	- [Get All Roles](#Get-All-Roles)
+   	- [Get Rol by Id](#Get-Rol-By-Id)
+  - [Get Rol by Name](#Get-Rol-By-Name)
+  - [Create Rol](#Create-Rol)
+  - [Update Rol](#Update-Rol)
+  - [Update Partial Rol](#Update-Partial-Rol)
+  - [Delete Rol](#Delete-Rol)
+ - [Login](#Login)
 	- [Login Usuario](#Login-Usuario)
 
 
@@ -101,10 +115,12 @@ NuGets necesarias para esta API:
 - FluentValidation
 - FluentValidation.DependencyInjectionExtensions
 - Microsoft.AspNetCore.Authentication.JwtBearer
+- Microsoft.AspNetCore.Mvc.NewtonsoftJson
 - Microsoft.EntityFrameworkCore
 - Microsoft.EntityFrameworkCore.InMemory
 - Microsoft.EntityFrameworkCore.SqlServer
 - Microsoft.EntityFrameworkCore.Tools
+- Newtonsoft.Json
 - Swashbuckle.AspNetCore
 
 ## Documentación Swagger
@@ -125,7 +141,7 @@ Hay dos maneras de utilizar la API, con la interfaz Swagger, y con la aplicació
 
 Se añadió un botón de autorización arriba a la derecha, donde se deberá ingresar la palabra clave "Bearer" seguido del token que se recibe una vez iniciada sesión. Dependiendo el rol del usuario con el que inicies sesión, podrás acceder o no al Endpoint.
 
-## PostMan
+## Postman
 
 Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas utilizar y en la parte de Headers, seleccionas Key = Authorization y en la parte de Value ingresas la palabra "Bearer" seguido del token. Dependiendo el rol del usuario con el que inicies sesión, podrás acceder o no al Endpoint.
 
@@ -221,13 +237,35 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 | :-------- | :------- | :------------------------- |
 | `Personaje` | `PersonajeUpdateDto` | **Requerido** por body.  |
 
-
 - URL: https://localhost:7104/api/Personaje/{id}
 - Metodo: PUT
 - Parametros:
   Id (URL), datos personales en formato Json (body)
+- Respuesta:  
+	200: Id, Nombre, ImagenURl, Alineación, Raza, Descripción, Clan y Reino (DTO) 
+
+  400: Error
+
+### Update Partial Personaje
+
+[Autorización: Super Administrador y Administrador]
+```http
+  PATCH localhost:{su_puerto}/api/Personaje/{id}
+```
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `Id` | `int` | **Requerido** por URL.  |
+
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `JsonPatchDocument` | `PersonajeUpdateDto` | **Requerido** por body.  |
+
+- URL: https://localhost:7104/api/Personaje/{id}
+- Metodo: PATCH
+- Parametros:
+  Id (URL), dato a actualizar (body)
 - Respuesta:
-	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, Clan y Reino (DTO)
+	200: Id, Nombre, Alineación, Raza, Descripción, Estilo De Pelea, Armas, ClanId y ReinoId (DTO)
 
   404: Error
 
@@ -254,7 +292,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 ### Metodos Many-to-Many
 - Al hacer una relación Many-to-Many entre Personaje y Arma, se creo un metodo para asociar un arma existente con un personaje existente, y uno para eliminar una asociasión entre Arma y Personaje.
 
-  ### Add Weapon To Personaje
+### Add Weapon To Personaje
 
 [Autorización: Super Administrador y Administrador]
 ```http
@@ -277,7 +315,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 
   404: Error
   
-    ### Remove Weapon To Personaje
+### Remove Weapon To Personaje
 
 [Autorización: Super Administrador y Administrador]
 ```http
@@ -300,10 +338,10 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 
   400, 404: Error
 
-  ### Metodos Many-to-Many
+### Metodos Many-to-Many
 - Al hacer una relación Many-to-Many entre Personaje y EstiloDePelea, se creo un metodo para asociar un arma existente con un personaje existente, y uno para eliminar una asociasión entre EstiloDePelea y Personaje.
 
-  ### Add Style To Personaje
+### Add Style To Personaje
 
 [Autorización: Super Administrador y Administrador]
 ```http
@@ -326,7 +364,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 
   404: Error
   
-    ### Remove Style To Personaje
+### Remove Style To Personaje
 
 [Autorización: Super Administrador y Administrador]
 ```http
@@ -349,7 +387,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 
   400, 404: Error
   
-  ## Clan
+## Clan
 
 ### Get All Clanes
 
@@ -438,7 +476,6 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 | :-------- | :------- | :------------------------- |
 | `Clan` | `ClanUpdateDto` | **Requerido** por body.  |
 
-
 - URL: https://localhost:7104/api/Clan/{id}
 - Metodo: PUT
 - Parametros:
@@ -447,6 +484,29 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 	200: Id, Nombre, Descripción. (DTO)
 
  404: Error
+
+### Update Partial Clan
+
+[Autorización: Super Administrador y Administrador]
+```http
+  PATCH localhost:{su_puerto}/api/Clan/{id}
+```
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `Id` | `int` | **Requerido** por URL.  |
+
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `JsonPatchDocument` | `ClanUpdateDto` | **Requerido** por body.  |
+
+- URL: https://localhost:7104/api/Clan/{id}
+- Metodo: PATCH
+- Parametros:
+  Id (URL), dato a actualizar (body)
+- Respuesta:
+	200: Id, Nombre, Descripción. (DTO)
+
+  404: Error
 
 ### Delete Clan
 
@@ -468,7 +528,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 
   404: Error
 
-  ## Reino
+## Reino
 
 ### Get All Reinos
 
@@ -541,7 +601,8 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
   	Datos personales en formato Json (body)
 - Respuesta:  
 	200: Id, Nombre, Descripción (DTO)
-	400, 404, 409: Error
+
+  400, 404, 409: Error
 
 ### Update Reino
 
@@ -557,11 +618,34 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 | :-------- | :------- | :------------------------- |
 | `Reino` | `ReinoUpdateDto` | **Requerido** por body.  |
 
-
 - URL: https://localhost:7104/api/Reino/{id}
 - Metodo: PUT
 - Parametros:
   Id (URL), datos personales en formato Json (body)
+- Respuesta:
+	200: Id, Nombre, Descripción. (DTO)
+
+  404: Error
+
+### Update Partial Reino
+
+[Autorización: Super Administrador y Administrador]
+```http
+  PATCH localhost:{su_puerto}/api/Reino/{id}
+```
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `Id` | `int` | **Requerido** por URL.  |
+
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `JsonPatchDocument` | `ReinoUpdateDto` | **Requerido** por body.  |
+
+
+- URL: https://localhost:7104/api/Reino/{id}
+- Metodo: PATCH
+- Parametros:
+  Id (URL), dato a actualizar (body)
 - Respuesta:
 	200: Id, Nombre, Descripción. (DTO)
 
@@ -587,7 +671,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 
   404: Error
 
-    ## Arma
+## Arma
 
 ### Get All Armas
 
@@ -660,7 +744,8 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
   	Datos personales en formato Json (body)
 - Respuesta:  
 	200: Id, Nombre, Descripción (DTO)
-	400, 404, 409: Error
+
+  400, 404, 409: Error
 
 ### Update Arma
 
@@ -676,11 +761,33 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 | :-------- | :------- | :------------------------- |
 | `Arma` | `ArmaUpdateDto` | **Requerido** por body.  |
 
-
 - URL: https://localhost:7104/api/Arma/{id}
 - Metodo: PUT
 - Parametros:
   Id (URL), datos personales en formato Json (body)
+- Respuesta:
+	200: Id, Nombre, Descripción. (DTO)
+
+  404: Error
+
+### Update Partial Arma
+
+[Autorización: Super Administrador y Administrador]
+```http
+  PATCH localhost:{su_puerto}/api/Arma/{id}
+```
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `Id` | `int` | **Requerido** por URL.  |
+
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `JsonPatchDocument` | `ArmaUpdateDto` | **Requerido** por body.  |
+
+- URL: https://localhost:7104/api/Arma/{id}
+- Metodo: PATCH
+- Parametros:
+  Id (URL), dato a actualizar (body)
 - Respuesta:
 	200: Id, Nombre, Descripción. (DTO)
 
@@ -706,7 +813,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 
   404: Error
 
-     ## Estilo De Pelea
+## Estilo De Pelea
 
 ### Get All EstilosDePeleas
 
@@ -779,7 +886,8 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
   	Datos personales en formato Json (body)
 - Respuesta:  
 	200: Id, Nombre, Descripción (DTO)
-	400, 404, 409: Error
+
+  400, 404, 409: Error
 
 ### Update EstiloDePelea
 
@@ -805,6 +913,29 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 
   404: Error
 
+### Update Partial EstiloDePelea
+
+[Autorización: Super Administrador y Administrador]
+```http
+  PATCH localhost:{su_puerto}/api/EstiloDePelea/{id}
+```
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `Id` | `int` | **Requerido** por URL.  |
+
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `JsonPatchDocument` | `EstiloDePeleaUpdateDto` | **Requerido** por body.  |
+
+- URL: https://localhost:7104/api/EstiloDePelea/{id}
+- Metodo: PATCH
+- Parametros:
+  Id (URL), dato a actualizar (body)
+- Respuesta:
+	200: Id, Nombre, Descripción. (DTO)
+
+  404: Error
+
 ### Delete EstiloDePelea
 
 [Autorización: Super Administrador y Administrador]
@@ -825,7 +956,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 
   404: Error
   
-      ## Usuario
+## Usuario
 
 ### Get All Usuarios
 
@@ -900,11 +1031,12 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
   	Datos personales en formato Json (body)
 - Respuesta:  
 	200: Id, Nombre, Apellido, Mail, NombreDeUsuario (DTO)
-	400, 404, 409: Error
+
+  400, 404, 409: Error
 
 ### Update Usuario
 
-[Autorización: Super Administrador y Administrador]
+[Autorización: Super Administrador]
 ```http
   PUT localhost:{su_puerto}/api/Usuario/{id}
 ```
@@ -920,6 +1052,29 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 - Metodo: PUT
 - Parametros:
   Id (URL), datos personales en formato Json (body)
+- Respuesta:
+	200: Id, Nombre, Apellido, Mail, NombreDeUsuario (DTO)
+
+  404: Error
+
+### Update Partial Usuario
+
+[Autorización: Super Administrador]
+```http
+  PATCH localhost:{su_puerto}/api/Usuario/{id}
+```
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `Id` | `int` | **Requerido** por URL.  |
+
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `JsonPatchDocument` | `UsuarioUpdateDto` | **Requerido** por body.  |
+
+- URL: https://localhost:7104/api/Usuario/{id}
+- Metodo: PATCH
+- Parametros:
+  Id (URL), dato a actualizar (body)
 - Respuesta:
 	200: Id, Nombre, Apellido, Mail, NombreDeUsuario (DTO)
 
@@ -945,7 +1100,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 
   404: Error
 
-     ## Rol
+## Rol
 
 ### Get All Roles
 
@@ -1021,7 +1176,8 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
   	Datos personales en formato Json (body)
 - Respuesta:  
 	200: Id, Nombre, Descripción (DTO)
-	400, 404, 409: Error
+
+  400, 404, 409: Error
 
 ### Update Rol
 
@@ -1046,6 +1202,30 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 
   404: Error
 
+### Update Partial Rol
+
+[Autorización: Super Administrador]
+```http
+  PATCH localhost:{su_puerto}/api/Rol/{id}
+```
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `Id` | `int` | **Requerido** por URL.  |
+
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `JsonPatchDocument` | `RolUpdateDto` | **Requerido** por body.  |
+
+- URL: https://localhost:7104/api/Rol/{id}
+- Metodo: PATCH
+- Parametros:
+  Id (URL), dato a actualizar (body)
+- Respuesta:
+	200: Id, Nombre, Descripción (DTO)
+
+  404: Error
+
+
 ### Delete Rol
 
 [Autorización: Super Administrador]
@@ -1066,7 +1246,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 
   404: Error
 
-  ##  Login
+##  Login
 
 ### Login Usuario
 
