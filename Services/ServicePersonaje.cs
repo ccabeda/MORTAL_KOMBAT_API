@@ -15,13 +15,16 @@ namespace API_MortalKombat.Service
         private readonly IRepositoryPersonaje _repository;
         private readonly IRepositoryArma _repositoryArma;
         private readonly IRepositoryEstiloDePelea _repositoryEstiloDePelea;
+        private readonly IRepositoryClan _repositoryClan;
+        private readonly IRepositoryReino _repositoryReino;
         private readonly IMapper _mapper;
         private readonly APIResponse _apiresponse;
         private readonly ILogger<ServicePersonaje> _logger;
         private readonly IValidator<PersonajeCreateDto> _validator;
         private readonly IValidator<PersonajeUpdateDto> _validatorUpdate;
         public ServicePersonaje(IMapper mapper, APIResponse apiresponse, ILogger<ServicePersonaje> logger, IRepositoryPersonaje repository, IValidator<PersonajeCreateDto> validator, 
-                                IValidator<PersonajeUpdateDto> validatorUpdate, IRepositoryArma repositoryArma, IRepositoryEstiloDePelea repositoryEstiloDePelea)
+                                IValidator<PersonajeUpdateDto> validatorUpdate, IRepositoryArma repositoryArma, IRepositoryEstiloDePelea repositoryEstiloDePelea, 
+                                IRepositoryClan repositoryClan, IRepositoryReino repositoryReino)
         {
             _mapper = mapper;
             _apiresponse = apiresponse;
@@ -31,6 +34,8 @@ namespace API_MortalKombat.Service
             _validatorUpdate = validatorUpdate;
             _repositoryArma = repositoryArma;
             _repositoryEstiloDePelea = repositoryEstiloDePelea;
+            _repositoryClan = repositoryClan;
+            _repositoryReino = repositoryReino;
         }
 
         public async Task<APIResponse> GetPersonajeById(int id)
@@ -144,6 +149,22 @@ namespace API_MortalKombat.Service
                     _logger.LogError("Ya existe un personaje con el mismo nombre.");
                     return _apiresponse;
                 }
+                var verificar_reinoid = _repositoryReino.ObtenerPorId(personajeCreateDto.ReinoId);
+                if (verificar_reinoid == null)
+                {
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.BadRequest; // Conflict indica que ya existe un recurso con el mismo nombre
+                    _logger.LogError("El id del reino al que pertenece no se encuentra registrado;");
+                    return _apiresponse;
+                }
+                var verificar_clanid = _repositoryClan.ObtenerPorId(personajeCreateDto.ClanId);
+                if (verificar_clanid == null)
+                {
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.BadRequest; // Conflict indica que ya existe un recurso con el mismo nombre
+                    _logger.LogError("El id del clan al que pertenece no se encuentra registrado;");
+                    return _apiresponse;
+                }
                 var personaje = _mapper.Map<Personaje>(personajeCreateDto);
                 personaje.FechaCreacion = DateTime.Now;
                 await _repository.Crear(personaje);
@@ -222,6 +243,22 @@ namespace API_MortalKombat.Service
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.NotFound;
                     _logger.LogError("No se encuentra registrado el id ingresado.");
+                    return _apiresponse;
+                }
+                var verificar_reinoid = _repositoryReino.ObtenerPorId(personajeUpdateDto.ReinoId);
+                if (verificar_reinoid == null)
+                {
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.BadRequest; // Conflict indica que ya existe un recurso con el mismo nombre
+                    _logger.LogError("El id del reino ingresado no se encuentra registrado;");
+                    return _apiresponse;
+                }
+                var verificar_clanid = _repositoryClan.ObtenerPorId(personajeUpdateDto.ClanId);
+                if (verificar_clanid == null)
+                {
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.BadRequest; // Conflict indica que ya existe un recurso con el mismo nombre
+                    _logger.LogError("El id del clan ingresado no se encuentra registrado;");
                     return _apiresponse;
                 }
                 _mapper.Map(personajeUpdateDto, existePersonaje);

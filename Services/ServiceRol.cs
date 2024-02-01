@@ -6,21 +6,24 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using API_MortalKombat.Models.DTOs.RolDTO;
 using Microsoft.AspNetCore.JsonPatch;
+using API_MortalKombat.Repository;
 
 namespace API_MortalKombat.Service
 {
     public class ServiceRol : IServiceRol
     {
         private readonly IRepositoryRol _repository;
+        private readonly IRepositoryUsuario _repositoryUsuario;
         private readonly IMapper _mapper;
         private readonly APIResponse _apiresponse;
         private readonly ILogger<ServiceRol> _logger;
-        public ServiceRol(IMapper mapper, APIResponse apiresponse, ILogger<ServiceRol> logger, IRepositoryRol repository)
+        public ServiceRol(IMapper mapper, APIResponse apiresponse, ILogger<ServiceRol> logger, IRepositoryRol repository, IRepositoryUsuario repositoryUsuario)
         {
             _mapper = mapper;
             _apiresponse = apiresponse;
             _logger = logger;
             _repository = repository;
+            _repositoryUsuario = repositoryUsuario;
         }
 
         public async Task<APIResponse> GetRoles()
@@ -158,6 +161,17 @@ namespace API_MortalKombat.Service
                     _logger.LogError("El rol no se encuentra registrado.");
                     _apiresponse.isExit = false;
                     return _apiresponse;
+                }
+                var lista_usuarios = await _repositoryUsuario.ObtenerTodos();
+                foreach (var i in lista_usuarios) //aqui podria usarse el metodo cascada para que se borre todo, pero decidi agergarle esto para mas seguridad
+                {
+                    if (i.RolId == id)
+                    {
+                        _apiresponse.statusCode = HttpStatusCode.NotFound;
+                        _logger.LogError("El Rol no se puede eliminar porque el usuario " + i.NombreDeUsuario + " de id " + i.Id + " contiene como RolId este rol.");
+                        _apiresponse.isExit = false;
+                        return _apiresponse;
+                    }
                 }
                 await _repository.Eliminar(rol);
                 _apiresponse.statusCode = HttpStatusCode.OK;

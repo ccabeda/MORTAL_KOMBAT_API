@@ -37,6 +37,7 @@ namespace API_MortalKombat.Service
                 {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.NotFound;
+                    //_apiresponse.ErrorList = new List<string> { "El id 0 no se puede utilizar." }; asi seria sin usar logger (mas practico)
                     _logger.LogError("El id 0 no se puede utilizar.");
                     return _apiresponse;
                 }

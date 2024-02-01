@@ -1,5 +1,6 @@
 ﻿using API_MortalKombat.Models;
 using API_MortalKombat.Models.DTOs.ReinoDTO;
+using API_MortalKombat.Repository;
 using API_MortalKombat.Repository.IRepository;
 using API_MortalKombat.Service.IService;
 using AutoMapper;
@@ -13,20 +14,22 @@ namespace API_MortalKombat.Service
     public class ServiceReino : IServiceReino
     {
         private readonly IRepositoryReino _repository;
+        private readonly IRepositoryPersonaje _repositoryPersonaje;
         private readonly IMapper _mapper;
         private readonly APIResponse _apiresponse;
         private readonly ILogger<ServiceReino> _logger;
         private readonly IValidator<ReinoCreateDto> _validator;
         private readonly IValidator<ReinoUpdateDto> _validatorUpdate;
         public ServiceReino(IMapper mapper, APIResponse apiresponse, ILogger<ServiceReino> logger, IRepositoryReino repository, IValidator<ReinoCreateDto> validator, 
-            IValidator<ReinoUpdateDto> validatorUpdate)
+            IValidator<ReinoUpdateDto> validatorUpdate, IRepositoryPersonaje repositoryPersonaje)
         {
             _mapper = mapper;
             _apiresponse = apiresponse;
             _logger = logger;
             _repository = repository;
             _validator = validator;
-            _validatorUpdate = validatorUpdate;      
+            _validatorUpdate = validatorUpdate;
+            _repositoryPersonaje = repositoryPersonaje;
         }
 
         public async Task<APIResponse> GetReinoById(int id)
@@ -175,6 +178,17 @@ namespace API_MortalKombat.Service
                     _logger.LogError("El reino no se encuentra registrado.");
                     _apiresponse.isExit = false;
                     return _apiresponse;
+                }
+                var lista_personajes = await _repositoryPersonaje.ObtenerTodos();
+                foreach (var i in lista_personajes) //aqui podria usarse el metodo cascada para que se borre todo, pero decidi agergarle esto para mas seguridad
+                {
+                    if (i.ClanId == id)
+                    {
+                        _apiresponse.statusCode = HttpStatusCode.NotFound;
+                        _logger.LogError("El Reino no se puede eliminar porque el personaje " + i.Nombre + " de id " + i.Id + " contiene como ReinoId este reino.");
+                        _apiresponse.isExit = false;
+                        return _apiresponse;
+                    }
                 }
                 await _repository.Eliminar(reino);
                 _apiresponse.statusCode = HttpStatusCode.OK;

@@ -6,6 +6,7 @@ using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Net;
 
 namespace API_MortalKombat.Service
@@ -13,13 +14,14 @@ namespace API_MortalKombat.Service
     public class ServiceClan : IServiceClan
     {
         private readonly IRepositoryClan _repository;
+        private readonly IRepositoryPersonaje _repositoryPersonaje;
         private readonly IMapper _mapper;
         private readonly APIResponse _apiresponse;
         private readonly ILogger<ServiceClan> _logger;
         private readonly IValidator<ClanCreateDto> _validator;
         private readonly IValidator<ClanUpdateDto> _validatorUpdate;
         public ServiceClan(IMapper mapper, APIResponse apiresponse, ILogger<ServiceClan> logger, IRepositoryClan repository, IValidator<ClanCreateDto> validator, 
-            IValidator<ClanUpdateDto> validatorUpdate)
+            IValidator<ClanUpdateDto> validatorUpdate, IRepositoryPersonaje repositoryPersonaje)
         {
             _mapper = mapper;
             _apiresponse = apiresponse;
@@ -27,6 +29,7 @@ namespace API_MortalKombat.Service
             _repository = repository;
             _validator = validator;
             _validatorUpdate = validatorUpdate;   
+            _repositoryPersonaje = repositoryPersonaje;
         }
 
         public async Task<APIResponse> GetClanById(int id)
@@ -175,6 +178,17 @@ namespace API_MortalKombat.Service
                     _logger.LogError("El clan no se encuentra registrado.");
                     _apiresponse.isExit = false;
                     return _apiresponse;
+                }
+                var lista_personajes = await _repositoryPersonaje.ObtenerTodos();
+                foreach (var i in lista_personajes) //aqui podria usarse el metodo cascada para que se borre todo, pero decidi agergarle esto para mas seguridad
+                {
+                    if (i.ClanId == id )
+                    {
+                        _apiresponse.statusCode = HttpStatusCode.NotFound;
+                        _logger.LogError("El clan no se puede eliminar porque el personaje "+ i.Nombre+ " de id "+ i.Id +" contiene como ClanId este clan.");
+                        _apiresponse.isExit = false;
+                        return _apiresponse;
+                    }
                 }
                 await _repository.Eliminar(clan);
                 _apiresponse.statusCode = HttpStatusCode.OK;
