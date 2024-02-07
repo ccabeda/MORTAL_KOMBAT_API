@@ -1,5 +1,5 @@
 # CRUD API REST - MORTAL KOMBAT
-
+-- Para esta API se utilizó la version .NET 8.0
 CRUD hecho con C# y .NET (NetCore). Aplique patrones como DTO, Repository, IoC, Inyección de dependencias, además de validación de datos (Fluent Validation) y mapeos (Automapper). Como base de datos utilize MS SQL Server, y se versiono en Git.
 Proximamente agregare una interfaz simple, ya que mi objetivo es enfocarme en el Back-end.
 
@@ -110,18 +110,17 @@ Una vez que hayas configurado la base de datos y guardado los cambios, podés ej
 ## NuGets
 
 NuGets necesarias para esta API:
-- AutoMapper
-- AutoMapper.Extensions.Microsoft.DependencyInjection
-- FluentValidation
-- FluentValidation.DependencyInjectionExtensions
-- Microsoft.AspNetCore.Authentication.JwtBearer
-- Microsoft.AspNetCore.Mvc.NewtonsoftJson
-- Microsoft.EntityFrameworkCore
-- Microsoft.EntityFrameworkCore.InMemory
-- Microsoft.EntityFrameworkCore.SqlServer
-- Microsoft.EntityFrameworkCore.Tools
-- Newtonsoft.Json
-- Swashbuckle.AspNetCore
+- AutoMapper -versión 13.0.0
+- FluentValidationi -versón 11.9.0 
+- FluentValidation.DependencyInjectionExtensions -versón 11.9.0
+- Microsoft.AspNetCore.Authentication.JwtBearer -versón 8.0.1
+- Microsoft.AspNetCore.Mvc.NewtonsoftJson -versón 8.0.1
+- Microsoft.EntityFrameworkCore -versón 8.0.1
+- Microsoft.EntityFrameworkCore.InMemory -versón 8.0.1
+- Microsoft.EntityFrameworkCore.SqlServer -versón 8.0.1
+- Microsoft.EntityFrameworkCore.Tools -versón 8.0.1
+- Newtonsoft.Json -versón 13.0.3
+- Swashbuckle.AspNetCore -versón 6.5.0
 
 ## Documentación Swagger
 
