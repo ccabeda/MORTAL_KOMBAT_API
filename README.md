@@ -1,5 +1,5 @@
 # CRUD API REST - MORTAL KOMBAT
--- Para esta API se utilizó la version .NET 8.0
+-- Para esta API se utilizó la version .NET 8.0.
 CRUD hecho con C# y .NET (NetCore). Aplique patrones como DTO, Repository, IoC, Inyección de dependencias, además de validación de datos (Fluent Validation) y mapeos (Automapper). Como base de datos utilize MS SQL Server, y se versiono en Git.
 Proximamente agregare una interfaz simple, ya que mi objetivo es enfocarme en el Back-end.
 
