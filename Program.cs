@@ -11,13 +11,11 @@ using API_MortalKombat.Repository;
 using API_MortalKombat.Repository.IRepository;
 using API_MortalKombat.Service;
 using API_MortalKombat.Service.IService;
-using API_MortalKombat.Services;
 using API_MortalKombat.Services.IService;
 using API_MortalKombat.Validations;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
@@ -116,7 +114,6 @@ builder.Services.AddScoped<IValidator<EstiloDePeleaCreateDto>, EstiloDePeleaCrea
 builder.Services.AddScoped<IValidator<EstiloDePeleaUpdateDto>, EstiloDePeleaUpdateValidator>();
 builder.Services.AddScoped<IValidator<UsuarioCreateDto>, UsuarioCreateValidator>();
 builder.Services.AddScoped<IValidator<UsuarioUpdateDto>, UsuarioUpdateValidator>();
-
 
 var app = builder.Build();
 

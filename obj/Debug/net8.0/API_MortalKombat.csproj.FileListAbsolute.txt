@@ -14,7 +14,6 @@ C:\Users\cabed\OneDrive\Desktop\Curso\c_sharp\API_MortalKombat\bin\Debug\net8.0\
 C:\Users\cabed\OneDrive\Desktop\Curso\c_sharp\API_MortalKombat\bin\Debug\net8.0\API_MortalKombat.dll
 C:\Users\cabed\OneDrive\Desktop\Curso\c_sharp\API_MortalKombat\bin\Debug\net8.0\API_MortalKombat.pdb
 C:\Users\cabed\OneDrive\Desktop\Curso\c_sharp\API_MortalKombat\bin\Debug\net8.0\AutoMapper.dll
-C:\Users\cabed\OneDrive\Desktop\Curso\c_sharp\API_MortalKombat\bin\Debug\net8.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 C:\Users\cabed\OneDrive\Desktop\Curso\c_sharp\API_MortalKombat\bin\Debug\net8.0\Azure.Core.dll
 C:\Users\cabed\OneDrive\Desktop\Curso\c_sharp\API_MortalKombat\bin\Debug\net8.0\Azure.Identity.dll
 C:\Users\cabed\OneDrive\Desktop\Curso\c_sharp\API_MortalKombat\bin\Debug\net8.0\FluentValidation.dll

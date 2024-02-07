@@ -1,5 +1,4 @@
 ﻿using API_MortalKombat.Models;
-using API_MortalKombat.Repository;
 using API_MortalKombat.Repository.IRepository;
 using API_MortalKombat.Services.IService;
 using Microsoft.IdentityModel.Tokens;

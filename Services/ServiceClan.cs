@@ -6,7 +6,6 @@ using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Net;
 
 namespace API_MortalKombat.Service
@@ -219,7 +218,7 @@ namespace API_MortalKombat.Service
                     _apiresponse.ErrorList = errors;
                     return _apiresponse;
                 }
-                if (id == 0 || id != clanUpdateDto.Id)
+                if (id != clanUpdateDto.Id)
                 {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.NotFound;
@@ -232,6 +231,14 @@ namespace API_MortalKombat.Service
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.NotFound;
                     _logger.LogError("No se encuentra registrado el id ingresado.");
+                    return _apiresponse;
+                }
+                var nombre_ya_registrado = await _repository.ObtenerPorNombre(clanUpdateDto.Nombre); //verifico que no haya otro con el mismo nomrbe
+                if (nombre_ya_registrado != null && nombre_ya_registrado.Id != clanUpdateDto.Id)
+                {
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.Conflict; // Conflict indica que ya existe un recurso con el mismo nombre
+                    _logger.LogError("Ya existe un clan con el mismo nombre.");
                     return _apiresponse;
                 }
                 _mapper.Map(clanUpdateDto, existeclan);

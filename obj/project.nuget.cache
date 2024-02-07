@@ -1,11 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "TJO9lkB4TmXhueKpyhvIsWO3Uq8dPpVFnj7w58nj5zRCZDFFjK8ew22wdj2o6nMtrBSNwxGiHxln40pkIehmDA==",
+  "dgSpecHash": "gWOKqdsx1NoJilGNMnPE6jDfGF/NbP8aj9lhYvSPLkzf36s26Zsz6muBlzVim/KM5LJi1Hn7f4d2JZNxxnw3Jw==",
   "success": true,
   "projectFilePath": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\API_MortalKombat\\API_MortalKombat.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\cabed\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
-    "C:\\Users\\cabed\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
+    "C:\\Users\\cabed\\.nuget\\packages\\automapper\\13.0.0\\automapper.13.0.0.nupkg.sha512",
     "C:\\Users\\cabed\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\cabed\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",
     "C:\\Users\\cabed\\.nuget\\packages\\fluentvalidation\\11.9.0\\fluentvalidation.11.9.0.nupkg.sha512",

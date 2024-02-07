@@ -230,7 +230,7 @@ namespace API_MortalKombat.Service
                     _apiresponse.ErrorList = errors;
                     return _apiresponse;
                 }
-                if (id == 0 || id != personajeUpdateDto.Id)
+                if (id != personajeUpdateDto.Id)
                 {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.NotFound;
@@ -259,6 +259,14 @@ namespace API_MortalKombat.Service
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.BadRequest; // Conflict indica que ya existe un recurso con el mismo nombre
                     _logger.LogError("El id del clan ingresado no se encuentra registrado;");
+                    return _apiresponse;
+                }
+                var nombre_ya_registrado = await _repository.ObtenerPorNombre(personajeUpdateDto.Nombre); //verifico que no haya otro con el mismo nomrbe
+                if (nombre_ya_registrado != null && nombre_ya_registrado.Id == personajeUpdateDto.Id)
+                {
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.Conflict; // Conflict indica que ya existe un recurso con el mismo nombre
+                    _logger.LogError("Ya existe un personaje con el mismo nombre.");
                     return _apiresponse;
                 }
                 _mapper.Map(personajeUpdateDto, existePersonaje);

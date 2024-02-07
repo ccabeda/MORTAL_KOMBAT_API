@@ -6,7 +6,6 @@ using API_MortalKombat.Models.DTOs.UsuarioDTO;
 using API_MortalKombat.Services.IService;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
-using API_MortalKombat.Models.DTOs.RolDTO;
 using Microsoft.AspNetCore.JsonPatch;
 
 namespace API_MortalKombat.Service
@@ -220,6 +219,14 @@ namespace API_MortalKombat.Service
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.NotFound;
                     _logger.LogError("No se encuentra registrado el id ingresado.");
+                    return _apiresponse;
+                }
+                var nombre_ya_registrado = await _repository.ObtenerPorNombre(usuarioUpdateDto.NombreDeUsuario);
+                if (nombre_ya_registrado != null && nombre_ya_registrado.Id != usuarioUpdateDto.Id)
+                {
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.Conflict;
+                    _logger.LogError("Ya existe un usuario con el mismo nombre.");
                     return _apiresponse;
                 }
                 _mapper.Map(usuarioUpdateDto, existeUsuario);

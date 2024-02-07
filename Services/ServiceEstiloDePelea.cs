@@ -205,7 +205,7 @@ namespace API_MortalKombat.Service
                     _apiresponse.ErrorList = errors;
                     return _apiresponse;
                 }
-                if (id == 0 || id != estiloUpdateDto.Id)
+                if (id != estiloUpdateDto.Id)
                 {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.NotFound;
@@ -218,6 +218,14 @@ namespace API_MortalKombat.Service
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.NotFound;
                     _logger.LogError("No se encuentra registrado el id ingresado.");
+                    return _apiresponse;
+                }
+                var nombre_ya_registrado = await _repository.ObtenerPorNombre(estiloUpdateDto.Nombre); //verifico que no haya otro con el mismo nomrbe
+                if (nombre_ya_registrado != null && nombre_ya_registrado.Id != estiloUpdateDto.Id)
+                {
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.Conflict; // Conflict indica que ya existe un recurso con el mismo nombre
+                    _logger.LogError("Ya existe un estilo de pelea con el mismo nombre.");
                     return _apiresponse;
                 }
                 _mapper.Map(estiloUpdateDto, existeestilo);

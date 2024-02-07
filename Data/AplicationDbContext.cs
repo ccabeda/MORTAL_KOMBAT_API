@@ -18,7 +18,7 @@ namespace API_MortalKombat.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         { 
-            modelBuilder.Entity<Arma>()
+            modelBuilder.Entity<Arma>() //para hacer una relacion muchos a muchos utilizo esto 
                .HasMany(e => e.Personajes)
                .WithMany(e => e.Armas);
 
@@ -26,7 +26,7 @@ namespace API_MortalKombat.Data
                .HasMany(e => e.Personajes)
                .WithMany(e => e.EstilosDePeleas);
 
-            modelBuilder.Entity<Clan>().HasData(
+            modelBuilder.Entity<Clan>().HasData( //creo prefedinidos objetos en la db con migraciones
                 new Clan
                 {
                     Id = 1,

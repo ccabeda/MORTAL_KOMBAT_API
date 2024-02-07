@@ -11,7 +11,7 @@ namespace API_MortalKombat.Models
         public int Id { get; set; }
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
-        [JsonIgnore]
+        [JsonIgnore] //se necesita para agregar arma a personaje, porque sino se forma bucle
         public List<Personaje> Personajes { get; set; }
         public DateTime FechaCreacion { get; set; }
         public DateTime FechaActualizacion { get; set; }
