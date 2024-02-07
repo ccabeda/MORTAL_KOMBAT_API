@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("API_MortalKombat")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+12fdc6ba5429f233fd962f3909579babcb11bda6")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
 [assembly: System.Reflection.AssemblyProductAttribute("API_MortalKombat")]
 [assembly: System.Reflection.AssemblyTitleAttribute("API_MortalKombat")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -4552,11 +4552,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\API_MortalKombat\\API_MortalKombat.csproj",
+      "projectUniqueName": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\API_MortalKombat\\API_MortalKombat.csproj",
       "projectName": "API_MortalKombat",
-      "projectPath": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\API_MortalKombat\\API_MortalKombat.csproj",
+      "projectPath": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\API_MortalKombat\\API_MortalKombat.csproj",
       "packagesPath": "C:\\Users\\cabed\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\API_MortalKombat\\obj\\",
+      "outputPath": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\API_MortalKombat\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\cabed\\AppData\\Roaming\\NuGet\\NuGet.Config",

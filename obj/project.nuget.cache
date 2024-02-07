@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "gWOKqdsx1NoJilGNMnPE6jDfGF/NbP8aj9lhYvSPLkzf36s26Zsz6muBlzVim/KM5LJi1Hn7f4d2JZNxxnw3Jw==",
+  "dgSpecHash": "NNvYOPRjmjllhXU/qF/8IPx6qQPxB2TitUH20PLLURyNUb145U9Q7LqzUcK0K9CPEaoVqD5SzZQmxKQBVe+DbA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\API_MortalKombat\\API_MortalKombat.csproj",
+  "projectFilePath": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\API_MortalKombat\\API_MortalKombat.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\cabed\\.nuget\\packages\\automapper\\13.0.0\\automapper.13.0.0.nupkg.sha512",
     "C:\\Users\\cabed\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
