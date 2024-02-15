@@ -8,7 +8,7 @@ using API_MortalKombat.Models.DTOs.RolDTO;
 using API_MortalKombat.Models.DTOs.UsuarioDTO;
 using AutoMapper;
 
-namespace API_MortalKombat
+namespace API_MortalKombat.Automapper
 {
     public class AutomapperConfig : Profile
     {

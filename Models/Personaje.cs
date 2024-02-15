@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace API_MortalKombat.Models
 {
@@ -8,21 +9,21 @@ namespace API_MortalKombat.Models
         [Key] //ponemos el id como key
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)] //Entity con sql server, para que aumente automaticamente el ID key.
         public int Id { get; set; }
-        public string Nombre { get; set; }
-        public string ImagenURl { get; set; }
-        public string Alineacion { get; set; }
-        public string Raza { get; set; }
-        public string Descripcion { get; set; }
+        public required string Nombre { get; set; }
+        public string? ImagenURl { get; set; }
+        public required string Alineacion { get; set; }
+        public required string Raza { get; set; }
+        public required string Descripcion { get; set; }
         public int ClanId { set; get; }
         [ForeignKey("ClanId")]
-        public Clan Clan { set; get; }
+        public Clan? Clan { set; get; }
         public int ReinoId { set; get; }
         [ForeignKey("ReinoId")]
-        public Reino Reino { set; get; }
+        public Reino? Reino { set; get; }
         public DateTime FechaCreacion { get; set; }
         public DateTime FechaActualizacion { get; set; }
-        public List<Arma> Armas { get; set; }
-        public List<EstiloDePelea> EstilosDePeleas { get; set; } 
+        public List<Arma>? Armas { get; set; }
+        public List<EstiloDePelea>? EstilosDePeleas { get; set; } 
     }
 
 }

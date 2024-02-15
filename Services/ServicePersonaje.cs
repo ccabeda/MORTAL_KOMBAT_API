@@ -166,7 +166,7 @@ namespace API_MortalKombat.Service
                     return _apiresponse;
                 }
                 var personaje = _mapper.Map<Personaje>(personajeCreateDto);
-                personaje.FechaCreacion = DateTime.Now;
+                personaje!.FechaCreacion = DateTime.Now;
                 await _repository.Crear(personaje);
                 _apiresponse.statusCode = HttpStatusCode.Created;
                 _apiresponse.Result = _mapper.Map<PersonajeUpdateDto>(personaje); //para mostrar los datos que quiero y no tener que crear otro Dto, uso update.
@@ -312,13 +312,22 @@ namespace API_MortalKombat.Service
                     _apiresponse.statusCode = HttpStatusCode.NotFound;
                     _logger.LogError("Error con el id del personaje ingresada.");
                     return _apiresponse;
-                }                
+                }
+                foreach (var i in personaje.Armas)
+                {
+                    if (i.Id == id_arma)
+                    {
+                        _apiresponse.isExit = false;
+                        _apiresponse.statusCode = HttpStatusCode.NotFound;
+                        _logger.LogError("El personaje de id "+id_personaje+" ya cuenta con el arma de id "+id_arma+".");
+                        return _apiresponse;
+                    }
+                }
                 personaje.Armas.Add(arma);
                 await _repository.Guardar();
-                _mapper.Map<PersonajeDto>(personaje);
                 _logger.LogInformation("Arma agregada con exito a personaje.");
                 _apiresponse.statusCode = HttpStatusCode.OK;
-                _apiresponse.Result = personaje;
+                _apiresponse.Result = _mapper.Map<PersonajeDto>(personaje); ;
                 return _apiresponse;
             }
             catch (Exception ex)
@@ -357,7 +366,7 @@ namespace API_MortalKombat.Service
                     _logger.LogError("Error con el id del personaje ingresada.");
                     return _apiresponse;
                 }
-                if (!personaje.Armas.Any(arma => arma.Id == id_arma))
+                if (!personaje.Armas!.Any(arma => arma.Id == id_arma))
                     {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.BadRequest;
@@ -369,7 +378,7 @@ namespace API_MortalKombat.Service
                 _mapper.Map<PersonajeDto>(personaje);
                 _logger.LogInformation("Arma removida con exito del personaje.");
                 _apiresponse.statusCode = HttpStatusCode.OK;
-                _apiresponse.Result = personaje;
+                _apiresponse.Result = _mapper.Map<PersonajeDto>(personaje);
                 return _apiresponse;
             }
             catch (Exception ex)
@@ -408,12 +417,21 @@ namespace API_MortalKombat.Service
                     _logger.LogError("Error con el id del personaje ingresada.");
                     return _apiresponse;
                 }
+                foreach (var i in personaje.EstilosDePeleas)
+                {
+                    if (i.Id == id_estilo_de_pelea)
+                    {
+                        _apiresponse.isExit = false;
+                        _apiresponse.statusCode = HttpStatusCode.NotFound;
+                        _logger.LogError("El personaje de id " + id_personaje + " ya cuenta con el estilo de pelea de id " + id_estilo_de_pelea + ".");
+                        return _apiresponse;
+                    }
+                }
                 personaje.EstilosDePeleas.Add(estilo);
                 await _repository.Guardar();
-                _mapper.Map<PersonajeDto>(personaje);
                 _logger.LogInformation("Arma agregada con exito a personaje.");
                 _apiresponse.statusCode = HttpStatusCode.OK;
-                _apiresponse.Result = personaje;
+                _apiresponse.Result = _mapper.Map<PersonajeDto>(personaje); ;
                 return _apiresponse;
             }
             catch (Exception ex)
@@ -452,7 +470,7 @@ namespace API_MortalKombat.Service
                     _logger.LogError("Error con el id del personaje ingresada.");
                     return _apiresponse;
                 }
-                if (!personaje.EstilosDePeleas.Any(estilo => estilo.Id == id_estilo_de_pelea))
+                if (!personaje.EstilosDePeleas!.Any(estilo => estilo.Id == id_estilo_de_pelea))
                 {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.BadRequest;
@@ -461,10 +479,9 @@ namespace API_MortalKombat.Service
                 }
                 personaje.EstilosDePeleas.Remove(estilo);
                 await _repository.Guardar();
-                _mapper.Map<PersonajeDto>(personaje);
                 _logger.LogInformation("Estilo de pelea removido con exito del personaje.");
                 _apiresponse.statusCode = HttpStatusCode.OK;
-                _apiresponse.Result = personaje;
+                _apiresponse.Result = _mapper.Map<PersonajeDto>(personaje);
                 return _apiresponse;
             }
             catch (Exception ex)
@@ -496,8 +513,8 @@ namespace API_MortalKombat.Service
                     return _apiresponse;
                 }
                 var personajeDTO = _mapper.Map<PersonajeUpdateDto>(personaje);
-                personajeUpdateDto.ApplyTo(personajeDTO);
-                var fluent_validation = await _validatorUpdate.ValidateAsync(personajeDTO);
+                personajeUpdateDto.ApplyTo(personajeDTO!);
+                var fluent_validation = await _validatorUpdate.ValidateAsync(personajeDTO!);
                 if (!fluent_validation.IsValid)
                 {
                     var errors = fluent_validation.Errors.Select(error => error.ErrorMessage).ToList();

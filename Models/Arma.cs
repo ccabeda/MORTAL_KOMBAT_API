@@ -9,10 +9,10 @@ namespace API_MortalKombat.Models
         [Key] //ponemos el id como key
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)] //Entity con sql server, para que aumente automaticamente el ID key.
         public int Id { get; set; }
-        public string Nombre { get; set; }
-        public string Descripcion { get; set; }
+        public required string Nombre { get; set; } 
+        public required string Descripcion { get; set; } 
         [JsonIgnore] //se necesita para agregar arma a personaje, porque sino se forma bucle
-        public List<Personaje> Personajes { get; set; }
+        public List<Personaje>? Personajes { get; set; }
         public DateTime FechaCreacion { get; set; }
         public DateTime FechaActualizacion { get; set; }
     }

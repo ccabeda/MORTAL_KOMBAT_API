@@ -2,7 +2,7 @@
 {
     public class Login
     {
-        public string Usuario { get; set; }
-        public string Contraseña { get; set; }
+        public required string Usuario { get; set; }
+        public required string Contraseña { get; set; }
     }
 }

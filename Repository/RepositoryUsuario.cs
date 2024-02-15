@@ -36,12 +36,12 @@ namespace API_MortalKombat.Repository
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Usuario> ObtenerPorId(int id)
+        public async Task<Usuario?> ObtenerPorId(int id)
         {
             return await _context.Usuarios.Include(u => u.Rol).FirstOrDefaultAsync(u => u.Id == id);
         }
 
-        public async Task<Usuario> ObtenerPorNombre(string nombre)
+        public async Task<Usuario?> ObtenerPorNombre(string nombre)
         {
             return await _context.Usuarios.Include(u => u.Rol).FirstOrDefaultAsync(u => u.NombreDeUsuario == nombre);
         }

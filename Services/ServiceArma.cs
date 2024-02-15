@@ -142,7 +142,7 @@ namespace API_MortalKombat.Service
                     return _apiresponse;
                 }
                 var arma = _mapper.Map<Arma>(armaCreateDto);
-                arma.FechaCreacion = DateTime.Now;
+                arma!.FechaCreacion = DateTime.Now;
                 await _repository.Crear(arma);
                 _apiresponse.statusCode = HttpStatusCode.Created;
                 _apiresponse.Result = _mapper.Map<ArmaDto>(arma);
@@ -266,8 +266,8 @@ namespace API_MortalKombat.Service
                         return _apiresponse;
                 }
                 var armaDTO = _mapper.Map<ArmaUpdateDto>(arma); 
-                armaUpdateDto.ApplyTo(armaDTO); 
-                var fluent_validation = await _validatorUpdate.ValidateAsync(armaDTO);
+                armaUpdateDto.ApplyTo(armaDTO!); 
+                var fluent_validation = await _validatorUpdate.ValidateAsync(armaDTO!);
                 if (!fluent_validation.IsValid)
                 {
                     var errors = fluent_validation.Errors.Select(error => error.ErrorMessage).ToList();

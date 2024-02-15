@@ -143,7 +143,7 @@ namespace API_MortalKombat.Service
                     return _apiresponse;
                 }
                 var clan = _mapper.Map<Clan>(clanCreateDto);
-                clan.FechaCreacion = DateTime.Now;
+                clan!.FechaCreacion = DateTime.Now;
                 await _repository.Crear(clan);
                 _apiresponse.statusCode = HttpStatusCode.Created;
                 _apiresponse.Result = _mapper.Map<ClanDto>(clan);
@@ -278,8 +278,8 @@ namespace API_MortalKombat.Service
                     return _apiresponse;
                 }
                 var clanDTO = _mapper.Map<ClanUpdateDto>(clan); 
-                clanUpdateDto.ApplyTo(clanDTO); 
-                var fluent_validation = await _validatorUpdate.ValidateAsync(clanDTO); 
+                clanUpdateDto.ApplyTo(clanDTO!); 
+                var fluent_validation = await _validatorUpdate.ValidateAsync(clanDTO!); 
                 if (!fluent_validation.IsValid)
                 {
                     var errors = fluent_validation.Errors.Select(error => error.ErrorMessage).ToList();

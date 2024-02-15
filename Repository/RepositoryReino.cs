@@ -13,12 +13,12 @@ namespace API_MortalKombat.Repository
             _context = context;
         }
 
-        public async Task<Reino> ObtenerPorId(int id)
+        public async Task<Reino?> ObtenerPorId(int id)
         {
              return await _context.Reinos.FindAsync(id);
         }
 
-        public async Task<Reino> ObtenerPorNombre(string name)
+        public async Task<Reino?> ObtenerPorNombre(string name)
         {
             return await _context.Reinos.FirstOrDefaultAsync(r => r.Nombre.ToLower() == name.ToLower());
         }

@@ -8,7 +8,7 @@ namespace API_MortalKombat.Models
         [Key] //ponemos el id como key
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public string Nombre { get; set; }
+        public required string Nombre { get; set; } 
         public DateTime FechaCreacion { get; set; }
         public DateTime FechaActualizacion { get; set; }
     }

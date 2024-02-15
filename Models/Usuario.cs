@@ -8,11 +8,11 @@ namespace API_MortalKombat.Models
         [Key] //ponemos el id como key
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public string Nombre { get; set; }
-        public string Apellido { get; set; }
-        public string Mail { get; set; }
-        public string NombreDeUsuario { get; set; }
-        public string Contraseña { get; set; }
+        public required string Nombre { get; set; }
+        public required string Apellido { get; set; }
+        public required string Mail { get; set; }
+        public required string NombreDeUsuario { get; set; }
+        public required string Contraseña { get; set; }
         public int RolId { set; get; }
         [ForeignKey("RolId")]
         public Rol Rol { set; get; }

@@ -13,13 +13,13 @@ namespace API_MortalKombat.Repository
             _context = context;
         }
 
-        public async Task<Personaje> ObtenerPorId(int id)
+        public async Task<Personaje?> ObtenerPorId(int id)
         {
             return await _context.Personajes.Include(p => p.Clan).Include(p => p.Reino).Include(p => p.Armas).Include(p => p.EstilosDePeleas)
             .FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public async Task<Personaje> ObtenerPorNombre(string name)
+        public async Task<Personaje?> ObtenerPorNombre(string name)
         {
             return await _context.Personajes.Include(p => p.Clan).Include(p => p.Reino).Include(p => p.Armas).Include(p => p.EstilosDePeleas)
            .FirstOrDefaultAsync(p => p.Nombre.ToLower() == name.ToLower());

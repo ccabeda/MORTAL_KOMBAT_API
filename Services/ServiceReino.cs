@@ -143,7 +143,7 @@ namespace API_MortalKombat.Service
                     return _apiresponse;
                 }
                 var reino = _mapper.Map<Reino>(reinoCreateDto);
-                reino.FechaCreacion = DateTime.Now;
+                reino!.FechaCreacion = DateTime.Now;
                 await _repository.Crear(reino);
                 _apiresponse.statusCode = HttpStatusCode.Created;
                 _apiresponse.Result = _mapper.Map<ReinoDto>(reino);
@@ -278,8 +278,8 @@ namespace API_MortalKombat.Service
                     return _apiresponse;
                 }
                 var reinoDTO = _mapper.Map<ReinoUpdateDto>(reino);
-                reinoUpdateDto.ApplyTo(reinoDTO);
-                var fluent_validation = await _validatorUpdate.ValidateAsync(reinoDTO);
+                reinoUpdateDto.ApplyTo(reinoDTO!);
+                var fluent_validation = await _validatorUpdate.ValidateAsync(reinoDTO!);
                 if (!fluent_validation.IsValid)
                 {
                     var errors = fluent_validation.Errors.Select(error => error.ErrorMessage).ToList();

@@ -141,7 +141,7 @@ namespace API_MortalKombat.Service
                     return _apiresponse;
                 }
                 var estilo = _mapper.Map<EstiloDePelea>(estiloCreateDto);
-                estilo.FechaCreacion = DateTime.Now;
+                estilo!.FechaCreacion = DateTime.Now;
                 await _repository.Crear(estilo);
                 _apiresponse.statusCode = HttpStatusCode.Created;
                 _apiresponse.Result = _mapper.Map<EstiloDePeleaDto>(estilo);
@@ -265,8 +265,8 @@ namespace API_MortalKombat.Service
                     return _apiresponse;
                 }
                 var estiloDePeleaDTO = _mapper.Map<EstiloDePeleaUpdateDto>(estiloDePelea);
-                estiloDePeleaUpdateDto.ApplyTo(estiloDePeleaDTO);
-                var fluent_validation = await _validatorUpdate.ValidateAsync(estiloDePeleaDTO);
+                estiloDePeleaUpdateDto.ApplyTo(estiloDePeleaDTO!);
+                var fluent_validation = await _validatorUpdate.ValidateAsync(estiloDePeleaDTO!);
                 if (!fluent_validation.IsValid)
                 {
                     var errors = fluent_validation.Errors.Select(error => error.ErrorMessage).ToList();

@@ -25,7 +25,7 @@ namespace API_MortalKombat.Service
 
         public string GenerarTokendeLogin(Usuario usuario)
         {
-            var llave = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+            var llave = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]!));
             var credencial = new SigningCredentials(llave, SecurityAlgorithms.HmacSha256);
             var claims = new[]
             {

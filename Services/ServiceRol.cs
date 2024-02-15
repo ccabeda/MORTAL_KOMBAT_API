@@ -127,7 +127,7 @@ namespace API_MortalKombat.Service
                     return _apiresponse;
                 }
                 var rol = _mapper.Map<Rol>(rolCreateDto);
-                rol.FechaCreacion = DateTime.Now;
+                rol!.FechaCreacion = DateTime.Now;
                 await _repository.Crear(rol);
                 _apiresponse.statusCode = HttpStatusCode.OK;
                 _apiresponse.Result = _mapper.Map<RolDto>(rol);
@@ -251,7 +251,7 @@ namespace API_MortalKombat.Service
                     return _apiresponse;
                 }
                 var rolDTO = _mapper.Map<RolUpdateDto>(rol);
-                rolUpdateDto.ApplyTo(rolDTO);
+                rolUpdateDto.ApplyTo(rolDTO!);
                 _mapper.Map(rolDTO, rol);
                 rol.FechaActualizacion = DateTime.Now;
                 await _repository.Actualizar(rol);
