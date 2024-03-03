@@ -133,7 +133,6 @@ C:\Users\cabed\OneDrive\Desktop\Curso\c_sharp\API_MortalKombat\obj\Debug\net8.0\
 C:\Users\cabed\OneDrive\Desktop\Curso\c_sharp\API_MortalKombat\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.API_MortalKombat.props
 C:\Users\cabed\OneDrive\Desktop\Curso\c_sharp\API_MortalKombat\obj\Debug\net8.0\staticwebassets.pack.json
 C:\Users\cabed\OneDrive\Desktop\Curso\c_sharp\API_MortalKombat\obj\Debug\net8.0\scopedcss\bundle\API_MortalKombat.styles.css
-C:\Users\cabed\OneDrive\Desktop\Curso\c_sharp\API_MortalKombat\obj\Debug\net8.0\API_MortalKombat.csproj.CopyComplete
 C:\Users\cabed\OneDrive\Desktop\Curso\c_sharp\API_MortalKombat\obj\Debug\net8.0\API_MortalKombat.dll
 C:\Users\cabed\OneDrive\Desktop\Curso\c_sharp\API_MortalKombat\obj\Debug\net8.0\refint\API_MortalKombat.dll
 C:\Users\cabed\OneDrive\Desktop\Curso\c_sharp\API_MortalKombat\obj\Debug\net8.0\API_MortalKombat.pdb
@@ -144,3 +143,4 @@ C:\Users\cabed\OneDrive\Desktop\Curso\c_sharp\API_MortalKombat\bin\Debug\net8.0\
 C:\Users\cabed\OneDrive\Desktop\Curso\c_sharp\API_MortalKombat\bin\Debug\net8.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 C:\Users\cabed\OneDrive\Desktop\Curso\c_sharp\API_MortalKombat\bin\Debug\net8.0\Newtonsoft.Json.dll
 C:\Users\cabed\OneDrive\Desktop\Curso\c_sharp\API_MortalKombat\bin\Debug\net8.0\Newtonsoft.Json.Bson.dll
+C:\Users\cabed\OneDrive\Desktop\Curso\c_sharp\API_MortalKombat\obj\Debug\net8.0\API_Mort.48567A8E.Up2Date

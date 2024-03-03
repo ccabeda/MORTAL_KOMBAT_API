@@ -15,17 +15,17 @@ namespace API_MortalKombat.Repository
 
         public async Task<Arma?> ObtenerPorId(int id)
         {
-            return await _context.Armas.FindAsync(id);
+            return await _context.Armas.FindAsync(id); //aqui no uso asNoTracking ya que voy a usarlo para actualizarlo 
         }
 
-        public async Task<Arma?> ObtenerPorNombre(string name)
+        public async Task<Arma?> ObtenerPorNombre(string name) 
         {
-            return await _context.Armas.FirstOrDefaultAsync(a => a.Nombre.ToLower() == name.ToLower());
+            return await _context.Armas.FirstOrDefaultAsync(a => a.Nombre.ToLower() == name.ToLower()); //como solo quiero mostrar el nombre, utilizo AsNoTracking
         }
 
         public async Task<List<Arma>> ObtenerTodos()
         {
-            return await _context.Armas.ToListAsync();
+            return await _context.Armas.AsNoTracking().ToListAsync(); //como solo quiero mostrar el nombre, utilizo AsNoTracking
         }
 
         public async Task Crear(Arma arma)

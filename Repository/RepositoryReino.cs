@@ -25,7 +25,7 @@ namespace API_MortalKombat.Repository
 
         public async Task<List<Reino>> ObtenerTodos()
         {
-            return await _context.Reinos.ToListAsync();
+            return await _context.Reinos.AsNoTracking().ToListAsync();
         }
 
         public async Task Crear(Reino reino)

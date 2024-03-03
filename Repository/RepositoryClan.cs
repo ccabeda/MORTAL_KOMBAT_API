@@ -25,7 +25,7 @@ namespace API_MortalKombat.Repository
 
         public async Task<List<Clan>> ObtenerTodos()
         {
-            return await _context.Clanes.ToListAsync();
+            return await _context.Clanes.AsNoTracking().ToListAsync();
         }
 
         public async Task Crear(Clan clan)

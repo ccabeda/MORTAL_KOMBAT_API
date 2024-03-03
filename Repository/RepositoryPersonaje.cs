@@ -27,7 +27,7 @@ namespace API_MortalKombat.Repository
 
         public async Task<List<Personaje>> ObtenerTodos()
         {
-            return await _context.Personajes.ToListAsync();
+            return await _context.Personajes.AsNoTracking().ToListAsync();
         }
 
         public async Task Crear(Personaje personaje)

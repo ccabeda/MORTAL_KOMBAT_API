@@ -18,6 +18,5 @@ namespace API_MortalKombat.Models
         public Rol Rol { set; get; }
         public DateTime FechaCreacion { get; set; }
         public DateTime FechaActualizacion { get; set; }
-
     }
 }

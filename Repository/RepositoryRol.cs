@@ -48,7 +48,7 @@ namespace API_MortalKombat.Repository
 
         public async Task<List<Rol>> ObtenerTodos()
         {
-            return await _context.Roles.ToListAsync();
+            return await _context.Roles.AsNoTracking().ToListAsync();
         }
     }
 }

@@ -25,7 +25,7 @@ namespace API_MortalKombat.Repository
 
         public async Task<List<EstiloDePelea>> ObtenerTodos()
         {
-            return await _context.EstilosDePeleas.ToListAsync();
+            return await _context.EstilosDePeleas.AsNoTracking().ToListAsync();
         }
 
         public async Task Crear(EstiloDePelea estilo)
