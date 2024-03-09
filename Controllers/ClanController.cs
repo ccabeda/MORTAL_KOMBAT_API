@@ -24,55 +24,42 @@ namespace API_MortalKombat.Controllers
         public async Task<ActionResult<APIResponse>> GetClanes()
         {
             var result = await _service.GetClanes();
-            if (result.statusCode == HttpStatusCode.OK)
+            switch (result.statusCode)
             {
-                return Ok(result);
-            }
-            else
-            {
-                return NotFound(result);
+                case HttpStatusCode.OK:
+                    return Ok(result);
+                default:
+                    return NotFound(result);
             }
         }
 
         [HttpGet(("{id}"), Name = "GetClanbyId")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<APIResponse>> GetClanById(int id) //get para traer con id
         {
             var result = await _service.GetClanById(id);
-            if (result.statusCode == HttpStatusCode.OK)
+            switch (result.statusCode)
             {
-                return Ok(result);
-            }
-            else if (result.statusCode == HttpStatusCode.BadRequest)
-            {
-                return BadRequest(result);
-            }
-            else
-            {
-                return NotFound(result);
+                case HttpStatusCode.OK:
+                    return Ok(result);
+                default:
+                    return NotFound(result);
             }
         }
 
         [HttpGet(("nombre/{name}"), Name = "GetClanbyName")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<APIResponse>> GetClanByName(String name) //get para traer con nombre
         {
             var result = await _service.GetClanByName(name);
-            if (result.statusCode == HttpStatusCode.OK)
+            switch (result.statusCode)
             {
-                return Ok(result);
-            }
-            else if (result.statusCode == HttpStatusCode.BadRequest)
-            {
-                return BadRequest(result);
-            }
-            else
-            {
-                return NotFound(result);
+                case HttpStatusCode.OK:
+                    return Ok(result);
+                default:
+                    return NotFound(result);
             }
         }
 
@@ -86,25 +73,16 @@ namespace API_MortalKombat.Controllers
         public async Task<ActionResult<APIResponse>> CreateClan([FromBody] ClanCreateDto clanCreateDto)
         {
             var result = await _service.CreateClan(clanCreateDto);
-            if (result.statusCode == HttpStatusCode.OK)
+            switch (result.statusCode)
             {
-                return Ok(result);
-            }
-            else if (result.statusCode == HttpStatusCode.BadRequest)
-            {
-                return BadRequest(result);
-            }
-            else if (result.statusCode == HttpStatusCode.Created)
-            {
-                return Ok(result);
-            }
-            else if (result.statusCode == HttpStatusCode.Conflict)
-            {
-                return Conflict(result);
-            }
-            else
-            {
-                return NotFound(result);
+                case HttpStatusCode.Created:
+                    return Ok(result);
+                case HttpStatusCode.Conflict:
+                    return Conflict(result);
+                case HttpStatusCode.BadRequest:
+                    return BadRequest(result);
+                default:
+                    return NotFound(result);
             }
         }
 
@@ -113,16 +91,21 @@ namespace API_MortalKombat.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
         public async Task<ActionResult<APIResponse>> PutClan(int id, [FromBody] ClanUpdateDto clanUpdateDto)
         {
             var result = await _service.UpdateClan(id, clanUpdateDto);
-            if (result.statusCode == HttpStatusCode.OK)
+            switch (result.statusCode)
             {
-                return Ok(result);
-            }
-            else
-            {
-                return NotFound(result);
+                case HttpStatusCode.OK:
+                    return Ok(result);
+                case HttpStatusCode.BadRequest:
+                    return BadRequest(result);
+                case HttpStatusCode.Conflict:
+                    return Conflict(result);
+                default:
+                    return NotFound(result);
             }
         }
 
@@ -134,13 +117,12 @@ namespace API_MortalKombat.Controllers
         public async Task<ActionResult<APIResponse>> DeleteClan(int id)
         {
             var result = await _service.DeleteClan(id);
-            if (result.statusCode == HttpStatusCode.OK)
+            switch (result.statusCode)
             {
-                return Ok(result);
-            }
-            else
-            {
-                return NotFound(result);
+                case HttpStatusCode.OK:
+                    return Ok(result);
+                default:
+                    return NotFound(result);
             }
         }
 
@@ -148,16 +130,15 @@ namespace API_MortalKombat.Controllers
         [Authorize(Roles = "1,2")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> UpdatePartiaArma(int id, JsonPatchDocument<ClanUpdateDto> clanUpdateDto)
+        public async Task<IActionResult> UpdatePartialClan(int id, JsonPatchDocument<ClanUpdateDto> clanUpdateDto)
         {
             var result = await _service.UpdatePartialClan(id, clanUpdateDto);
-            if (result.statusCode == HttpStatusCode.BadRequest)
+            switch (result.statusCode)
             {
-                return BadRequest(result);
-            }
-            else
-            {
-                return Ok(result);
+                case HttpStatusCode.OK:
+                    return Ok(result);
+                default:
+                    return NotFound(result);
             }
         }
     }

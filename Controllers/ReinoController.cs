@@ -24,55 +24,43 @@ namespace API_MortalKombat.Controllers
         public async Task<ActionResult<APIResponse>> GetReinos()
         {
             var result = await _service.GetReinos();
-            if (result.statusCode == HttpStatusCode.OK)
+            switch (result.statusCode)
             {
-                return Ok(result);
-            }
-            else
-            {
-                return NotFound(result);
+                case HttpStatusCode.OK:
+                    return Ok(result);
+                default:
+                    return NotFound(result);
             }
         }
 
         [HttpGet(("{id}"), Name = "GetReinobyId")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<APIResponse>> GetReinoById(int id) //get para traer con id
         {
             var result = await _service.GetReinoById(id);
-            if (result.statusCode == HttpStatusCode.OK)
+            switch (result.statusCode)
             {
-                return Ok(result);
-            }
-            else if (result.statusCode == HttpStatusCode.BadRequest)
-            {
-                return BadRequest(result);
-            }
-            else
-            {
-                return NotFound(result);
+                case HttpStatusCode.OK:
+                    return Ok(result);
+                default:
+                    return NotFound(result);
             }
         }
 
         [HttpGet(("nombre/{name}"), Name = "GetReinobyName")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<APIResponse>> GetReinoByName(String name) //get para traer con nombre
         {
             var result = await _service.GetReinoByName(name);
-            if (result.statusCode == HttpStatusCode.OK)
+            switch (result.statusCode)
             {
-                return Ok(result);
-            }
-            else if (result.statusCode == HttpStatusCode.BadRequest)
-            {
-                return BadRequest(result);
-            }
-            else
-            {
-                return NotFound(result);
+                case HttpStatusCode.OK:
+                    return Ok(result);
+                default:
+                    return NotFound(result);
+
             }
         }
 
@@ -86,25 +74,16 @@ namespace API_MortalKombat.Controllers
         public async Task<ActionResult<APIResponse>> CreateReino([FromBody] ReinoCreateDto reinoCreateDto)
         {
             var result = await _service.CreateReino(reinoCreateDto);
-            if (result.statusCode == HttpStatusCode.OK)
+            switch (result.statusCode)
             {
-                return Ok(result);
-            }
-            else if (result.statusCode == HttpStatusCode.BadRequest)
-            {
-                return BadRequest(result);
-            }
-            else if (result.statusCode == HttpStatusCode.Created)
-            {
-                return Ok(result);
-            }
-            else if (result.statusCode == HttpStatusCode.Conflict)
-            {
-                return Conflict(result);
-            }
-            else
-            {
-                return NotFound(result);
+                case HttpStatusCode.Created:
+                    return Ok(result);
+                case HttpStatusCode.Conflict:
+                    return Conflict(result);
+                case HttpStatusCode.BadRequest:
+                    return BadRequest(result);
+                default:
+                    return NotFound(result);
             }
         }
 
@@ -113,16 +92,21 @@ namespace API_MortalKombat.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
         public async Task<ActionResult<APIResponse>> PutReino(int id, [FromBody] ReinoUpdateDto reinoUpdateDto)
         {
             var result = await _service.UpdateReino(id, reinoUpdateDto);
-            if (result.statusCode == HttpStatusCode.OK)
+            switch (result.statusCode)
             {
-                return Ok(result);
-            }
-            else
-            {
-                return NotFound(result);
+                case HttpStatusCode.OK:
+                    return Ok(result);
+                case HttpStatusCode.BadRequest:
+                    return BadRequest(result);
+                case HttpStatusCode.Conflict:
+                    return Conflict(result);
+                default:
+                    return NotFound(result);
             }
         }
 
@@ -134,13 +118,12 @@ namespace API_MortalKombat.Controllers
         public async Task<ActionResult<APIResponse>> DeleteReino(int id)
         {
             var result = await _service.DeleteReino(id);
-            if (result.statusCode == HttpStatusCode.OK)
+            switch (result.statusCode)
             {
-                return Ok(result);
-            }
-            else
-            {
-                return NotFound(result);
+                case HttpStatusCode.OK:
+                    return Ok(result);
+                default:
+                    return NotFound(result);
             }
         }
 
@@ -151,13 +134,12 @@ namespace API_MortalKombat.Controllers
         public async Task<IActionResult> UpdatePartialReino(int id, JsonPatchDocument<ReinoUpdateDto> reinoUpdateDto)
         {
             var result = await _service.UpdatePartialReino(id, reinoUpdateDto);
-            if (result.statusCode == HttpStatusCode.BadRequest)
+            switch (result.statusCode)
             {
-                return BadRequest(result);
-            }
-            else
-            {
-                return Ok(result);
+                case HttpStatusCode.OK:
+                    return Ok(result);
+                default:
+                    return NotFound(result);
             }
         }
     }

@@ -126,13 +126,6 @@ namespace API_MortalKombat.Service
                     _apiresponse.ErrorList = errors;
                     return _apiresponse;
                 }
-                if (armaCreateDto == null)
-                {
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("El id 0 no se puede utilizar.");
-                    return _apiresponse;
-                }
                 var existArma = await _repository.GetByName(armaCreateDto.Nombre); //verifico que no haya otro con el mismo nomrbe
                 if (existArma != null)
                 {
@@ -162,18 +155,11 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                if (id == 0)
-                {
-                    _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _apiresponse.isExit = false;
-                    _logger.LogError("Error al encontrar el arma.");
-                    return _apiresponse;
-                }
                 var arma = await _repository.GetById(id); ;
                 if (arma == null)
                 {
                     _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("El arma no se encuentra registrado.");
+                    _logger.LogError("El arma no se encuentra registrada. Verifica que el id ingresado sea correcto.");
                     _apiresponse.isExit = false;
                     return _apiresponse;
                 }
@@ -206,7 +192,7 @@ namespace API_MortalKombat.Service
                     _apiresponse.ErrorList = errors;
                     return _apiresponse;
                 }
-                if (id != armaUpdateDto.Id)
+                if (id == 0 || id != armaUpdateDto.Id)
                 {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.NotFound;
@@ -221,8 +207,8 @@ namespace API_MortalKombat.Service
                     _logger.LogError("No se encuentra registrado el id ingresado.");
                     return _apiresponse;
                 }
-                var nombre_ya_registrado = await _repository.GetByName(armaUpdateDto.Nombre); //verifico que no haya otro con el mismo nomrbe
-                if (nombre_ya_registrado != null && nombre_ya_registrado.Id != armaUpdateDto.Id)
+                var registredName = await _repository.GetByName(armaUpdateDto.Nombre); //verifico que no haya otro con el mismo nomrbe
+                if (registredName != null && registredName.Id != armaUpdateDto.Id)
                 {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.Conflict; // Conflict indica que ya existe un recurso con el mismo nombre
@@ -250,13 +236,6 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                if (armaUpdateDto == null || id == 0) //verifico que la id no sea 0 o que el json sea null
-                {
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
-                    _logger.LogError("Error al ingresar los datos.");
-                    return _apiresponse;
-                }
                 var arma = await _repository.GetById(id);
                 if (arma == null)
                 {

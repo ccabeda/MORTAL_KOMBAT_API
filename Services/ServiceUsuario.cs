@@ -7,6 +7,7 @@ using API_MortalKombat.Services.IService;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Microsoft.AspNetCore.JsonPatch;
+using API_MortalKombat.Models.DTOs.ReinoDTO;
 
 namespace API_MortalKombat.Service
 {
@@ -125,13 +126,6 @@ namespace API_MortalKombat.Service
                     _apiresponse.ErrorList = errors;
                     return _apiresponse;
                 }
-                if (usuarioCreateDto == null)
-                {
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("El id 0 no se puede utilizar.");
-                    return _apiresponse;
-                }
                 var existUsuario = await _repository.GetByName(usuarioCreateDto.NombreDeUsuario);
                 if (existUsuario != null)
                 {
@@ -145,7 +139,7 @@ namespace API_MortalKombat.Service
                 usuario.RolId = 3; //todos los usuarios se crean con el rol publico
                 await _repository.Create(usuario);
                 var result =_mapper.Map<UsuarioGetDto>(usuario);
-                _apiresponse.statusCode = HttpStatusCode.OK;
+                _apiresponse.statusCode = HttpStatusCode.Created;
                 _apiresponse.Result = result;
                 _logger.LogInformation("¡Usuario creado con exito!");   
             }
@@ -162,18 +156,11 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                if (id == 0)
-                {
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("El id 0 no se puede utilizar.");
-                    return _apiresponse;
-                }
                 var usuario = await _repository.GetById(id);
                 if (usuario == null)
                 {
                     _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("El usuario no se encuentra registrado.");
+                    _logger.LogError("El usuario no se encuentra registrado. Verifica que el id ingresado sea correcto.");
                     _apiresponse.isExit = false;
                     return _apiresponse;
                 }
@@ -250,13 +237,6 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                if (usuarioUpdateDto == null || id == 0)
-                {
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
-                    _logger.LogError("Error al ingresar los datos.");
-                    return _apiresponse;
-                }
                 var usuario = await _repository.GetById(id);
                 if (usuario == null)
                 {
@@ -267,6 +247,17 @@ namespace API_MortalKombat.Service
                 }
                 var usuarioDTO = _mapper.Map<UsuarioUpdateDto>(usuario);
                 usuarioUpdateDto.ApplyTo(usuarioDTO!);
+                var fluentValidation = await _validatorUpdate.ValidateAsync(usuarioDTO!);
+                if (!fluentValidation.IsValid)
+                {
+                    var errors = fluentValidation.Errors.Select(error => error.ErrorMessage).ToList();
+                    _logger.LogError("Error al validar los datos de entrada.");
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
+                    _apiresponse.ErrorList = errors;
+                    return _apiresponse;
+
+                }
                 _mapper.Map(usuarioDTO, usuario);
                 usuario.FechaActualizacion = DateTime.Now;
                 await _repository.Update(usuario);

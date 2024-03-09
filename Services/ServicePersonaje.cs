@@ -134,13 +134,6 @@ namespace API_MortalKombat.Service
                     _apiresponse.ErrorList = errors;
                     return _apiresponse;
                 }
-                    if (personajeCreateDto == null)
-                {
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("El id 0 no se puede utilizar.");
-                    return _apiresponse;
-                }
                 var existPersonaje = await _repository.GetByName(personajeCreateDto.Nombre); //verifico que no haya otro con el mismo nomrbe
                 if (existPersonaje != null)
                 {
@@ -186,18 +179,11 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                if (id == 0)
-                {
-                    _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _apiresponse.isExit = false;
-                    _logger.LogError("Error al encontrar el personaje.");
-                    return _apiresponse;
-                }
                 var personaje = await _repository.GetById(id); ;
                 if (personaje == null)
                 {
                     _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("El personaje no se encuentra registrado.");
+                    _logger.LogError("El personaje no se encuentra registrado. Verifica que el id ingresado sea correcto.");
                     _apiresponse.isExit = false;
                     return _apiresponse;
                 }
@@ -230,7 +216,7 @@ namespace API_MortalKombat.Service
                     _apiresponse.ErrorList = errors;
                     return _apiresponse;
                 }
-                if (id != personajeUpdateDto.Id)
+                if (id == 0 || id != personajeUpdateDto.Id)
                 {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.NotFound;
@@ -313,17 +299,14 @@ namespace API_MortalKombat.Service
                     _logger.LogError("Error con el id del personaje ingresada.");
                     return _apiresponse;
                 }
-                foreach (var i in personaje.Armas!)
+                if (personaje.Armas.Any(arma => arma.Id == idArma))
                 {
-                    if (i.Id == idArma)
-                    {
-                        _apiresponse.isExit = false;
-                        _apiresponse.statusCode = HttpStatusCode.NotFound;
-                        _logger.LogError("El personaje de id "+ idPersonaje + " ya cuenta con el arma de id "+ idArma + ".");
-                        return _apiresponse;
-                    }
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.NotFound;
+                    _logger.LogError("El personaje de id " + idPersonaje + " ya cuenta con el arma de id " + idArma + ".");
+                    return _apiresponse;
                 }
-                personaje.Armas.Add(arma);
+                personaje.Armas!.Add(arma);
                 await _repository.Save();
                 _logger.LogInformation("Arma agregada con exito a personaje.");
                 _apiresponse.statusCode = HttpStatusCode.OK;
@@ -366,7 +349,7 @@ namespace API_MortalKombat.Service
                     _logger.LogError("Error con el id del personaje ingresada.");
                     return _apiresponse;
                 }
-                if (personaje.Armas!.Any(arma => arma.Id == idArma))
+                if (!personaje.Armas.Any(arma => arma.Id == idArma))
                     {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.BadRequest;
@@ -417,19 +400,16 @@ namespace API_MortalKombat.Service
                     _logger.LogError("Error con el id del personaje ingresada.");
                     return _apiresponse;
                 }
-                foreach (var i in personaje.EstilosDePeleas!)
+                if (personaje.EstilosDePeleas.Any(estilo => estilo.Id == idEstiloDePelea))
                 {
-                    if (i.Id == idEstiloDePelea)
-                    {
-                        _apiresponse.isExit = false;
-                        _apiresponse.statusCode = HttpStatusCode.NotFound;
-                        _logger.LogError("El personaje de id " + idPersonaje + " ya cuenta con el estilo de pelea de id " + idEstiloDePelea + ".");
-                        return _apiresponse;
-                    }
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.NotFound;
+                    _logger.LogError("El personaje de id " + idPersonaje + " ya cuenta con el estilo de pelea de id " + idEstiloDePelea + ".");
+                    return _apiresponse;
                 }
-                personaje.EstilosDePeleas.Add(estilo);
+                personaje.EstilosDePeleas!.Add(estilo);
                 await _repository.Save();
-                _logger.LogInformation("Arma agregada con exito a personaje.");
+                _logger.LogInformation("Estilo de pelea agregado con exito a personaje.");
                 _apiresponse.statusCode = HttpStatusCode.OK;
                 _apiresponse.Result = _mapper.Map<PersonajeDto>(personaje); ;
                 return _apiresponse;
@@ -470,7 +450,7 @@ namespace API_MortalKombat.Service
                     _logger.LogError("Error con el id del personaje ingresada.");
                     return _apiresponse;
                 }
-                if (!personaje.EstilosDePeleas!.Any(estilo => estilo.Id == idEstiloDePelea))
+                if (!personaje.EstilosDePeleas.Any(estilo => estilo.Id == idEstiloDePelea))
                 {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.BadRequest;
@@ -497,13 +477,6 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                if (personajeUpdateDto == null || id == 0)
-                {
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
-                    _logger.LogError("Error al ingresar los datos.");
-                    return _apiresponse;
-                }
                 var personaje = await _repository.GetById(id);
                 if (personaje == null)
                 {

@@ -127,13 +127,6 @@ namespace API_MortalKombat.Service
                     _apiresponse.ErrorList = errors;
                     return _apiresponse;
                 }
-                if (reinoCreateDto == null)
-                {
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("El id 0 no se puede utilizar.");
-                    return _apiresponse;
-                }
                 var existReino = await _repository.GetByName(reinoCreateDto.Nombre); //verifico que no haya otro con el mismo nomrbe
                 if (existReino != null)
                 {
@@ -163,18 +156,11 @@ namespace API_MortalKombat.Service
         {
             try 
             {
-                if (id == 0)
-                {
-                    _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _apiresponse.isExit = false;
-                    _logger.LogError("Error al encontrar el reino.");
-                    return _apiresponse;
-                }
                 var reino = await _repository.GetById(id); ;
                 if (reino == null)
                 {
                     _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("El reino no se encuentra registrado.");
+                    _logger.LogError("El reino no se encuentra registrado. Verifica que el id ingresado sea correcto.");
                     _apiresponse.isExit = false;
                     return _apiresponse;
                 }
@@ -218,7 +204,7 @@ namespace API_MortalKombat.Service
                     _apiresponse.ErrorList = errors;
                     return _apiresponse;
                 }
-                if (id != reinoUpdateDto.Id)
+                if (id == 0 || id != reinoUpdateDto.Id)
                 {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.NotFound;
@@ -262,13 +248,6 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                if (reinoUpdateDto == null || id == 0)
-                {
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
-                    _logger.LogError("Error al ingresar los datos.");
-                    return _apiresponse;
-                }
                 var reino = await _repository.GetById(id);
                 if (reino == null)
                 {

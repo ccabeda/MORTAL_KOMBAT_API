@@ -125,13 +125,6 @@ namespace API_MortalKombat.Service
                     _apiresponse.ErrorList = errors;
                     return _apiresponse;
                 }
-                if (estiloCreateDto == null)
-                {
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("El id 0 no se puede utilizar.");
-                    return _apiresponse;
-                }
                 var existStyle = await _repository.GetByName(estiloCreateDto.Nombre); //verifico que no haya otro con el mismo nomrbe
                 if (existStyle != null)
                 {
@@ -161,18 +154,11 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                if (id == 0)
-                {
-                    _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _apiresponse.isExit = false;
-                    _logger.LogError("Error al encontrar el estilo de pelea.");
-                    return _apiresponse;
-                }
-                var estilo = await _repository.GetById(id); ;
+                var estilo = await _repository.GetById(id);
                 if (estilo == null)
                 {
                     _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("El estilo de pelea no se encuentra registrado.");
+                    _logger.LogError("El estilo de pelea no se encuentra registrado. Verifica que el id ingresado sea correcto.");
                     _apiresponse.isExit = false;
                     return _apiresponse;
                 }
@@ -205,7 +191,7 @@ namespace API_MortalKombat.Service
                     _apiresponse.ErrorList = errors;
                     return _apiresponse;
                 }
-                if (id != estiloUpdateDto.Id)
+                if (id == 0 || id != estiloUpdateDto.Id)
                 {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.NotFound;
@@ -249,13 +235,6 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                if (estiloDePeleaUpdateDto == null || id == 0)
-                {
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
-                    _logger.LogError("Error al ingresar los datos.");
-                    return _apiresponse;
-                }
                 var estiloDePelea = await _repository.GetById(id);
                 if (estiloDePelea == null)
                 {

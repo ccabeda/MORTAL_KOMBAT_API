@@ -127,13 +127,6 @@ namespace API_MortalKombat.Service
                     _apiresponse.ErrorList = errors;
                     return _apiresponse;
                 }
-                if (clanCreateDto == null)
-                {
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("El id 0 no se puede utilizar.");
-                    return _apiresponse;
-                }
                 var existClan = await _repository.GetByName(clanCreateDto.Nombre); //verifico que no haya otro con el mismo nomrbe
                 if (existClan != null)
                 {
@@ -163,18 +156,11 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                if (id == 0)
-                {
-                    _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _apiresponse.isExit = false;
-                    _logger.LogError("Error al encontrar el clan.");
-                    return _apiresponse;
-                }
                 var clan = await _repository.GetById(id); ;
                 if (clan == null)
                 {
                     _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("El clan no se encuentra registrado.");
+                    _logger.LogError("El clan no se encuentra registrado. Verifica que el id ingresado sea correcto.");
                     _apiresponse.isExit = false;
                     return _apiresponse;
                 }
@@ -218,7 +204,7 @@ namespace API_MortalKombat.Service
                     _apiresponse.ErrorList = errors;
                     return _apiresponse;
                 }
-                if (id != clanUpdateDto.Id)
+                if (id == 0 || id != clanUpdateDto.Id)
                 {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.NotFound;
@@ -262,13 +248,6 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                if (clanUpdateDto == null || id == 0) 
-                {
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
-                    _logger.LogError("Error al ingresar los datos.");
-                    return _apiresponse;
-                }
                 var clan = await _repository.GetById(id);
                 if (clan == null)
                 {

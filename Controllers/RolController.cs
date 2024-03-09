@@ -26,57 +26,44 @@ namespace API_MortalKombat.Controllers
         public async Task<ActionResult<APIResponse>> GetRoles()
         {
             var result = await _service.GetRoles();
-            if (result.statusCode == HttpStatusCode.OK)
+            switch (result.statusCode)
             {
-                return Ok(result);
-            }
-            else
-            {
-                return NotFound(result);
+                case HttpStatusCode.OK:
+                    return Ok(result);
+                default:
+                    return NotFound(result);
             }
         }
 
         [HttpGet(("{id}"), Name = "GetRolbyId")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<APIResponse>> GetRolById(int id) //get para traer con id
         {
             var result = await _service.GetRolById(id);
-            if (result.statusCode == HttpStatusCode.OK)
+            switch (result.statusCode)
             {
-                return Ok(result);
-            }
-            else if (result.statusCode == HttpStatusCode.BadRequest)
-            {
-                return BadRequest(result);
-            }
-            else
-            {
-                return NotFound(result);
+                case HttpStatusCode.OK:
+                    return Ok(result);
+                default:
+                    return NotFound(result);
             }
         }
 
         [HttpGet(("nombre/{name}"), Name = "GetRolbyName")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<APIResponse>> GetRolByName(String name) //get para traer con nombre
         {
             var result = await _service.GetRolByName(name);
-            if (result.statusCode == HttpStatusCode.OK)
+            switch (result.statusCode)
             {
-                return Ok(result);
-            }
-            else if (result.statusCode == HttpStatusCode.BadRequest)
-            {
-                return BadRequest(result);
-            }
-            else
-            {
-                return NotFound(result);
+                case HttpStatusCode.OK:
+                    return Ok(result);
+                default:
+                    return NotFound(result);
             }
         }
 
@@ -84,30 +71,20 @@ namespace API_MortalKombat.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<APIResponse>> CreateRol([FromBody] RolCreateDto rolCreateDto)
         {
             var result = await _service.CreateRol(rolCreateDto);
-            if (result.statusCode == HttpStatusCode.OK)
+            switch (result.statusCode)
             {
-                return Ok(result);
-            }
-            else if (result.statusCode == HttpStatusCode.BadRequest)
-            {
-                return BadRequest(result);
-            }
-            else if (result.statusCode == HttpStatusCode.Created)
-            {
-                return Ok(result);
-            }
-            else if (result.statusCode == HttpStatusCode.Conflict)
-            {
-                return Conflict(result);
-            }
-            else
-            {
-                return NotFound(result);
+                case HttpStatusCode.Created:
+                    return Ok(result);
+                case HttpStatusCode.Conflict:
+                    return Conflict(result);
+                case HttpStatusCode.BadRequest:
+                    return BadRequest(result);
+                default:
+                    return NotFound(result);
             }
         }
 
@@ -115,16 +92,18 @@ namespace API_MortalKombat.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
         public async Task<ActionResult<APIResponse>> PutRol(int id, [FromBody] RolUpdateDto rolUpdateDto)
         {
             var result = await _service.UpdateRol(id, rolUpdateDto);
-            if (result.statusCode == HttpStatusCode.OK)
+            switch (result.statusCode)
             {
-                return Ok(result);
-            }
-            else
-            {
-                return NotFound(result);
+                case HttpStatusCode.OK:
+                    return Ok(result);
+                case HttpStatusCode.BadRequest:
+                    return Conflict(result);
+                default:
+                    return NotFound(result);
             }
         }
 
@@ -135,29 +114,27 @@ namespace API_MortalKombat.Controllers
         public async Task<ActionResult<APIResponse>> DeleteRol(int id)
         {
             var result = await _service.DeleteRol(id);
-            if (result.statusCode == HttpStatusCode.OK)
+            switch (result.statusCode)
             {
-                return Ok(result);
-            }
-            else
-            {
-                return NotFound(result);
+                case HttpStatusCode.OK:
+                    return Ok(result);
+                default:
+                    return NotFound(result);
             }
         }
 
         [HttpPatch(("{id}"), Name = "UpdatePartialRol")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> UpdatePartiaRol(int id, JsonPatchDocument<RolUpdateDto> rolUpdateDto)
+        public async Task<IActionResult> UpdatePartialRol(int id, JsonPatchDocument<RolUpdateDto> rolUpdateDto)
         {
             var result = await _service.UpdatePartialRol(id, rolUpdateDto);
-            if (result.statusCode == HttpStatusCode.BadRequest)
+            switch (result.statusCode)
             {
-                return BadRequest(result);
-            }
-            else
-            {
-                return Ok(result);
+                case HttpStatusCode.OK:
+                    return Ok(result);
+                default:
+                    return NotFound(result);
             }
         }
     }

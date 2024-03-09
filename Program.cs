@@ -6,6 +6,7 @@ using API_MortalKombat.Models.DTOs.ClanDTO;
 using API_MortalKombat.Models.DTOs.EstiloDePeleaDTO;
 using API_MortalKombat.Models.DTOs.PersonajeDTO;
 using API_MortalKombat.Models.DTOs.ReinoDTO;
+using API_MortalKombat.Models.DTOs.RolDTO;
 using API_MortalKombat.Models.DTOs.UsuarioDTO;
 using API_MortalKombat.Repository;
 using API_MortalKombat.Repository.IRepository;
@@ -115,6 +116,8 @@ builder.Services.AddScoped<IValidator<EstiloDePeleaCreateDto>, EstiloDePeleaCrea
 builder.Services.AddScoped<IValidator<EstiloDePeleaUpdateDto>, EstiloDePeleaUpdateValidator>();
 builder.Services.AddScoped<IValidator<UsuarioCreateDto>, UsuarioCreateValidator>();
 builder.Services.AddScoped<IValidator<UsuarioUpdateDto>, UsuarioUpdateValidator>();
+builder.Services.AddScoped<IValidator<RolCreateDto>, RolCreateValidator>();
+builder.Services.AddScoped<IValidator<RolUpdateDto>, RolUpdateValidator>();
 
 var app = builder.Build();
 
