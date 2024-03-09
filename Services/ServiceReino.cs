@@ -42,7 +42,7 @@ namespace API_MortalKombat.Service
                     _logger.LogError("El id 0 no se puede utilizar.");
                     return _apiresponse;
                 }
-                var reino = await _repository.ObtenerPorId(id);
+                var reino = await _repository.GetById(id);
                 if (reino == null)
                 {
                     _apiresponse.isExit = false;
@@ -74,7 +74,7 @@ namespace API_MortalKombat.Service
                     _logger.LogError("No se ingreso un nombre.");
                     return _apiresponse;
                 }
-                var reino = await _repository.ObtenerPorNombre(name);
+                var reino = await _repository.GetByName(name);
                 if (reino == null)
                 {
                     _apiresponse.isExit = false;
@@ -99,8 +99,8 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                IEnumerable<Reino> lista_reinos = await _repository.ObtenerTodos();
-                _apiresponse.Result = _mapper.Map<IEnumerable<ReinoDto>>(lista_reinos);
+                IEnumerable<Reino> listReinos = await _repository.GetAll();
+                _apiresponse.Result = _mapper.Map<IEnumerable<ReinoDto>>(listReinos);
                 _apiresponse.statusCode = HttpStatusCode.OK;
                 return _apiresponse;
             }
@@ -117,10 +117,10 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                var fluent_validation = await _validator.ValidateAsync(reinoCreateDto); //uso de fluent validations
-                if (!fluent_validation.IsValid)
+                var fluentValidation = await _validator.ValidateAsync(reinoCreateDto); //uso de fluent validations
+                if (!fluentValidation.IsValid)
                 {
-                    var errors = fluent_validation.Errors.Select(error => error.ErrorMessage).ToList();
+                    var errors = fluentValidation.Errors.Select(error => error.ErrorMessage).ToList();
                     _logger.LogError("Error al validar los datos de entrada.");
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.BadRequest;
@@ -134,8 +134,8 @@ namespace API_MortalKombat.Service
                     _logger.LogError("El id 0 no se puede utilizar.");
                     return _apiresponse;
                 }
-                var existereino = await _repository.ObtenerPorNombre(reinoCreateDto.Nombre); //verifico que no haya otro con el mismo nomrbe
-                if (existereino != null)
+                var existReino = await _repository.GetByName(reinoCreateDto.Nombre); //verifico que no haya otro con el mismo nomrbe
+                if (existReino != null)
                 {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.Conflict; // Conflict indica que ya existe un recurso con el mismo nombre
@@ -144,7 +144,7 @@ namespace API_MortalKombat.Service
                 }
                 var reino = _mapper.Map<Reino>(reinoCreateDto);
                 reino!.FechaCreacion = DateTime.Now;
-                await _repository.Crear(reino);
+                await _repository.Create(reino);
                 _apiresponse.statusCode = HttpStatusCode.Created;
                 _apiresponse.Result = _mapper.Map<ReinoDto>(reino);
                 _logger.LogInformation("¡Reino creado con exito!");
@@ -170,7 +170,7 @@ namespace API_MortalKombat.Service
                     _logger.LogError("Error al encontrar el reino.");
                     return _apiresponse;
                 }
-                var reino = await _repository.ObtenerPorId(id); ;
+                var reino = await _repository.GetById(id); ;
                 if (reino == null)
                 {
                     _apiresponse.statusCode = HttpStatusCode.NotFound;
@@ -178,8 +178,8 @@ namespace API_MortalKombat.Service
                     _apiresponse.isExit = false;
                     return _apiresponse;
                 }
-                var lista_personajes = await _repositoryPersonaje.ObtenerTodos();
-                foreach (var i in lista_personajes) //aqui podria usarse el metodo cascada para que se borre todo, pero decidi agergarle esto para mas seguridad
+                var listPersonajes = await _repositoryPersonaje.GetAll();
+                foreach (var i in listPersonajes) //aqui podria usarse el metodo cascada para que se borre todo, pero decidi agergarle esto para mas seguridad
                 {
                     if (i.ClanId == id)
                     {
@@ -189,7 +189,7 @@ namespace API_MortalKombat.Service
                         return _apiresponse;
                     }
                 }
-                await _repository.Eliminar(reino);
+                await _repository.Delete(reino);
                 _apiresponse.statusCode = HttpStatusCode.OK;
                 _apiresponse.Result = _mapper.Map<ReinoDto>(reino);
                 _logger.LogInformation("El reino fue eliminado con exito.");
@@ -208,10 +208,10 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                var fluent_validation = await _validatorUpdate.ValidateAsync(reinoUpdateDto); //uso de fluent validations
-                if (!fluent_validation.IsValid)
+                var fluentValidation = await _validatorUpdate.ValidateAsync(reinoUpdateDto); //uso de fluent validations
+                if (!fluentValidation.IsValid)
                 {
-                    var errors = fluent_validation.Errors.Select(error => error.ErrorMessage).ToList();
+                    var errors = fluentValidation.Errors.Select(error => error.ErrorMessage).ToList();
                     _logger.LogError("Error al validar los datos de entrada.");
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.BadRequest;
@@ -225,7 +225,7 @@ namespace API_MortalKombat.Service
                     _logger.LogError("Error con la id ingresada.");
                     return _apiresponse;
                 }
-                var existereino = await _repository.ObtenerPorId(id);
+                var existereino = await _repository.GetById(id);
                 if (existereino == null)
                 {
                     _apiresponse.isExit = false;
@@ -233,8 +233,8 @@ namespace API_MortalKombat.Service
                     _logger.LogError("No se encuentra registrado el id ingresado.");
                     return _apiresponse;
                 }
-                var nombre_ya_registrado = await _repository.ObtenerPorNombre(reinoUpdateDto.Nombre); //verifico que no haya otro con el mismo nomrbe
-                if (nombre_ya_registrado != null && nombre_ya_registrado.Id != reinoUpdateDto.Id)
+                var registredName = await _repository.GetByName(reinoUpdateDto.Nombre); //verifico que no haya otro con el mismo nomrbe
+                if (registredName != null && registredName.Id != reinoUpdateDto.Id)
                 {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.Conflict; // Conflict indica que ya existe un recurso con el mismo nombre
@@ -246,7 +246,7 @@ namespace API_MortalKombat.Service
                 _apiresponse.statusCode = HttpStatusCode.OK;
                 _apiresponse.Result = _mapper.Map<ReinoDto>(existereino);
                 _logger.LogInformation("¡Reino Actualizado con exito!");
-                await _repository.Actualizar(existereino);
+                await _repository.Update(existereino);
                 return _apiresponse;
             }
             catch (Exception ex)
@@ -269,7 +269,7 @@ namespace API_MortalKombat.Service
                     _logger.LogError("Error al ingresar los datos.");
                     return _apiresponse;
                 }
-                var reino = await _repository.ObtenerPorId(id);
+                var reino = await _repository.GetById(id);
                 if (reino == null)
                 {
                     _apiresponse.isExit = false;
@@ -279,10 +279,10 @@ namespace API_MortalKombat.Service
                 }
                 var reinoDTO = _mapper.Map<ReinoUpdateDto>(reino);
                 reinoUpdateDto.ApplyTo(reinoDTO!);
-                var fluent_validation = await _validatorUpdate.ValidateAsync(reinoDTO!);
-                if (!fluent_validation.IsValid)
+                var fluentValidation = await _validatorUpdate.ValidateAsync(reinoDTO!);
+                if (!fluentValidation.IsValid)
                 {
-                    var errors = fluent_validation.Errors.Select(error => error.ErrorMessage).ToList();
+                    var errors = fluentValidation.Errors.Select(error => error.ErrorMessage).ToList();
                     _logger.LogError("Error al validar los datos de entrada.");
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.BadRequest;
@@ -292,7 +292,7 @@ namespace API_MortalKombat.Service
                 }
                 _mapper.Map(reinoDTO, reino);
                 reino.FechaActualizacion = DateTime.Now;
-                await _repository.Actualizar(reino);
+                await _repository.Update(reino);
                 _apiresponse.statusCode = HttpStatusCode.OK;
                 _apiresponse.Result = reinoDTO;
                 return _apiresponse;

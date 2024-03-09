@@ -4,7 +4,7 @@ namespace API_MortalKombat.Services.IService
 {
     public interface IServiceLogin
     {
-        public string GenerarTokendeLogin(Usuario usuario);
+        public string GenerarTokendeLogin(Usuario user);
         public Task<APIResponse> LoginUsuario(Login login);
     }
 }

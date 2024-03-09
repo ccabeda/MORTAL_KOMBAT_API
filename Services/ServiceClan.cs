@@ -42,7 +42,7 @@ namespace API_MortalKombat.Service
                     _logger.LogError("El id 0 no se puede utilizar.");
                     return _apiresponse;
                 }
-                var clan = await _repository.ObtenerPorId(id);
+                var clan = await _repository.GetById(id);
                 if (clan == null)
                 {
                     _apiresponse.isExit = false;
@@ -74,7 +74,7 @@ namespace API_MortalKombat.Service
                     _logger.LogError("No se ingreso un nombre.");
                     return _apiresponse;
                 }
-                var clan = await _repository.ObtenerPorNombre(name);
+                var clan = await _repository.GetByName(name);
                 if (clan == null)
                 {
                     _apiresponse.isExit = false;
@@ -99,8 +99,8 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                IEnumerable<Clan> lista_clanes = await _repository.ObtenerTodos();
-                _apiresponse.Result = _mapper.Map<IEnumerable<ClanDto>>(lista_clanes);
+                IEnumerable<Clan> listClanes = await _repository.GetAll();
+                _apiresponse.Result = _mapper.Map<IEnumerable<ClanDto>>(listClanes);
                 _apiresponse.statusCode = HttpStatusCode.OK;
                 return _apiresponse;
             }
@@ -117,10 +117,10 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                var fluent_validation = await _validator.ValidateAsync(clanCreateDto); //uso de fluent validations
-                if (!fluent_validation.IsValid)
+                var fluentValidation = await _validator.ValidateAsync(clanCreateDto); //uso de fluent validations
+                if (!fluentValidation.IsValid)
                 {
-                    var errors = fluent_validation.Errors.Select(error => error.ErrorMessage).ToList();
+                    var errors = fluentValidation.Errors.Select(error => error.ErrorMessage).ToList();
                     _logger.LogError("Error al validar los datos de entrada.");
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.BadRequest;
@@ -134,8 +134,8 @@ namespace API_MortalKombat.Service
                     _logger.LogError("El id 0 no se puede utilizar.");
                     return _apiresponse;
                 }
-                var existeclan = await _repository.ObtenerPorNombre(clanCreateDto.Nombre); //verifico que no haya otro con el mismo nomrbe
-                if (existeclan != null)
+                var existClan = await _repository.GetByName(clanCreateDto.Nombre); //verifico que no haya otro con el mismo nomrbe
+                if (existClan != null)
                 {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.Conflict; // Conflict indica que ya existe un recurso con el mismo nombre
@@ -144,7 +144,7 @@ namespace API_MortalKombat.Service
                 }
                 var clan = _mapper.Map<Clan>(clanCreateDto);
                 clan!.FechaCreacion = DateTime.Now;
-                await _repository.Crear(clan);
+                await _repository.Create(clan);
                 _apiresponse.statusCode = HttpStatusCode.Created;
                 _apiresponse.Result = _mapper.Map<ClanDto>(clan);
                 _logger.LogInformation("¡Clan creado con exito!");
@@ -170,7 +170,7 @@ namespace API_MortalKombat.Service
                     _logger.LogError("Error al encontrar el clan.");
                     return _apiresponse;
                 }
-                var clan = await _repository.ObtenerPorId(id); ;
+                var clan = await _repository.GetById(id); ;
                 if (clan == null)
                 {
                     _apiresponse.statusCode = HttpStatusCode.NotFound;
@@ -178,8 +178,8 @@ namespace API_MortalKombat.Service
                     _apiresponse.isExit = false;
                     return _apiresponse;
                 }
-                var lista_personajes = await _repositoryPersonaje.ObtenerTodos();
-                foreach (var i in lista_personajes) //aqui podria usarse el metodo cascada para que se borre todo, pero decidi agergarle esto para mas seguridad
+                var listCharacter = await _repositoryPersonaje.GetAll();
+                foreach (var i in listCharacter) //aqui podria usarse el metodo cascada para que se borre todo, pero decidi agergarle esto para mas seguridad
                 {
                     if (i.ClanId == id )
                     {
@@ -189,7 +189,7 @@ namespace API_MortalKombat.Service
                         return _apiresponse;
                     }
                 }
-                await _repository.Eliminar(clan);
+                await _repository.Delete(clan);
                 _apiresponse.statusCode = HttpStatusCode.OK;
                 _apiresponse.Result = _mapper.Map<ClanDto>(clan);
                 _logger.LogInformation("El clan fue eliminado con exito.");
@@ -208,10 +208,10 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                var fluent_validation = await _validatorUpdate.ValidateAsync(clanUpdateDto); //uso de fluent validations
-                if (!fluent_validation.IsValid)
+                var fluentValidation = await _validatorUpdate.ValidateAsync(clanUpdateDto); //uso de fluent validations
+                if (!fluentValidation.IsValid)
                 {
-                    var errors = fluent_validation.Errors.Select(error => error.ErrorMessage).ToList();
+                    var errors = fluentValidation.Errors.Select(error => error.ErrorMessage).ToList();
                     _logger.LogError("Error al validar los datos de entrada.");
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.BadRequest;
@@ -225,28 +225,28 @@ namespace API_MortalKombat.Service
                     _logger.LogError("Error con la id ingresada.");
                     return _apiresponse;
                 }
-                var existeclan = await _repository.ObtenerPorId(id);
-                if (existeclan == null)
+                var existClan = await _repository.GetById(id);
+                if (existClan == null)
                 {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.NotFound;
                     _logger.LogError("No se encuentra registrado el id ingresado.");
                     return _apiresponse;
                 }
-                var nombre_ya_registrado = await _repository.ObtenerPorNombre(clanUpdateDto.Nombre); //verifico que no haya otro con el mismo nomrbe
-                if (nombre_ya_registrado != null && nombre_ya_registrado.Id != clanUpdateDto.Id)
+                var registredName = await _repository.GetByName(clanUpdateDto.Nombre); //verifico que no haya otro con el mismo nomrbe
+                if (registredName != null && registredName.Id != clanUpdateDto.Id)
                 {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.Conflict; // Conflict indica que ya existe un recurso con el mismo nombre
                     _logger.LogError("Ya existe un clan con el mismo nombre.");
                     return _apiresponse;
                 }
-                _mapper.Map(clanUpdateDto, existeclan);
-                existeclan.FechaActualizacion = DateTime.Now;
+                _mapper.Map(clanUpdateDto, existClan);
+                existClan.FechaActualizacion = DateTime.Now;
                 _apiresponse.statusCode = HttpStatusCode.OK;
-                _apiresponse.Result = _mapper.Map<ClanDto>(existeclan);
+                _apiresponse.Result = _mapper.Map<ClanDto>(existClan);
                 _logger.LogInformation("¡Clan Actualizado con exito!");
-                await _repository.Actualizar(existeclan);
+                await _repository.Update(existClan);
                 return _apiresponse;
             }
             catch (Exception ex)
@@ -269,7 +269,7 @@ namespace API_MortalKombat.Service
                     _logger.LogError("Error al ingresar los datos.");
                     return _apiresponse;
                 }
-                var clan = await _repository.ObtenerPorId(id);
+                var clan = await _repository.GetById(id);
                 if (clan == null)
                 {
                     _apiresponse.isExit = false;
@@ -279,10 +279,10 @@ namespace API_MortalKombat.Service
                 }
                 var clanDTO = _mapper.Map<ClanUpdateDto>(clan); 
                 clanUpdateDto.ApplyTo(clanDTO!); 
-                var fluent_validation = await _validatorUpdate.ValidateAsync(clanDTO!); 
-                if (!fluent_validation.IsValid)
+                var fluentValidation = await _validatorUpdate.ValidateAsync(clanDTO!); 
+                if (!fluentValidation.IsValid)
                 {
-                    var errors = fluent_validation.Errors.Select(error => error.ErrorMessage).ToList();
+                    var errors = fluentValidation.Errors.Select(error => error.ErrorMessage).ToList();
                     _logger.LogError("Error al validar los datos de entrada.");
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.BadRequest;
@@ -292,7 +292,7 @@ namespace API_MortalKombat.Service
                 }
                 _mapper.Map(clanDTO, clan); 
                 clan.FechaActualizacion = DateTime.Now;
-                await _repository.Actualizar(clan); 
+                await _repository.Update(clan); 
                 _apiresponse.statusCode = HttpStatusCode.OK;
                 _apiresponse.Result = clanDTO;
                 return _apiresponse;

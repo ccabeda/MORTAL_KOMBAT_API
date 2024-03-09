@@ -4,12 +4,12 @@ namespace API_MortalKombat.Repository.IRepository
 {
     public interface IRepositoryArma
     {
-        Task<Arma?> ObtenerPorNombre(string nombre);
-        Task<Arma?> ObtenerPorId(int id);
-        Task<List<Arma>> ObtenerTodos();
-        Task Crear(Arma arma);
-        Task Actualizar(Arma arma);
-        Task Eliminar(Arma arma);
-        Task Guardar();
+        Task<Arma?> GetByName(string name);
+        Task<Arma?> GetById(int id);
+        Task<List<Arma>> GetAll();
+        Task Create(Arma arm);
+        Task Update(Arma arm);
+        Task Delete(Arma arm);
+        Task Save();
     }
 }

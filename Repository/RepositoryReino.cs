@@ -13,40 +13,40 @@ namespace API_MortalKombat.Repository
             _context = context;
         }
 
-        public async Task<Reino?> ObtenerPorId(int id)
+        public async Task<Reino?> GetById(int id)
         {
              return await _context.Reinos.FindAsync(id);
         }
 
-        public async Task<Reino?> ObtenerPorNombre(string name)
+        public async Task<Reino?> GetByName(string name)
         {
             return await _context.Reinos.FirstOrDefaultAsync(r => r.Nombre.ToLower() == name.ToLower());
         }
 
-        public async Task<List<Reino>> ObtenerTodos()
+        public async Task<List<Reino>> GetAll()
         {
             return await _context.Reinos.AsNoTracking().ToListAsync();
         }
 
-        public async Task Crear(Reino reino)
+        public async Task Create(Reino reino)
         {
             await _context.Reinos.AddAsync(reino);
-            await Guardar();
+            await Save();
         }
 
-        public async Task Eliminar(Reino reino)
+        public async Task Delete(Reino reino)
         {
             _context.Reinos.Remove(reino);
-            await Guardar();
+            await Save();
         }
 
-        public async Task Actualizar(Reino reino)
+        public async Task Update(Reino reino)
         {
             _context.Update(reino);
-            await Guardar();
+            await Save();
         }
 
-        public async Task Guardar()
+        public async Task Save()
         {
             await _context.SaveChangesAsync();  
         }

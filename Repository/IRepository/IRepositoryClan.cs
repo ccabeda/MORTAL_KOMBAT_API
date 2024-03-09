@@ -4,12 +4,12 @@ namespace API_MortalKombat.Repository.IRepository
 {
     public interface IRepositoryClan
     {
-        Task<Clan?> ObtenerPorNombre(string nombre);
-        Task<Clan?> ObtenerPorId(int id);
-        Task<List<Clan>> ObtenerTodos();
-        Task Crear(Clan clan);
-        Task Actualizar(Clan clan);
-        Task Eliminar(Clan clan);
-        Task Guardar();
+        Task<Clan?> GetByName(string name);
+        Task<Clan?> GetById(int id);
+        Task<List<Clan>> GetAll();
+        Task Create(Clan clan);
+        Task Update(Clan clan);
+        Task Delete(Clan clan);
+        Task Save();
     }
 }

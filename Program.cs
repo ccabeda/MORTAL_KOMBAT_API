@@ -31,7 +31,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     //Titulo y diseño
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Village API", Version = "V2" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "MortalKombat API", Version = "V2" });
     //boton de autorización
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {

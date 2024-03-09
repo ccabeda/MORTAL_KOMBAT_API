@@ -41,7 +41,7 @@ namespace API_MortalKombat.Service
                     _logger.LogError("El id 0 no se puede utilizar.");
                     return _apiresponse;
                 }
-                var arma = await _repository.ObtenerPorId(id);
+                var arma = await _repository.GetById(id);
                 if (arma == null)
                 {
                     _apiresponse.isExit = false;
@@ -73,7 +73,7 @@ namespace API_MortalKombat.Service
                     _logger.LogError("No se ingreso un nombre.");
                     return _apiresponse;
                 }
-                var arma = await _repository.ObtenerPorNombre(name);
+                var arma = await _repository.GetByName(name);
                 if (arma == null)
                 {
                     _apiresponse.isExit = false;
@@ -98,8 +98,8 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                IEnumerable<Arma> lista_armas = await _repository.ObtenerTodos();
-                _apiresponse.Result = _mapper.Map<IEnumerable<ArmaDto>>(lista_armas);
+                IEnumerable<Arma> listArmas = await _repository.GetAll();
+                _apiresponse.Result = _mapper.Map<IEnumerable<ArmaDto>>(listArmas);
                 _apiresponse.statusCode = HttpStatusCode.OK;
                 return _apiresponse;
             }
@@ -116,10 +116,10 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                var fluent_validation = await _validator.ValidateAsync(armaCreateDto); //uso de fluent validations
-                if (!fluent_validation.IsValid)
+                var fluetValidation = await _validator.ValidateAsync(armaCreateDto); //uso de fluent validations
+                if (!fluetValidation.IsValid)
                 {
-                    var errors = fluent_validation.Errors.Select(error => error.ErrorMessage).ToList();
+                    var errors = fluetValidation.Errors.Select(error => error.ErrorMessage).ToList();
                     _logger.LogError("Error al validar los datos de entrada.");
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.BadRequest;
@@ -133,8 +133,8 @@ namespace API_MortalKombat.Service
                     _logger.LogError("El id 0 no se puede utilizar.");
                     return _apiresponse;
                 }
-                var existearma = await _repository.ObtenerPorNombre(armaCreateDto.Nombre); //verifico que no haya otro con el mismo nomrbe
-                if (existearma != null)
+                var existArma = await _repository.GetByName(armaCreateDto.Nombre); //verifico que no haya otro con el mismo nomrbe
+                if (existArma != null)
                 {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.Conflict; // Conflict indica que ya existe un recurso con el mismo nombre
@@ -143,7 +143,7 @@ namespace API_MortalKombat.Service
                 }
                 var arma = _mapper.Map<Arma>(armaCreateDto);
                 arma!.FechaCreacion = DateTime.Now;
-                await _repository.Crear(arma);
+                await _repository.Create(arma);
                 _apiresponse.statusCode = HttpStatusCode.Created;
                 _apiresponse.Result = _mapper.Map<ArmaDto>(arma);
                 _logger.LogInformation("¡Arma creado con exito!");
@@ -169,7 +169,7 @@ namespace API_MortalKombat.Service
                     _logger.LogError("Error al encontrar el arma.");
                     return _apiresponse;
                 }
-                var arma = await _repository.ObtenerPorId(id); ;
+                var arma = await _repository.GetById(id); ;
                 if (arma == null)
                 {
                     _apiresponse.statusCode = HttpStatusCode.NotFound;
@@ -177,7 +177,7 @@ namespace API_MortalKombat.Service
                     _apiresponse.isExit = false;
                     return _apiresponse;
                 }
-                await _repository.Eliminar(arma);
+                await _repository.Delete(arma);
                 _apiresponse.statusCode = HttpStatusCode.OK;
                 _apiresponse.Result = _mapper.Map<ArmaDto>(arma);
                 _logger.LogInformation("El arma fue eliminado con exito.");
@@ -196,10 +196,10 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                var fluent_validation = await _validatorUpdate.ValidateAsync(armaUpdateDto); //uso de fluent validations
-                if (!fluent_validation.IsValid)
+                var fluentValidation = await _validatorUpdate.ValidateAsync(armaUpdateDto); //uso de fluent validations
+                if (!fluentValidation.IsValid)
                 {
-                    var errors = fluent_validation.Errors.Select(error => error.ErrorMessage).ToList();
+                    var errors = fluentValidation.Errors.Select(error => error.ErrorMessage).ToList();
                     _logger.LogError("Error al validar los datos de entrada.");
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.BadRequest;
@@ -213,15 +213,15 @@ namespace API_MortalKombat.Service
                     _logger.LogError("Error con la id ingresada.");
                     return _apiresponse;
                 }
-                var existearma = await _repository.ObtenerPorId(id);
-                if (existearma == null)
+                var existArma = await _repository.GetById(id);
+                if (existArma == null)
                 {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.NotFound;
                     _logger.LogError("No se encuentra registrado el id ingresado.");
                     return _apiresponse;
                 }
-                var nombre_ya_registrado = await _repository.ObtenerPorNombre(armaUpdateDto.Nombre); //verifico que no haya otro con el mismo nomrbe
+                var nombre_ya_registrado = await _repository.GetByName(armaUpdateDto.Nombre); //verifico que no haya otro con el mismo nomrbe
                 if (nombre_ya_registrado != null && nombre_ya_registrado.Id != armaUpdateDto.Id)
                 {
                     _apiresponse.isExit = false;
@@ -229,12 +229,12 @@ namespace API_MortalKombat.Service
                     _logger.LogError("Ya existe un arma con el mismo nombre.");
                     return _apiresponse;
                 }
-                _mapper.Map(armaUpdateDto, existearma);
-                existearma.FechaActualizacion = DateTime.Now;
+                _mapper.Map(armaUpdateDto, existArma);
+                existArma.FechaActualizacion = DateTime.Now;
                 _apiresponse.statusCode = HttpStatusCode.OK;
-                _apiresponse.Result = _mapper.Map<ArmaDto>(existearma);
+                _apiresponse.Result = _mapper.Map<ArmaDto>(existArma);
                 _logger.LogInformation("¡Arma Actualizado con exito!");
-                await _repository.Actualizar(existearma);
+                await _repository.Update(existArma);
                 return _apiresponse;
             }
             catch (Exception ex) 
@@ -257,7 +257,7 @@ namespace API_MortalKombat.Service
                     _logger.LogError("Error al ingresar los datos.");
                     return _apiresponse;
                 }
-                var arma = await _repository.ObtenerPorId(id);
+                var arma = await _repository.GetById(id);
                 if (arma == null)
                 {
                     _apiresponse.isExit = false;
@@ -267,10 +267,10 @@ namespace API_MortalKombat.Service
                 }
                 var armaDTO = _mapper.Map<ArmaUpdateDto>(arma); 
                 armaUpdateDto.ApplyTo(armaDTO!); 
-                var fluent_validation = await _validatorUpdate.ValidateAsync(armaDTO!);
-                if (!fluent_validation.IsValid)
+                var fluentValidation = await _validatorUpdate.ValidateAsync(armaDTO!);
+                if (!fluentValidation.IsValid)
                 {
-                    var errors = fluent_validation.Errors.Select(error => error.ErrorMessage).ToList();
+                    var errors = fluentValidation.Errors.Select(error => error.ErrorMessage).ToList();
                     _logger.LogError("Error al validar los datos de entrada.");
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.BadRequest;
@@ -280,7 +280,7 @@ namespace API_MortalKombat.Service
                 }
                 _mapper.Map(armaDTO, arma);
                 arma.FechaActualizacion = DateTime.Now;
-                await _repository.Actualizar(arma); 
+                await _repository.Update(arma); 
                 _apiresponse.statusCode = HttpStatusCode.OK;
                 _apiresponse.Result = armaDTO;
                 return _apiresponse;

@@ -13,39 +13,39 @@ namespace API_MortalKombat.Repository
             _context = context;
         }
 
-        public async Task<EstiloDePelea?> ObtenerPorId(int id)
+        public async Task<EstiloDePelea?> GetById(int id)
         {
             return await _context.EstilosDePeleas.FindAsync(id);
         }
 
-        public async Task<EstiloDePelea?> ObtenerPorNombre(string name)
+        public async Task<EstiloDePelea?> GetByName(string name)
         {
             return await _context.EstilosDePeleas.FirstOrDefaultAsync(e => e.Nombre.ToLower() == name.ToLower());
         }
 
-        public async Task<List<EstiloDePelea>> ObtenerTodos()
+        public async Task<List<EstiloDePelea>> GetAll()
         {
             return await _context.EstilosDePeleas.AsNoTracking().ToListAsync();
         }
 
-        public async Task Crear(EstiloDePelea estilo)
+        public async Task Create(EstiloDePelea style)
         {
-            await _context.EstilosDePeleas.AddAsync(estilo);
-            await Guardar();
+            await _context.EstilosDePeleas.AddAsync(style);
+            await Save();
         }
 
-        public async Task Eliminar(EstiloDePelea estilo)
+        public async Task Delete(EstiloDePelea style)
         {
-            _context.EstilosDePeleas.Remove(estilo);
-            await Guardar();
+            _context.EstilosDePeleas.Remove(style);
+            await Save();
         }
 
-        public async Task Actualizar(EstiloDePelea estilo)
+        public async Task Update(EstiloDePelea style)
         {
-            _context.Update(estilo);
-            await Guardar();
+            _context.Update(style);
+            await Save();
         }
-        public async Task Guardar()
+        public async Task Save()
         {
             await _context.SaveChangesAsync();
         }

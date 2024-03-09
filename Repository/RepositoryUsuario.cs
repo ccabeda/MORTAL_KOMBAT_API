@@ -13,40 +13,40 @@ namespace API_MortalKombat.Repository
             _context = context;
         }
 
-        public async Task Actualizar(Usuario usuario)
+        public async Task Update(Usuario user)
         {
-            _context.Update(usuario);
-            await Guardar();
+            _context.Update(user);
+            await Save();
         }
 
-        public async Task Crear(Usuario usuario)
+        public async Task Create(Usuario user)
         {
-            await _context.Usuarios.AddAsync(usuario);
-            await Guardar();
+            await _context.Usuarios.AddAsync(user);
+            await Save();
         }
 
-        public async Task Eliminar(Usuario usuario)
+        public async Task Delete(Usuario user)
         {
-            _context.Remove(usuario);
-            await Guardar();
+            _context.Remove(user);
+            await Save();
         }
 
-        public async Task Guardar()
+        public async Task Save()
         {
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Usuario?> ObtenerPorId(int id)
+        public async Task<Usuario?> GetById(int id)
         {
             return await _context.Usuarios.Include(u => u.Rol).FirstOrDefaultAsync(u => u.Id == id);
         }
 
-        public async Task<Usuario?> ObtenerPorNombre(string nombre)
+        public async Task<Usuario?> GetByName(string name)
         {
-            return await _context.Usuarios.Include(u => u.Rol).FirstOrDefaultAsync(u => u.NombreDeUsuario == nombre);
+            return await _context.Usuarios.Include(u => u.Rol).FirstOrDefaultAsync(u => u.NombreDeUsuario == name);
         }
 
-        public async Task<List<Usuario>> ObtenerTodos()
+        public async Task<List<Usuario>> GetAll()
         {
             return await _context.Usuarios.AsNoTracking().Include(u => u.Rol).ToListAsync();
         }

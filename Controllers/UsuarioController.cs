@@ -4,7 +4,6 @@ using System.Net;
 using API_MortalKombat.Services.IService;
 using API_MortalKombat.Models.DTOs.UsuarioDTO;
 using Microsoft.AspNetCore.Authorization;
-using API_MortalKombat.Models.DTOs.RolDTO;
 using Microsoft.AspNetCore.JsonPatch;
 
 namespace API_MortalKombat.Controllers

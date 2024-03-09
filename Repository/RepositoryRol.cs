@@ -13,40 +13,40 @@ namespace API_MortalKombat.Repository
             _context = context;
         }
 
-        public async Task Actualizar(Rol rol)
+        public async Task Update(Rol rol)
         {
             _context.Update(rol);
-            await Guardar();
+            await Save();
         }
 
-        public async Task Crear(Rol rol)
+        public async Task Create(Rol rol)
         {
             await _context.Roles.AddAsync(rol);
-            await Guardar();
+            await Save();
         }
 
-        public async Task Eliminar(Rol rol)
+        public async Task Delete(Rol rol)
         {
             _context.Roles.Remove(rol);
-            await Guardar();
+            await Save();
         }
 
-        public async Task Guardar()
+        public async Task Save()
         {
             await _context.SaveChangesAsync();  
         }
 
-        public async Task<Rol?> ObtenerPorId(int id)
+        public async Task<Rol?> GetById(int id)
         {
             return await _context.Roles.FindAsync(id);
         }
 
-        public async Task<Rol?> ObtenerPorNombre(string nombre)
+        public async Task<Rol?> GetByName(string nombre)
         {
             return await _context.Roles.FirstOrDefaultAsync(r => r.Nombre == nombre);
         }
 
-        public async Task<List<Rol>> ObtenerTodos()
+        public async Task<List<Rol>> GetAll()
         {
             return await _context.Roles.AsNoTracking().ToListAsync();
         }

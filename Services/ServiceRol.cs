@@ -29,8 +29,8 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                IEnumerable<Rol> lista_roles = await _repository.ObtenerTodos();
-                _apiresponse.Result = _mapper.Map<IEnumerable<RolDto>>(lista_roles);
+                IEnumerable<Rol> listRoles = await _repository.GetAll();
+                _apiresponse.Result = _mapper.Map<IEnumerable<RolDto>>(listRoles);
                 _apiresponse.statusCode = HttpStatusCode.OK;
                 return _apiresponse;
             }
@@ -54,7 +54,7 @@ namespace API_MortalKombat.Service
                     _logger.LogError("El id 0 no se puede utilizar.");
                     return _apiresponse;
                 }
-                var rol = await _repository.ObtenerPorId(id);
+                var rol = await _repository.GetById(id);
                 if (rol == null)
                 {
                     _apiresponse.isExit = false;
@@ -86,7 +86,7 @@ namespace API_MortalKombat.Service
                     _logger.LogError("No se ingreso un nombre.");
                     return _apiresponse;
                 }
-                var rol = await _repository.ObtenerPorNombre(name);
+                var rol = await _repository.GetByName(name);
                 if (rol == null)
                 {
                     _apiresponse.isExit = false;
@@ -118,7 +118,7 @@ namespace API_MortalKombat.Service
                     _logger.LogError("El id 0 no se puede utilizar.");
                     return _apiresponse;
                 }
-                var existeRol = await _repository.ObtenerPorNombre(rolCreateDto.Nombre);
+                var existeRol = await _repository.GetByName(rolCreateDto.Nombre);
                 if (existeRol != null)
                 {
                     _apiresponse.isExit = false;
@@ -128,7 +128,7 @@ namespace API_MortalKombat.Service
                 }
                 var rol = _mapper.Map<Rol>(rolCreateDto);
                 rol!.FechaCreacion = DateTime.Now;
-                await _repository.Crear(rol);
+                await _repository.Create(rol);
                 _apiresponse.statusCode = HttpStatusCode.OK;
                 _apiresponse.Result = _mapper.Map<RolDto>(rol);
                 _logger.LogInformation("¡Rol creado con exito!");
@@ -153,7 +153,7 @@ namespace API_MortalKombat.Service
                     _logger.LogError("El id 0 no se puede utilizar.");
                     return _apiresponse;
                 }
-                var rol = await _repository.ObtenerPorId(id);
+                var rol = await _repository.GetById(id);
                 if (rol == null)
                 {
                     _apiresponse.statusCode = HttpStatusCode.NotFound;
@@ -161,8 +161,8 @@ namespace API_MortalKombat.Service
                     _apiresponse.isExit = false;
                     return _apiresponse;
                 }
-                var lista_usuarios = await _repositoryUsuario.ObtenerTodos();
-                foreach (var i in lista_usuarios) //aqui podria usarse el metodo cascada para que se borre todo, pero decidi agergarle esto para mas seguridad
+                var listUsuarios = await _repositoryUsuario.GetAll();
+                foreach (var i in listUsuarios) //aqui podria usarse el metodo cascada para que se borre todo, pero decidi agergarle esto para mas seguridad
                 {
                     if (i.RolId == id)
                     {
@@ -172,7 +172,7 @@ namespace API_MortalKombat.Service
                         return _apiresponse;
                     }
                 }
-                await _repository.Eliminar(rol);
+                await _repository.Delete(rol);
                 _apiresponse.statusCode = HttpStatusCode.OK;
                 _apiresponse.Result = _mapper.Map<RolDto>(rol);
                 _logger.LogInformation("!Rol eliminado con exito¡");
@@ -198,28 +198,28 @@ namespace API_MortalKombat.Service
                     _logger.LogError("Error con la id ingresada.");
                     return _apiresponse;
                 }
-                var existeRol = await _repository.ObtenerPorId(id);
-                if (existeRol == null)
+                var existRol = await _repository.GetById(id);
+                if (existRol == null)
                 {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.NotFound;
                     _logger.LogError("No se encuentra registrado el id ingresado.");
                     return _apiresponse;
                 }
-                var nombre_ya_registrado = await _repository.ObtenerPorNombre(rolUpdateDto.Nombre);
-                if (nombre_ya_registrado != null && nombre_ya_registrado.Id != rolUpdateDto.Id)
+                var registredName = await _repository.GetByName(rolUpdateDto.Nombre);
+                if (registredName != null && registredName.Id != rolUpdateDto.Id)
                 {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.Conflict;
                     _logger.LogError("Ya existe un rol con el mismo nombre.");
                     return _apiresponse;
                 }
-                _mapper.Map(rolUpdateDto, existeRol);
-                existeRol.FechaActualizacion = DateTime.Now;
+                _mapper.Map(rolUpdateDto, existRol);
+                existRol.FechaActualizacion = DateTime.Now;
                 _apiresponse.statusCode = HttpStatusCode.OK;
-                _apiresponse.Result = _mapper.Map<RolDto>(existeRol);
+                _apiresponse.Result = _mapper.Map<RolDto>(existRol);
                 _logger.LogInformation("¡Rol Actualizado con exito!");
-                await _repository.Actualizar(existeRol);
+                await _repository.Update(existRol);
                 return _apiresponse;
             }
             catch (Exception ex)
@@ -242,7 +242,7 @@ namespace API_MortalKombat.Service
                     _logger.LogError("Error al ingresar los datos.");
                     return _apiresponse;
                 }
-                var rol = await _repository.ObtenerPorId(id);
+                var rol = await _repository.GetById(id);
                 if (rol == null)
                 {
                     _apiresponse.isExit = false;
@@ -254,7 +254,7 @@ namespace API_MortalKombat.Service
                 rolUpdateDto.ApplyTo(rolDTO!);
                 _mapper.Map(rolDTO, rol);
                 rol.FechaActualizacion = DateTime.Now;
-                await _repository.Actualizar(rol);
+                await _repository.Update(rol);
                 _apiresponse.statusCode = HttpStatusCode.OK;
                 _apiresponse.Result = rolDTO;
                 return _apiresponse;

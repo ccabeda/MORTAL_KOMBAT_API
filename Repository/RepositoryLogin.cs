@@ -12,9 +12,9 @@ namespace API_MortalKombat.Repository
         {
             _context = context;
         }
-        public async Task<Usuario?> Autenticar(Login entidad)
+        public async Task<Usuario?> Authenticate(Login entity)
         {
-            return await _context.Usuarios.FirstOrDefaultAsync(u => u.NombreDeUsuario == entidad.Usuario && u.Contraseña == entidad.Contraseña);
+            return await _context.Usuarios.FirstOrDefaultAsync(u => u.NombreDeUsuario == entity.Usuario && u.Contraseña == entity.Contraseña);
         }
     }
 }

@@ -4,12 +4,12 @@ namespace API_MortalKombat.Repository.IRepository
 {
     public interface IRepositoryReino
     {
-        Task<Reino?> ObtenerPorNombre(string nombre);
-        Task<Reino?> ObtenerPorId(int id);
-        Task<List<Reino>> ObtenerTodos();
-        Task Crear(Reino reino);
-        Task Actualizar(Reino reino);
-        Task Eliminar(Reino reino);
-        Task Guardar();
+        Task<Reino?> GetByName(string name);
+        Task<Reino?> GetById(int id);
+        Task<List<Reino>> GetAll();
+        Task Create(Reino reino);
+        Task Update(Reino reino);
+        Task Delete(Reino reino);
+        Task Save();
     }
 }

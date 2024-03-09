@@ -13,42 +13,42 @@ namespace API_MortalKombat.Repository
             _context = context;
         }
 
-        public async Task<Personaje?> ObtenerPorId(int id)
+        public async Task<Personaje?> GetById(int id)
         {
             return await _context.Personajes.Include(p => p.Clan).Include(p => p.Reino).Include(p => p.Armas).Include(p => p.EstilosDePeleas)
             .FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public async Task<Personaje?> ObtenerPorNombre(string name)
+        public async Task<Personaje?> GetByName(string name)
         {
             return await _context.Personajes.Include(p => p.Clan).Include(p => p.Reino).Include(p => p.Armas).Include(p => p.EstilosDePeleas)
            .FirstOrDefaultAsync(p => p.Nombre.ToLower() == name.ToLower());
         }
 
-        public async Task<List<Personaje>> ObtenerTodos()
+        public async Task<List<Personaje>> GetAll()
         {
             return await _context.Personajes.AsNoTracking().ToListAsync();
         }
 
-        public async Task Crear(Personaje personaje)
+        public async Task Create(Personaje character)
         {
-            await _context.Personajes.AddAsync(personaje);
-            await Guardar();
+            await _context.Personajes.AddAsync(character);
+            await Save();
         }
 
-        public async Task Eliminar(Personaje personaje)
+        public async Task Delete(Personaje character)
         {
-            _context.Personajes.Remove(personaje);
-            await Guardar();
+            _context.Personajes.Remove(character);
+            await Save();
         }
 
-        public async Task Actualizar(Personaje personaje)
+        public async Task Update(Personaje character)
         {
-            _context.Update(personaje);
-            await Guardar();
+            _context.Update(character);
+            await Save();
         }
 
-        public async Task Guardar()
+        public async Task Save()
         {
             await _context.SaveChangesAsync();  
         }

@@ -13,40 +13,40 @@ namespace API_MortalKombat.Repository
             _context = context;
         }
 
-        public async Task<Arma?> ObtenerPorId(int id)
+        public async Task<Arma?> GetById(int id)
         {
             return await _context.Armas.FindAsync(id); //aqui no uso asNoTracking ya que voy a usarlo para actualizarlo 
         }
 
-        public async Task<Arma?> ObtenerPorNombre(string name) 
+        public async Task<Arma?> GetByName(string name) 
         {
             return await _context.Armas.FirstOrDefaultAsync(a => a.Nombre.ToLower() == name.ToLower()); //como solo quiero mostrar el nombre, utilizo AsNoTracking
         }
 
-        public async Task<List<Arma>> ObtenerTodos()
+        public async Task<List<Arma>> GetAll()
         {
             return await _context.Armas.AsNoTracking().ToListAsync(); //como solo quiero mostrar el nombre, utilizo AsNoTracking
         }
 
-        public async Task Crear(Arma arma)
+        public async Task Create(Arma arm)
         {
-            await _context.Armas.AddAsync(arma);
-            await Guardar();
+            await _context.Armas.AddAsync(arm);
+            await Save();
         }
 
-        public async Task Eliminar(Arma arma)
+        public async Task Delete(Arma arm)
         {
-            _context.Armas.Remove(arma);
-            await Guardar();
+            _context.Armas.Remove(arm);
+            await Save();
         }
 
-        public async Task Actualizar(Arma arma)
+        public async Task Update(Arma arm)
         {
-            _context.Update(arma);
-            await Guardar();
+            _context.Update(arm);
+            await Save();
         }
 
-        public async Task Guardar()
+        public async Task Save()
         {
             await _context.SaveChangesAsync();
         }

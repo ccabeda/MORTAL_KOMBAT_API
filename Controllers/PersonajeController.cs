@@ -144,14 +144,14 @@ namespace API_MortalKombat.Controllers
             }
         }
 
-        [HttpPut(("{id_personaje}/AddWeapon/{id_arma}"), Name = "AddWeaponToPersonaje")]
+        [HttpPut(("{idPersonaje}/AddWeapon/{idArma}"), Name = "AddWeaponToPersonaje")]
         [Authorize(Roles = "1,2")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<APIResponse>> AddWeaponToPersonaje(int id_personaje, int id_arma)
+        public async Task<ActionResult<APIResponse>> AddWeaponToPersonaje(int idPersonaje, int idArma)
         {
-            var result = await _service.AddWeaponToPersonaje(id_personaje, id_arma);
+            var result = await _service.AddWeaponToPersonaje(idPersonaje, idArma);
             if (result.statusCode == HttpStatusCode.OK)
             {
                 return Ok(result);
@@ -162,15 +162,15 @@ namespace API_MortalKombat.Controllers
             }
         }
 
-        [HttpPut(("{id_personaje}/RemoveWeapon/{id_arma}"), Name = "RemoveWeaponToPersonaje")]
+        [HttpPut(("{idPersonaje}/RemoveWeapon/{idArma}"), Name = "RemoveWeaponToPersonaje")]
         [Authorize(Roles = "1,2")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<APIResponse>> RemoveWeaponToPersonaje(int id_personaje, int id_arma)
+        public async Task<ActionResult<APIResponse>> RemoveWeaponToPersonaje(int idPersonaje, int idArma)
         {
-            var result = await _service.RemoveWeaponToPersonaje(id_personaje, id_arma);
+            var result = await _service.RemoveWeaponToPersonaje(idPersonaje, idArma);
             if (result.statusCode == HttpStatusCode.OK)
             {
                 return Ok(result);
@@ -185,14 +185,14 @@ namespace API_MortalKombat.Controllers
             }
         }
 
-        [HttpPut(("{id_personaje}/AddStyle/{id_estilo_de_pelea}"), Name = "AddStyleToPersonaje")]
+        [HttpPut(("{idPersonaje}/AddStyle/{idEstilDePelea}"), Name = "AddStyleToPersonaje")]
         [Authorize(Roles = "1,2")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<APIResponse>> AddStyleToPersonaje(int id_personaje, int id_estilo_de_pelea)
+        public async Task<ActionResult<APIResponse>> AddStyleToPersonaje(int idPersonaje, int idEstilDePelea)
         {
-            var result = await _service.AddStyleToPersonaje(id_personaje, id_estilo_de_pelea);
+            var result = await _service.AddStyleToPersonaje(idPersonaje, idEstilDePelea);
             if (result.statusCode == HttpStatusCode.OK)
             {
                 return Ok(result);
@@ -203,15 +203,15 @@ namespace API_MortalKombat.Controllers
             }
         }
 
-        [HttpPut(("{id_personaje}/RemoveStyle/{id_estilo_de_pelea}"), Name = "RemoveStyleToPersonaje")]
+        [HttpPut(("{idPersonaje}/RemoveStyle/{idEstilDePelea}"), Name = "RemoveStyleToPersonaje")]
         [Authorize(Roles = "1,2")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<APIResponse>> RemoveStyleToPersonaje(int id_personaje, int id_estilo_de_pelea)
+        public async Task<ActionResult<APIResponse>> RemoveStyleToPersonaje(int idPersonaje, int idEstilDePelea)
         {
-            var result = await _service.RemoveStyleToPersonaje(id_personaje, id_estilo_de_pelea);
+            var result = await _service.RemoveStyleToPersonaje(idPersonaje, idEstilDePelea);
             if (result.statusCode == HttpStatusCode.OK)
             {
                 return Ok(result);

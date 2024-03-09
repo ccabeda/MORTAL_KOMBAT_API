@@ -4,12 +4,12 @@ namespace API_MortalKombat.Repository.IRepository
 {
     public interface IRepositoryEstiloDePelea
     {
-        Task<EstiloDePelea?> ObtenerPorNombre(string nombre);
-        Task<EstiloDePelea?> ObtenerPorId(int id);
-        Task<List<EstiloDePelea>> ObtenerTodos();
-        Task Crear(EstiloDePelea estilo);
-        Task Actualizar(EstiloDePelea estilo);
-        Task Eliminar(EstiloDePelea estilo);
-        Task Guardar();
+        Task<EstiloDePelea?> GetByName(string name);
+        Task<EstiloDePelea?> GetById(int id);
+        Task<List<EstiloDePelea>> GetAll();
+        Task Create(EstiloDePelea style);
+        Task Update(EstiloDePelea style);
+        Task Delete(EstiloDePelea style);
+        Task Save();
     }
 }

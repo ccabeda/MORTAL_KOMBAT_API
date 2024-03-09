@@ -23,17 +23,17 @@ namespace API_MortalKombat.Service
             _apiresponse = response;
         }
 
-        public string GenerarTokendeLogin(Usuario usuario)
+        public string GenerarTokendeLogin(Usuario user)
         {
             var llave = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]!));
             var credencial = new SigningCredentials(llave, SecurityAlgorithms.HmacSha256);
             var claims = new[]
             {
-                new Claim(ClaimTypes.NameIdentifier, usuario.NombreDeUsuario),
-                new Claim(ClaimTypes.GivenName, usuario.Nombre),
-                new Claim(ClaimTypes.Surname, usuario.Apellido),
-                new Claim(ClaimTypes.Email, usuario.Mail),
-                new Claim(ClaimTypes.Role, usuario.RolId.ToString()),
+                new Claim(ClaimTypes.NameIdentifier, user.NombreDeUsuario),
+                new Claim(ClaimTypes.GivenName, user.Nombre),
+                new Claim(ClaimTypes.Surname, user.Apellido),
+                new Claim(ClaimTypes.Email, user.Mail),
+                new Claim(ClaimTypes.Role, user.RolId.ToString()),
             };
             //crear token
             var token = new JwtSecurityToken(
@@ -50,22 +50,22 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                var usuario = await _repository.Autenticar(login);
-                if (usuario == null)
+                var user = await _repository.Authenticate(login);
+                if (user == null)
                 {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.BadRequest;
                     _logger.LogError("Usuario o contraseña incorrecta.");
                     return _apiresponse;
                 }
-                var token = GenerarTokendeLogin(usuario);
+                var token = GenerarTokendeLogin(user);
                 _apiresponse.statusCode = HttpStatusCode.OK;
                 _apiresponse.Token = token;
                 return _apiresponse;
             }
             catch (Exception ex)
             {
-                _logger.LogError("Ocurrió un error al intentar actualizar el reino: " + ex.Message);
+                _logger.LogError("Ocurrió un error al intentar ingrear a su usuario: " + ex.Message);
                 _apiresponse.isExit = false;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
             }

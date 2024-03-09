@@ -10,7 +10,7 @@ namespace API_MortalKombat.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "1")]
+    [Authorize(Roles = "1")] //pongo aqui para que todos sean necesarios autorización
     public class RolController : ControllerBase
     {
         private readonly IServiceRol _service;
