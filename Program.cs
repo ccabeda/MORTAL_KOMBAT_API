@@ -57,7 +57,8 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-builder.Services.AddDbContext<AplicationDbContext>(option => //Aquí se establece cómo el contexto de la base de datos se conectará a la base de datos,                                                             //qué proveedor de base de datos se utilizará y otra configuración relacionada con la conexión.
+builder.Services.AddDbContext<AplicationDbContext>(option => //Aquí se establece cómo el contexto de la base de datos se conectará a la base de datos,                                                             
+//qué proveedor de base de datos se utilizará y otra configuración relacionada con la conexión.
 {
     option.UseSqlServer(builder.Configuration.GetConnectionString("Connection"));
 });

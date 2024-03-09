@@ -3,6 +3,46 @@
   "WorkspaceRootPath": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\API_MortalKombat\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{EAADCCDF-042B-4470-9B90-A0C4A552F7AF}|API_MortalKombat.csproj|c:\\users\\cabed\\onedrive\\desktop\\curso\\c_sharp\\api_mortalkombat\\services\\serviceusuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EAADCCDF-042B-4470-9B90-A0C4A552F7AF}|API_MortalKombat.csproj|solutionrelative:services\\serviceusuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EAADCCDF-042B-4470-9B90-A0C4A552F7AF}|API_MortalKombat.csproj|c:\\users\\cabed\\onedrive\\desktop\\curso\\c_sharp\\api_mortalkombat\\validations\\armacreatevalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EAADCCDF-042B-4470-9B90-A0C4A552F7AF}|API_MortalKombat.csproj|solutionrelative:validations\\armacreatevalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EAADCCDF-042B-4470-9B90-A0C4A552F7AF}|API_MortalKombat.csproj|c:\\users\\cabed\\onedrive\\desktop\\curso\\c_sharp\\api_mortalkombat\\validations\\armaupdatevalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EAADCCDF-042B-4470-9B90-A0C4A552F7AF}|API_MortalKombat.csproj|solutionrelative:validations\\armaupdatevalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EAADCCDF-042B-4470-9B90-A0C4A552F7AF}|API_MortalKombat.csproj|c:\\users\\cabed\\onedrive\\desktop\\curso\\c_sharp\\api_mortalkombat\\validations\\clancreatevalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EAADCCDF-042B-4470-9B90-A0C4A552F7AF}|API_MortalKombat.csproj|solutionrelative:validations\\clancreatevalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EAADCCDF-042B-4470-9B90-A0C4A552F7AF}|API_MortalKombat.csproj|c:\\users\\cabed\\onedrive\\desktop\\curso\\c_sharp\\api_mortalkombat\\validations\\clanupdatevalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EAADCCDF-042B-4470-9B90-A0C4A552F7AF}|API_MortalKombat.csproj|solutionrelative:validations\\clanupdatevalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EAADCCDF-042B-4470-9B90-A0C4A552F7AF}|API_MortalKombat.csproj|c:\\users\\cabed\\onedrive\\desktop\\curso\\c_sharp\\api_mortalkombat\\validations\\estilodepeleacreatevalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EAADCCDF-042B-4470-9B90-A0C4A552F7AF}|API_MortalKombat.csproj|solutionrelative:validations\\estilodepeleacreatevalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EAADCCDF-042B-4470-9B90-A0C4A552F7AF}|API_MortalKombat.csproj|c:\\users\\cabed\\onedrive\\desktop\\curso\\c_sharp\\api_mortalkombat\\validations\\estilodepeleaupdatevalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EAADCCDF-042B-4470-9B90-A0C4A552F7AF}|API_MortalKombat.csproj|solutionrelative:validations\\estilodepeleaupdatevalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EAADCCDF-042B-4470-9B90-A0C4A552F7AF}|API_MortalKombat.csproj|c:\\users\\cabed\\onedrive\\desktop\\curso\\c_sharp\\api_mortalkombat\\automapperconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EAADCCDF-042B-4470-9B90-A0C4A552F7AF}|API_MortalKombat.csproj|solutionrelative:automapperconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EAADCCDF-042B-4470-9B90-A0C4A552F7AF}|API_MortalKombat.csproj|c:\\users\\cabed\\onedrive\\desktop\\curso\\c_sharp\\api_mortalkombat\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EAADCCDF-042B-4470-9B90-A0C4A552F7AF}|API_MortalKombat.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EAADCCDF-042B-4470-9B90-A0C4A552F7AF}|API_MortalKombat.csproj|c:\\users\\cabed\\onedrive\\desktop\\curso\\c_sharp\\api_mortalkombat\\data\\aplicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EAADCCDF-042B-4470-9B90-A0C4A552F7AF}|API_MortalKombat.csproj|solutionrelative:data\\aplicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{EAADCCDF-042B-4470-9B90-A0C4A552F7AF}|API_MortalKombat.csproj|c:\\users\\cabed\\onedrive\\desktop\\curso\\c_sharp\\api_mortalkombat\\services\\servicepersonaje.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{EAADCCDF-042B-4470-9B90-A0C4A552F7AF}|API_MortalKombat.csproj|solutionrelative:services\\servicepersonaje.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -79,10 +119,6 @@
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\Service_MortalKombatAPI\\Services\\ServiceClan.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EAADCCDF-042B-4470-9B90-A0C4A552F7AF}|API_MortalKombat.csproj|c:\\users\\cabed\\onedrive\\desktop\\curso\\c_sharp\\api_mortalkombat\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EAADCCDF-042B-4470-9B90-A0C4A552F7AF}|API_MortalKombat.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{EAADCCDF-042B-4470-9B90-A0C4A552F7AF}|API_MortalKombat.csproj|c:\\users\\cabed\\onedrive\\desktop\\curso\\c_sharp\\api_mortalkombat\\controllers\\armacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{EAADCCDF-042B-4470-9B90-A0C4A552F7AF}|API_MortalKombat.csproj|solutionrelative:controllers\\armacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -135,6 +171,123 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "ServiceUsuario.cs",
+              "DocumentMoniker": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\API_MortalKombat\\Services\\ServiceUsuario.cs",
+              "RelativeDocumentMoniker": "Services\\ServiceUsuario.cs",
+              "ToolTip": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\API_MortalKombat\\Services\\ServiceUsuario.cs",
+              "RelativeToolTip": "Services\\ServiceUsuario.cs",
+              "ViewState": "AQIAAJcAAAAAAAAAAAAcwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-09T06:06:27.87Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ArmaUpdateValidator.cs",
+              "DocumentMoniker": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\API_MortalKombat\\Validations\\ArmaUpdateValidator.cs",
+              "RelativeDocumentMoniker": "Validations\\ArmaUpdateValidator.cs",
+              "ToolTip": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\API_MortalKombat\\Validations\\ArmaUpdateValidator.cs",
+              "RelativeToolTip": "Validations\\ArmaUpdateValidator.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-09T06:06:18.623Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "EstiloDePeleaUpdateValidator.cs",
+              "DocumentMoniker": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\API_MortalKombat\\Validations\\EstiloDePeleaUpdateValidator.cs",
+              "RelativeDocumentMoniker": "Validations\\EstiloDePeleaUpdateValidator.cs",
+              "ToolTip": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\API_MortalKombat\\Validations\\EstiloDePeleaUpdateValidator.cs",
+              "RelativeToolTip": "Validations\\EstiloDePeleaUpdateValidator.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-09T06:05:29.45Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "EstiloDePeleaCreateValidator.cs",
+              "DocumentMoniker": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\API_MortalKombat\\Validations\\EstiloDePeleaCreateValidator.cs",
+              "RelativeDocumentMoniker": "Validations\\EstiloDePeleaCreateValidator.cs",
+              "ToolTip": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\API_MortalKombat\\Validations\\EstiloDePeleaCreateValidator.cs",
+              "RelativeToolTip": "Validations\\EstiloDePeleaCreateValidator.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-09T06:05:28.725Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ClanUpdateValidator.cs",
+              "DocumentMoniker": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\API_MortalKombat\\Validations\\ClanUpdateValidator.cs",
+              "RelativeDocumentMoniker": "Validations\\ClanUpdateValidator.cs",
+              "ToolTip": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\API_MortalKombat\\Validations\\ClanUpdateValidator.cs",
+              "RelativeToolTip": "Validations\\ClanUpdateValidator.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-09T06:05:27.165Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ClanCreateValidator.cs",
+              "DocumentMoniker": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\API_MortalKombat\\Validations\\ClanCreateValidator.cs",
+              "RelativeDocumentMoniker": "Validations\\ClanCreateValidator.cs",
+              "ToolTip": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\API_MortalKombat\\Validations\\ClanCreateValidator.cs",
+              "RelativeToolTip": "Validations\\ClanCreateValidator.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-09T06:05:24.938Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ArmaCreateValidator.cs",
+              "DocumentMoniker": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\API_MortalKombat\\Validations\\ArmaCreateValidator.cs",
+              "RelativeDocumentMoniker": "Validations\\ArmaCreateValidator.cs",
+              "ToolTip": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\API_MortalKombat\\Validations\\ArmaCreateValidator.cs",
+              "RelativeToolTip": "Validations\\ArmaCreateValidator.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-09T06:05:23.329Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "AutomapperConfig.cs",
+              "DocumentMoniker": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\API_MortalKombat\\AutomapperConfig.cs",
+              "RelativeDocumentMoniker": "AutomapperConfig.cs",
+              "ToolTip": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\API_MortalKombat\\AutomapperConfig.cs",
+              "RelativeToolTip": "AutomapperConfig.cs",
+              "ViewState": "AQIAABAAAAAAAAAAAAAgwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-09T06:05:19.255Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "AplicationDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\API_MortalKombat\\Data\\AplicationDbContext.cs",
+              "RelativeDocumentMoniker": "Data\\AplicationDbContext.cs",
+              "ToolTip": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\API_MortalKombat\\Data\\AplicationDbContext.cs",
+              "RelativeToolTip": "Data\\AplicationDbContext.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-09T06:05:07.456Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
               "Title": "ServicePersonaje.cs",
               "DocumentMoniker": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\API_MortalKombat\\Services\\ServicePersonaje.cs",
               "RelativeDocumentMoniker": "Services\\ServicePersonaje.cs",
@@ -147,7 +300,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 11,
               "Title": "Microsoft.Common.CurrentVersion.targets",
               "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
@@ -155,12 +308,11 @@
               "RelativeToolTip": "..\\..\\..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
               "ViewState": "AQIAAOoHAAAAAAAAAAAhwGgIAAAEAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003801|",
-              "WhenOpened": "2024-03-09T05:50:11.485Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-09T05:50:11.485Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 12,
               "Title": "ServiceReino.cs",
               "DocumentMoniker": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\API_MortalKombat\\Services\\ServiceReino.cs",
               "RelativeDocumentMoniker": "Services\\ServiceReino.cs",
@@ -168,12 +320,11 @@
               "RelativeToolTip": "Services\\ServiceReino.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-09T05:50:00.39Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-09T05:50:00.39Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 15,
               "Title": "Data_MortalKombatAPI.csproj",
               "DocumentMoniker": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\Data_MortalKombatAPI\\Data_MortalKombatAPI.csproj",
               "RelativeDocumentMoniker": "..\\Data_MortalKombatAPI\\Data_MortalKombatAPI.csproj",
@@ -184,7 +335,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 25,
               "Title": "ServiceArma.cs",
               "DocumentMoniker": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\Service_MortalKombatAPI\\Services\\ServiceArma.cs",
               "RelativeDocumentMoniker": "..\\Service_MortalKombatAPI\\Services\\ServiceArma.cs",
@@ -195,19 +346,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 8,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\API_MortalKombat\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\API_MortalKombat\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AQIAACYAAAAAAAAAAAApwCYAAAAfAAAA",
+              "ViewState": "AQIAAGsAAAAAAAAAAAApwDwAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-02-07T09:13:18.591Z"
+              "WhenOpened": "2024-02-07T09:13:18.591Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 26,
               "Title": "Service_MortalKombatAPI.csproj",
               "DocumentMoniker": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\Service_MortalKombatAPI\\Service_MortalKombatAPI.csproj",
               "RelativeDocumentMoniker": "..\\Service_MortalKombatAPI\\Service_MortalKombatAPI.csproj",
@@ -218,7 +370,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 27,
               "Title": "ServiceLogin.cs",
               "DocumentMoniker": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\Service_MortalKombatAPI\\Services\\ServiceLogin.cs",
               "RelativeDocumentMoniker": "..\\Service_MortalKombatAPI\\Services\\ServiceLogin.cs",
@@ -229,7 +381,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 14,
               "Title": "API_MortalKombat.csproj",
               "DocumentMoniker": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\API_MortalKombat\\API_MortalKombat.csproj",
               "RelativeDocumentMoniker": "API_MortalKombat.csproj",
@@ -237,12 +389,11 @@
               "RelativeToolTip": "API_MortalKombat.csproj",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2024-03-09T05:19:38.443Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-09T05:19:38.443Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 13,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\API_MortalKombat\\appsettings.json",
               "RelativeDocumentMoniker": "appsettings.json",
@@ -250,12 +401,11 @@
               "RelativeToolTip": "appsettings.json",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAZAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-02-07T09:13:18.657Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-02-07T09:13:18.657Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 24,
               "Title": "AutomapperConfig.cs",
               "DocumentMoniker": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\Models_MortalKombatAPI\\AutomapperConfig.cs",
               "RelativeDocumentMoniker": "..\\Models_MortalKombatAPI\\AutomapperConfig.cs",
@@ -266,7 +416,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 23,
               "Title": "ServiceReino.cs",
               "DocumentMoniker": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\Service_MortalKombatAPI\\Services\\ServiceReino.cs",
               "RelativeDocumentMoniker": "..\\Service_MortalKombatAPI\\Services\\ServiceReino.cs",
@@ -277,7 +427,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 22,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\Models_MortalKombatAPI\\Program.cs",
               "RelativeDocumentMoniker": "..\\Models_MortalKombatAPI\\Program.cs",
@@ -288,7 +438,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 28,
               "Title": "AplicationDbContext.cs",
               "DocumentMoniker": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\Data_MortalKombatAPI\\Data\\AplicationDbContext.cs",
               "RelativeDocumentMoniker": "..\\Data_MortalKombatAPI\\Data\\AplicationDbContext.cs",
@@ -299,7 +449,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 29,
               "Title": "RepositoryArma.cs",
               "DocumentMoniker": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\Repository_MortalKombatAPI\\Repository\\RepositoryArma.cs",
               "RelativeDocumentMoniker": "..\\Repository_MortalKombatAPI\\Repository\\RepositoryArma.cs",
@@ -310,7 +460,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 32,
               "Title": "ArmaController.cs",
               "DocumentMoniker": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\API_MortalKombat\\Controllers\\ArmaController.cs",
               "RelativeDocumentMoniker": "Controllers\\ArmaController.cs",
@@ -322,7 +472,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 30,
               "Title": "Arma.cs",
               "DocumentMoniker": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\Models_MortalKombatAPI\\Models\\Arma.cs",
               "RelativeDocumentMoniker": "..\\Models_MortalKombatAPI\\Models\\Arma.cs",
@@ -333,7 +483,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 31,
               "Title": "ServiceClan.cs",
               "DocumentMoniker": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\Service_MortalKombatAPI\\Services\\ServiceClan.cs",
               "RelativeDocumentMoniker": "..\\Service_MortalKombatAPI\\Services\\ServiceClan.cs",
@@ -344,7 +494,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 33,
               "Title": "UsuarioController.cs",
               "DocumentMoniker": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\API_MortalKombat\\Controllers\\UsuarioController.cs",
               "RelativeDocumentMoniker": "Controllers\\UsuarioController.cs",
@@ -356,7 +506,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 34,
               "Title": "RolController.cs",
               "DocumentMoniker": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\API_MortalKombat\\Controllers\\RolController.cs",
               "RelativeDocumentMoniker": "Controllers\\RolController.cs",
@@ -368,7 +518,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 35,
               "Title": "ReinoController.cs",
               "DocumentMoniker": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\API_MortalKombat\\Controllers\\ReinoController.cs",
               "RelativeDocumentMoniker": "Controllers\\ReinoController.cs",
@@ -380,7 +530,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 36,
               "Title": "PersonajeController.cs",
               "DocumentMoniker": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\API_MortalKombat\\Controllers\\PersonajeController.cs",
               "RelativeDocumentMoniker": "Controllers\\PersonajeController.cs",
@@ -392,7 +542,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 37,
               "Title": "LoginController.cs",
               "DocumentMoniker": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\API_MortalKombat\\Controllers\\LoginController.cs",
               "RelativeDocumentMoniker": "Controllers\\LoginController.cs",
@@ -404,7 +554,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 38,
               "Title": "EstiloDePeleaController.cs",
               "DocumentMoniker": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\API_MortalKombat\\Controllers\\EstiloDePeleaController.cs",
               "RelativeDocumentMoniker": "Controllers\\EstiloDePeleaController.cs",
@@ -416,7 +566,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 39,
               "Title": "ClanController.cs",
               "DocumentMoniker": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\API_MortalKombat\\Controllers\\ClanController.cs",
               "RelativeDocumentMoniker": "Controllers\\ClanController.cs",
@@ -428,7 +578,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
+              "DocumentIndex": 40,
               "Title": "API_MortalKombat.http",
               "DocumentMoniker": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\API_MortalKombat\\API_MortalKombat.http",
               "RelativeDocumentMoniker": "API_MortalKombat.http",
@@ -440,7 +590,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
+              "DocumentIndex": 41,
               "Title": "README.md",
               "DocumentMoniker": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\API_MortalKombat\\README.md",
               "RelativeDocumentMoniker": "README.md",
@@ -452,7 +602,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 16,
               "Title": "20240110091100_fix_bugsv2.cs",
               "DocumentMoniker": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\API_MortalKombat\\Migrations\\20240110091100_fix_bugsv2.cs",
               "RelativeDocumentMoniker": "Migrations\\20240110091100_fix_bugsv2.cs",
@@ -463,7 +613,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 17,
               "Title": "20240110090853_fix_bugsv2.cs",
               "DocumentMoniker": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\API_MortalKombat\\Migrations\\20240110090853_fix_bugsv2.cs",
               "RelativeDocumentMoniker": "Migrations\\20240110090853_fix_bugsv2.cs",
@@ -474,7 +624,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 18,
               "Title": "20240110090350_fix_bugs.cs",
               "DocumentMoniker": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\API_MortalKombat\\Migrations\\20240110090350_fix_bugs.cs",
               "RelativeDocumentMoniker": "Migrations\\20240110090350_fix_bugs.cs",
@@ -485,7 +635,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 20,
               "Title": "MortalKombat_API.csproj",
               "DocumentMoniker": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\API_MortalKombat\\MortalKombat_API.csproj",
               "RelativeDocumentMoniker": "MortalKombat_API.csproj",
@@ -496,7 +646,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 19,
               "Title": "20240109090626_Arreglandoproblemas.cs",
               "DocumentMoniker": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\API_MortalKombat\\Migrations\\20240109090626_Arreglandoproblemas.cs",
               "RelativeDocumentMoniker": "Migrations\\20240109090626_Arreglandoproblemas.cs",
@@ -507,7 +657,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 21,
               "Title": "MortalKombat_API.csproj",
               "DocumentMoniker": "C:\\Users\\cabed\\OneDrive\\Desktop\\Curso\\c_sharp\\API_MortalKombat\\MortalKombat_API.csproj",
               "RelativeDocumentMoniker": "MortalKombat_API.csproj",
