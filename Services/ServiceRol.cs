@@ -45,6 +45,7 @@ namespace API_MortalKombat.Service
             {
                 _logger.LogError("Ocurrió un error al obtener la lista de Roles: " + ex.Message);
                 _apiresponse.isExit = false;
+                _apiresponse.statusCode = HttpStatusCode.NotFound;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
             }
             return _apiresponse;
@@ -54,13 +55,6 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                if (id == 0)
-                {
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("El id 0 no se puede utilizar.");
-                    return _apiresponse;
-                }
                 var rol = await _repository.GetById(id);
                 if (rol == null)
                 {
@@ -77,6 +71,7 @@ namespace API_MortalKombat.Service
             {
                 _logger.LogError("Ocurrió un error al intentar crear el Rol: " + ex.Message);
                 _apiresponse.isExit = false;
+                _apiresponse.statusCode = HttpStatusCode.NotFound;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
             }
             return _apiresponse;
@@ -109,6 +104,7 @@ namespace API_MortalKombat.Service
             {
                 _logger.LogError("Ocurrió un error al intentar crear el Rol: " + ex.Message);
                 _apiresponse.isExit = false;
+                _apiresponse.statusCode = HttpStatusCode.NotFound;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() };
             }
             return _apiresponse;
@@ -147,6 +143,7 @@ namespace API_MortalKombat.Service
             {
                 _logger.LogError("Ocurrió un error al intentar crear el Rol: " + ex.Message);
                 _apiresponse.isExit = false;
+                _apiresponse.statusCode = HttpStatusCode.NotFound;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
             }
             return _apiresponse;
@@ -185,6 +182,7 @@ namespace API_MortalKombat.Service
             {
                 _logger.LogError("Ocurrió un error al intentar crear el Rol: " + ex.Message);
                 _apiresponse.isExit = false;
+                _apiresponse.statusCode = HttpStatusCode.NotFound;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
             }
             return _apiresponse;
@@ -239,6 +237,7 @@ namespace API_MortalKombat.Service
             {
                 _logger.LogError("Ocurrió un error al intentar actualizar al personaje: " + ex.Message);
                 _apiresponse.isExit = false;
+                _apiresponse.statusCode = HttpStatusCode.NotFound;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
             }
             return _apiresponse;
@@ -280,6 +279,7 @@ namespace API_MortalKombat.Service
             {
                 _logger.LogError("Ocurrió un error al intentar actualizar el rol de id: " + id + ". Error: " + ex.Message);
                 _apiresponse.isExit = false;
+                _apiresponse.statusCode = HttpStatusCode.NotFound;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() };
             }
             return _apiresponse;

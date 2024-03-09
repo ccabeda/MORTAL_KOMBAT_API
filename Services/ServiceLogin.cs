@@ -67,6 +67,7 @@ namespace API_MortalKombat.Service
             {
                 _logger.LogError("Ocurrió un error al intentar ingrear a su usuario: " + ex.Message);
                 _apiresponse.isExit = false;
+                _apiresponse.statusCode = HttpStatusCode.NotFound;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
             }
             return _apiresponse;

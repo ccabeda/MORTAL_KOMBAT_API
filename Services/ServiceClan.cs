@@ -35,13 +35,6 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                if (id == 0)
-                {
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("El id 0 no se puede utilizar.");
-                    return _apiresponse;
-                }
                 var clan = await _repository.GetById(id);
                 if (clan == null)
                 {
@@ -58,6 +51,7 @@ namespace API_MortalKombat.Service
             {
                 _logger.LogError("Ocurrió un error al obtener el clan de id: " + id + " : " + ex.Message);
                 _apiresponse.isExit = false;
+                _apiresponse.statusCode = HttpStatusCode.NotFound;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
             }
             return _apiresponse;
@@ -90,6 +84,7 @@ namespace API_MortalKombat.Service
             {
                 _logger.LogError("Ocurrió un error al obtener el clan de nombre: " + name + " : " + ex.Message);
                 _apiresponse.isExit = false;
+                _apiresponse.statusCode = HttpStatusCode.NotFound;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
             }
             return _apiresponse;
@@ -108,6 +103,7 @@ namespace API_MortalKombat.Service
             {
                 _logger.LogError("Ocurrió un error al obtener la lista de Clanes: " + ex.Message);
                 _apiresponse.isExit = false;
+                _apiresponse.statusCode = HttpStatusCode.NotFound;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
             }
             return _apiresponse;
@@ -147,6 +143,7 @@ namespace API_MortalKombat.Service
             {
                 _logger.LogError("Ocurrió un error al intentar crear el clan: " + ex.Message);
                 _apiresponse.isExit = false;
+                _apiresponse.statusCode = HttpStatusCode.NotFound;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
             }
             return _apiresponse;
@@ -185,6 +182,7 @@ namespace API_MortalKombat.Service
             {
                 _logger.LogError("Ocurrió un error al eliminar el clan de id " + id + ": " + ex.Message);
                 _apiresponse.isExit = false;
+                _apiresponse.statusCode = HttpStatusCode.NotFound;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
             }
             return _apiresponse;
@@ -239,6 +237,7 @@ namespace API_MortalKombat.Service
             {
                 _logger.LogError("Ocurrió un error al intentar actualizar el clan: " + ex.Message);
                 _apiresponse.isExit = false;
+                _apiresponse.statusCode = HttpStatusCode.NotFound;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
             }
             return _apiresponse;
@@ -280,6 +279,7 @@ namespace API_MortalKombat.Service
             {
                 _logger.LogError("Ocurrió un error al intentar actualizar el clan de id: " + id + ". Error: " + ex.Message);
                 _apiresponse.isExit = false;
+                _apiresponse.statusCode = HttpStatusCode.NotFound;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() }; 
             }
             return _apiresponse;

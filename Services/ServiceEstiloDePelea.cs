@@ -33,13 +33,6 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                if (id == 0)
-                {
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("El id 0 no se puede utilizar.");
-                    return _apiresponse;
-                }
                 var clan = await _repository.GetById(id);
                 if (clan == null)
                 {
@@ -56,6 +49,7 @@ namespace API_MortalKombat.Service
             {
                 _logger.LogError("Ocurrió un error al obtener el estilo de pelea de id: " + id + " : " + ex.Message);
                 _apiresponse.isExit = false;
+                _apiresponse.statusCode = HttpStatusCode.NotFound;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
             }
             return _apiresponse;
@@ -88,6 +82,7 @@ namespace API_MortalKombat.Service
             {
                 _logger.LogError("Ocurrió un error al obtener el estilo de pelea de nombre: " + name + " : " + ex.Message);
                 _apiresponse.isExit = false;
+                _apiresponse.statusCode = HttpStatusCode.NotFound;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
             }
             return _apiresponse;
@@ -106,6 +101,7 @@ namespace API_MortalKombat.Service
             {
                 _logger.LogError("Ocurrió un error al obtener la lista de Estilos De Pelea: " + ex.Message);
                 _apiresponse.isExit = false;
+                _apiresponse.statusCode = HttpStatusCode.NotFound;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
             }
             return _apiresponse;
@@ -145,6 +141,7 @@ namespace API_MortalKombat.Service
             {
                 _logger.LogError("Ocurrió un error al intentar crear el estilo de pelea: " + ex.Message);
                 _apiresponse.isExit = false;
+                _apiresponse.statusCode = HttpStatusCode.NotFound;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
             }
             return _apiresponse;
@@ -172,6 +169,7 @@ namespace API_MortalKombat.Service
             {
                 _logger.LogError("Ocurrió un error al eliminar el clan de id " + id + ": " + ex.Message);
                 _apiresponse.isExit = false;
+                _apiresponse.statusCode = HttpStatusCode.NotFound;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
             }
             return _apiresponse;
@@ -226,6 +224,7 @@ namespace API_MortalKombat.Service
             {
                 _logger.LogError("Ocurrió un error al intentar actualizar el estilo de pelea: " + ex.Message);
                 _apiresponse.isExit = false;
+                _apiresponse.statusCode = HttpStatusCode.NotFound;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
             }
             return _apiresponse;
@@ -267,6 +266,7 @@ namespace API_MortalKombat.Service
             {
                 _logger.LogError("Ocurrió un error al intentar actualizar el estilo de pelea de id: " + id + ". Error: " + ex.Message);
                 _apiresponse.isExit = false;
+                _apiresponse.statusCode = HttpStatusCode.NotFound;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() };
             }
             return _apiresponse;

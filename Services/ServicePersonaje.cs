@@ -42,13 +42,6 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                if (id == 0)
-                {
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("El id 0 no se puede utilizar.");
-                    return _apiresponse;
-                }
                 var personaje = await _repository.GetById(id);
                 if (personaje == null)
                 {
@@ -65,6 +58,7 @@ namespace API_MortalKombat.Service
             {
                 _logger.LogError("Ocurrió un error al obtener al personaje de id: " + id + " : " + ex.Message);
                 _apiresponse.isExit = false;
+                _apiresponse.statusCode = HttpStatusCode.NotFound;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
             }
             return _apiresponse;
@@ -97,6 +91,7 @@ namespace API_MortalKombat.Service
             {
                 _logger.LogError("Ocurrió un error al obtener al personaje de nombre: " + name + " : " + ex.Message);
                 _apiresponse.isExit = false;
+                _apiresponse.statusCode = HttpStatusCode.NotFound;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
             }
             return _apiresponse;
@@ -115,6 +110,7 @@ namespace API_MortalKombat.Service
             {
                 _logger.LogError("Ocurrió un error al obtener la lista de Personajes: " + ex.Message);
                 _apiresponse.isExit = false;
+                _apiresponse.statusCode = HttpStatusCode.NotFound;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
             }
             return _apiresponse;
@@ -143,21 +139,21 @@ namespace API_MortalKombat.Service
                     return _apiresponse;
                 }
                 var verifyReinoId = _repositoryReino.GetById(personajeCreateDto.ReinoId);
-                if (verifyReinoId == null)
-                {
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.BadRequest; // Conflict indica que ya existe un recurso con el mismo nombre
-                    _logger.LogError("El id del reino al que pertenece no se encuentra registrado;");
-                    return _apiresponse;
-                }
                 var verifyClanId = _repositoryClan.GetById(personajeCreateDto.ClanId);
-                if (verifyClanId == null)
+                if (verifyReinoId == null || verifyClanId == null)
                 {
                     _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.BadRequest; // Conflict indica que ya existe un recurso con el mismo nombre
-                    _logger.LogError("El id del clan al que pertenece no se encuentra registrado;");
+                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
+                    if (verifyReinoId == null)
+                    {
+                        _logger.LogError("El id del reino al que pertenece no se encuentra registrado;");
+                    }
+                    if (verifyClanId == null)
+                    {
+                        _logger.LogError("El id del clan al que pertenece no se encuentra registrado;");
+                    }
                     return _apiresponse;
-                }
+                }        
                 var personaje = _mapper.Map<Personaje>(personajeCreateDto);
                 personaje!.FechaCreacion = DateTime.Now;
                 await _repository.Create(personaje);
@@ -170,6 +166,7 @@ namespace API_MortalKombat.Service
             {
                 _logger.LogError("Ocurrió un error al intentar crear el Personaje: " + ex.Message);
                 _apiresponse.isExit = false;
+                _apiresponse.statusCode = HttpStatusCode.NotFound;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
             }
             return _apiresponse;
@@ -197,6 +194,7 @@ namespace API_MortalKombat.Service
             {
                 _logger.LogError("Ocurrió un error al eliminar el personaje de id " + id + ": " + ex.Message);
                 _apiresponse.isExit = false;
+                _apiresponse.statusCode = HttpStatusCode.NotFound;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
             }
             return _apiresponse;
@@ -232,23 +230,23 @@ namespace API_MortalKombat.Service
                     return _apiresponse;
                 }
                 var verifyReinoId = _repositoryReino.GetById(personajeUpdateDto.ReinoId);
-                if (verifyReinoId == null)
-                {
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.BadRequest; // Conflict indica que ya existe un recurso con el mismo nombre
-                    _logger.LogError("El id del reino ingresado no se encuentra registrado;");
-                    return _apiresponse;
-                }
                 var verifyClanId = _repositoryClan.GetById(personajeUpdateDto.ClanId);
-                if (verifyClanId == null)
+                if (verifyReinoId == null || verifyClanId == null)
                 {
                     _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.BadRequest; // Conflict indica que ya existe un recurso con el mismo nombre
-                    _logger.LogError("El id del clan ingresado no se encuentra registrado;");
+                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
+                    if (verifyReinoId == null)
+                    {
+                        _logger.LogError("El id del reino al que pertenece no se encuentra registrado;");
+                    }
+                    if (verifyClanId == null)
+                    {
+                        _logger.LogError("El id del clan al que pertenece no se encuentra registrado;");
+                    }
                     return _apiresponse;
                 }
-                var nombre_ya_registrado = await _repository.GetByName(personajeUpdateDto.Nombre); //verifico que no haya otro con el mismo nomrbe
-                if (nombre_ya_registrado != null && nombre_ya_registrado.Id == personajeUpdateDto.Id)
+                var registredName = await _repository.GetByName(personajeUpdateDto.Nombre); //verifico que no haya otro con el mismo nomrbe
+                if (registredName != null && registredName.Id == personajeUpdateDto.Id)
                 {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.Conflict; // Conflict indica que ya existe un recurso con el mismo nombre
@@ -267,6 +265,7 @@ namespace API_MortalKombat.Service
             {
                 _logger.LogError("Ocurrió un error al intentar actualizar al personaje: " + ex.Message);
                 _apiresponse.isExit = false;
+                _apiresponse.statusCode = HttpStatusCode.NotFound;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
             }
             return _apiresponse;
@@ -284,19 +283,19 @@ namespace API_MortalKombat.Service
                     return _apiresponse;
                 }
                 var arma = await _repositoryArma.GetById(idArma);
-                if (arma == null)
-                {
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("Error con el id del arma ingresada.");
-                    return _apiresponse;
-                }
                 var personaje = await _repository.GetById(idPersonaje);
-                if (personaje == null)
+                if (arma == null || personaje == null)
                 {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("Error con el id del personaje ingresada.");
+                    if (arma == null)
+                    {
+                        _logger.LogError("Error con el id del arma ingresada.");
+                    }
+                    if (personaje == null)
+                    {
+                        _logger.LogError("Error con el id del personaje ingresada.");
+                    }
                     return _apiresponse;
                 }
                 if (personaje.Armas.Any(arma => arma.Id == idArma))
@@ -317,6 +316,7 @@ namespace API_MortalKombat.Service
             {
                 _logger.LogError("Ocurrió un error al inetntar agregar un arma al personaje: " + ex.Message);
                 _apiresponse.isExit = false;
+                _apiresponse.statusCode = HttpStatusCode.NotFound;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
             }
             return _apiresponse;
@@ -334,19 +334,19 @@ namespace API_MortalKombat.Service
                     return _apiresponse;
                 }
                 var arma = await _repositoryArma.GetById(idArma);
-                if (arma == null)
-                {
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("Error con el id del arma ingresada.");
-                    return _apiresponse;
-                }
                 var personaje = await _repository.GetById(idPersonaje);
-                if (personaje == null)
+                if (arma == null || personaje == null)
                 {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("Error con el id del personaje ingresada.");
+                    if (arma == null)
+                    {
+                        _logger.LogError("Error con el id del arma ingresada.");
+                    }
+                    if (personaje == null)
+                    {
+                        _logger.LogError("Error con el id del personaje ingresada.");
+                    }
                     return _apiresponse;
                 }
                 if (!personaje.Armas.Any(arma => arma.Id == idArma))
@@ -356,7 +356,7 @@ namespace API_MortalKombat.Service
                     _logger.LogError("El personaje no cuenta con ese arma.");
                     return _apiresponse;
                 }
-                personaje.Armas!.Remove(arma);
+                personaje.Armas.Remove(arma);
                 await _repository.Save();
                 _mapper.Map<PersonajeDto>(personaje);
                 _logger.LogInformation("Arma removida con exito del personaje.");
@@ -368,6 +368,7 @@ namespace API_MortalKombat.Service
             {
                 _logger.LogError("Ocurrió un error al intentar agregar un arma al personaje: " + ex.Message);
                 _apiresponse.isExit = false;
+                _apiresponse.statusCode = HttpStatusCode.NotFound;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
             }
             return _apiresponse;
@@ -385,19 +386,19 @@ namespace API_MortalKombat.Service
                     return _apiresponse;
                 }
                 var estilo = await _repositoryEstiloDePelea.GetById(idEstiloDePelea);
-                if (estilo == null)
-                {
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("Error con el id del estilo de pelea ingresada.");
-                    return _apiresponse;
-                }
                 var personaje = await _repository.GetById(idPersonaje);
-                if (personaje == null)
+                if (estilo == null || personaje == null)
                 {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("Error con el id del personaje ingresada.");
+                    if (estilo == null)
+                    {
+                        _logger.LogError("Error con el id del estilo de pelea ingresada.");
+                    }
+                    if (personaje == null)
+                    {
+                        _logger.LogError("Error con el id del personaje ingresada.");
+                    }
                     return _apiresponse;
                 }
                 if (personaje.EstilosDePeleas.Any(estilo => estilo.Id == idEstiloDePelea))
@@ -418,16 +419,17 @@ namespace API_MortalKombat.Service
             {
                 _logger.LogError("Ocurrió un error al inetntar agregar un estilo de pelea al personaje: " + ex.Message);
                 _apiresponse.isExit = false;
+                _apiresponse.statusCode = HttpStatusCode.NotFound;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
             }
             return _apiresponse;
         }
 
-        public async Task<APIResponse> RemoveStyleToPersonaje(int idpersonaje, int idEstiloDePelea)
+        public async Task<APIResponse> RemoveStyleToPersonaje(int idPersonaje, int idEstiloDePelea)
         {
             try
             {
-                if (idpersonaje == 0 || idEstiloDePelea == 0)
+                if (idPersonaje == 0 || idEstiloDePelea == 0)
                 {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.NotFound;
@@ -435,19 +437,19 @@ namespace API_MortalKombat.Service
                     return _apiresponse;
                 }
                 var estilo = await _repositoryEstiloDePelea.GetById(idEstiloDePelea);
-                if (estilo == null)
+                var personaje = await _repository.GetById(idPersonaje);
+                if (estilo == null || personaje == null)
                 {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("Error con el id del estilo de pelea ingresada.");
-                    return _apiresponse;
-                }
-                var personaje = await _repository.GetById(idpersonaje);
-                if (personaje == null)
-                {
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("Error con el id del personaje ingresada.");
+                    if (estilo == null)
+                    {
+                        _logger.LogError("Error con el id del estilo de pelea ingresada.");
+                    }
+                    if (personaje == null)
+                    {
+                        _logger.LogError("Error con el id del personaje ingresada.");
+                    }
                     return _apiresponse;
                 }
                 if (!personaje.EstilosDePeleas.Any(estilo => estilo.Id == idEstiloDePelea))
@@ -457,7 +459,7 @@ namespace API_MortalKombat.Service
                     _logger.LogError("El personaje no cuenta con ese estilo de pelea.");
                     return _apiresponse;
                 }
-                personaje.EstilosDePeleas!.Remove(estilo);
+                personaje.EstilosDePeleas.Remove(estilo);
                 await _repository.Save();
                 _logger.LogInformation("Estilo de pelea removido con exito del personaje.");
                 _apiresponse.statusCode = HttpStatusCode.OK;
@@ -468,6 +470,7 @@ namespace API_MortalKombat.Service
             {
                 _logger.LogError("Ocurrió un error al intentar agregar un estilo de pelea al personaje: " + ex.Message);
                 _apiresponse.isExit = false;
+                _apiresponse.statusCode = HttpStatusCode.NotFound;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
             }
             return _apiresponse;
@@ -509,6 +512,7 @@ namespace API_MortalKombat.Service
             {
                 _logger.LogError("Ocurrió un error al intentar actualizar el personaje de id: " + id + ". Error: " + ex.Message);
                 _apiresponse.isExit = false;
+                _apiresponse.statusCode = HttpStatusCode.NotFound;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() };
             }
             return _apiresponse;
