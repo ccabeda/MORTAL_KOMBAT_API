@@ -81,13 +81,6 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                if (name == null)
-                {
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("No se ingreso un nombre.");
-                    return _apiresponse;
-                }
                 var rol = await _repository.GetByName(name);
                 if (rol == null)
                 {
