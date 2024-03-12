@@ -9,7 +9,7 @@ namespace API_MortalKombat.Service.IService
     {
         public Task<APIResponse> GetPersonajes();
         public Task<APIResponse> GetPersonajeById(int id);
-        public Task<APIResponse> GetPersonajeByName(String name);
+        public Task<APIResponse> GetPersonajeByName(string name);
         public Task<APIResponse> CreatePersonaje([FromBody] PersonajeCreateDto personajeCreateDto);
         public Task<APIResponse> AddWeaponToPersonaje(int idPersonaje, int idArma);
         public Task<APIResponse> RemoveWeaponToPersonaje(int idPersonaje, int idArma);

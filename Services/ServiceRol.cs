@@ -8,6 +8,7 @@ using API_MortalKombat.Models.DTOs.RolDTO;
 using Microsoft.AspNetCore.JsonPatch;
 using API_MortalKombat.Models.DTOs.ReinoDTO;
 using FluentValidation;
+using API_MortalKombat.Services.Utils;
 
 namespace API_MortalKombat.Service
 {
@@ -107,14 +108,8 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                var fluentValidation = await _validator.ValidateAsync(rolCreateDto); //uso de fluent validations
-                if (!fluentValidation.IsValid)
+                if (Utils.FluentValidator(rolCreateDto, _validator, _apiresponse, _logger) != null)
                 {
-                    var errors = fluentValidation.Errors.Select(error => error.ErrorMessage).ToList();
-                    _logger.LogError("Error al validar los datos de entrada.");
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
-                    _apiresponse.ErrorList = errors;
                     return _apiresponse;
                 }
                 var existeRol = await _repository.GetByName(rolCreateDto.Nombre);
@@ -185,14 +180,8 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                var fluentValidation = await _validatorUpdate.ValidateAsync(rolUpdateDto); //uso de fluent validations
-                if (!fluentValidation.IsValid)
+                if (Utils.FluentValidator(rolUpdateDto, _validatorUpdate, _apiresponse, _logger) != null)
                 {
-                    var errors = fluentValidation.Errors.Select(error => error.ErrorMessage).ToList();
-                    _logger.LogError("Error al validar los datos de entrada.");
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
-                    _apiresponse.ErrorList = errors;
                     return _apiresponse;
                 }
                 if (id == 0 || id != rolUpdateDto.Id)
@@ -248,24 +237,17 @@ namespace API_MortalKombat.Service
                     _logger.LogError("El id ingresado no esta registrado");
                     return _apiresponse;
                 }
-                var rolDTO = _mapper.Map<RolUpdateDto>(rol);
-                rolUpdateDto.ApplyTo(rolDTO!);
-                var fluentValidation = await _validatorUpdate.ValidateAsync(rolDTO!);
-                if (!fluentValidation.IsValid)
+                var updateRolDto = _mapper.Map<RolUpdateDto>(rol);
+                rolUpdateDto.ApplyTo(updateRolDto!);
+                if (Utils.FluentValidator(updateRolDto, _validatorUpdate, _apiresponse, _logger) != null)
                 {
-                    var errors = fluentValidation.Errors.Select(error => error.ErrorMessage).ToList();
-                    _logger.LogError("Error al validar los datos de entrada.");
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
-                    _apiresponse.ErrorList = errors;
                     return _apiresponse;
-
                 }
-                _mapper.Map(rolDTO, rol);
+                _mapper.Map(updateRolDto, rol);
                 rol.FechaActualizacion = DateTime.Now;
                 await _repository.Update(rol);
                 _apiresponse.statusCode = HttpStatusCode.OK;
-                _apiresponse.Result = rolDTO;
+                _apiresponse.Result = updateRolDto;
                 return _apiresponse;
             }
             catch (Exception ex)

@@ -9,7 +9,7 @@ namespace API_MortalKombat.Service.IService
     {
         public Task<APIResponse> GetArmas();
         public Task<APIResponse> GetArmaById(int id);
-        public Task<APIResponse> GetArmaByName(String name);
+        public Task<APIResponse> GetArmaByName(string name);
         public Task<APIResponse> CreateArma([FromBody] ArmaCreateDto armaCreateDto);
         public Task<APIResponse> UpdateArma(int id, [FromBody] ArmaUpdateDto armaUpdateDto);
         public Task<APIResponse> DeleteArma(int id);

@@ -1,7 +1,9 @@
 ﻿using API_MortalKombat.Models;
+using API_MortalKombat.Models.DTOs.ArmaDTO;
 using API_MortalKombat.Models.DTOs.ClanDTO;
 using API_MortalKombat.Repository.IRepository;
 using API_MortalKombat.Service.IService;
+using API_MortalKombat.Services.Utils;
 using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.JsonPatch;
@@ -87,7 +89,7 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                IEnumerable<Clan> listClanes = await _repository.GetAll();
+                List<Clan> listClanes = await _repository.GetAll();
                 _apiresponse.Result = _mapper.Map<IEnumerable<ClanDto>>(listClanes);
                 _apiresponse.statusCode = HttpStatusCode.OK;
                 return _apiresponse;
@@ -106,14 +108,8 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                var fluentValidation = await _validator.ValidateAsync(clanCreateDto); //uso de fluent validations
-                if (!fluentValidation.IsValid)
+                if (Utils.FluentValidator(clanCreateDto, _validator, _apiresponse, _logger) != null)
                 {
-                    var errors = fluentValidation.Errors.Select(error => error.ErrorMessage).ToList();
-                    _logger.LogError("Error al validar los datos de entrada.");
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
-                    _apiresponse.ErrorList = errors;
                     return _apiresponse;
                 }
                 var existClan = await _repository.GetByName(clanCreateDto.Nombre); //verifico que no haya otro con el mismo nomrbe
@@ -185,14 +181,8 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                var fluentValidation = await _validatorUpdate.ValidateAsync(clanUpdateDto); //uso de fluent validations
-                if (!fluentValidation.IsValid)
+                if (Utils.FluentValidator(clanUpdateDto, _validatorUpdate, _apiresponse, _logger) != null)
                 {
-                    var errors = fluentValidation.Errors.Select(error => error.ErrorMessage).ToList();
-                    _logger.LogError("Error al validar los datos de entrada.");
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
-                    _apiresponse.ErrorList = errors;
                     return _apiresponse;
                 }
                 if (id == 0 || id != clanUpdateDto.Id)
@@ -248,24 +238,17 @@ namespace API_MortalKombat.Service
                     _logger.LogError("El id ingresado no esta registrado");
                     return _apiresponse;
                 }
-                var clanDTO = _mapper.Map<ClanUpdateDto>(clan); 
-                clanUpdateDto.ApplyTo(clanDTO!); 
-                var fluentValidation = await _validatorUpdate.ValidateAsync(clanDTO!); 
-                if (!fluentValidation.IsValid)
+                var updateClanDto = _mapper.Map<ClanUpdateDto>(clan); 
+                clanUpdateDto.ApplyTo(updateClanDto!);
+                if (Utils.FluentValidator(updateClanDto, _validatorUpdate, _apiresponse, _logger) != null)
                 {
-                    var errors = fluentValidation.Errors.Select(error => error.ErrorMessage).ToList();
-                    _logger.LogError("Error al validar los datos de entrada.");
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
-                    _apiresponse.ErrorList = errors;
                     return _apiresponse;
-
                 }
-                _mapper.Map(clanDTO, clan); 
+                _mapper.Map(updateClanDto, clan); 
                 clan.FechaActualizacion = DateTime.Now;
                 await _repository.Update(clan); 
                 _apiresponse.statusCode = HttpStatusCode.OK;
-                _apiresponse.Result = clanDTO;
+                _apiresponse.Result = updateClanDto;
                 return _apiresponse;
             }
             catch (Exception ex)

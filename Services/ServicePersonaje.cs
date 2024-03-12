@@ -2,6 +2,7 @@
 using API_MortalKombat.Models.DTOs.PersonajeDTO;
 using API_MortalKombat.Repository.IRepository;
 using API_MortalKombat.Service.IService;
+using API_MortalKombat.Services.Utils;
 using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.JsonPatch;
@@ -113,14 +114,8 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                var fluentValidation = await _validator.ValidateAsync(personajeCreateDto); //uso de fluent validations
-                if (!fluentValidation.IsValid)
+                if (Utils.FluentValidator(personajeCreateDto, _validator, _apiresponse, _logger) != null)
                 {
-                    var errors = fluentValidation.Errors.Select(error => error.ErrorMessage).ToList();
-                    _logger.LogError("Error al validar los datos de entrada.");
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
-                    _apiresponse.ErrorList = errors;
                     return _apiresponse;
                 }
                 var existPersonaje = await _repository.GetByName(personajeCreateDto.Nombre); //verifico que no haya otro con el mismo nomrbe
@@ -197,14 +192,8 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                var fluentValidation = await _validatorUpdate.ValidateAsync(personajeUpdateDto); //uso de fluent validations
-                if (!fluentValidation.IsValid)
+                if (Utils.FluentValidator(personajeUpdateDto, _validatorUpdate, _apiresponse, _logger) != null)
                 {
-                    var errors = fluentValidation.Errors.Select(error => error.ErrorMessage).ToList();
-                    _logger.LogError("Error al validar los datos de entrada.");
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
-                    _apiresponse.ErrorList = errors;
                     return _apiresponse;
                 }
                 if (id == 0 || id != personajeUpdateDto.Id)
@@ -481,24 +470,17 @@ namespace API_MortalKombat.Service
                     _logger.LogError("El id ingresado no esta registrado");
                     return _apiresponse;
                 }
-                var personajeDTO = _mapper.Map<PersonajeUpdateDto>(personaje);
-                personajeUpdateDto.ApplyTo(personajeDTO!);
-                var fluentValidation = await _validatorUpdate.ValidateAsync(personajeDTO!);
-                if (!fluentValidation.IsValid)
+                var updatePersonajeDto = _mapper.Map<PersonajeUpdateDto>(personaje);
+                personajeUpdateDto.ApplyTo(updatePersonajeDto!);
+                if (Utils.FluentValidator(updatePersonajeDto, _validatorUpdate, _apiresponse, _logger) != null)
                 {
-                    var errors = fluentValidation.Errors.Select(error => error.ErrorMessage).ToList();
-                    _logger.LogError("Error al validar los datos de entrada.");
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
-                    _apiresponse.ErrorList = errors;
                     return _apiresponse;
-
                 }
-                _mapper.Map(personajeDTO, personaje);
+                _mapper.Map(updatePersonajeDto, personaje);
                 personaje.FechaActualizacion = DateTime.Now;
                 await _repository.Update(personaje);
                 _apiresponse.statusCode = HttpStatusCode.OK;
-                _apiresponse.Result = personajeDTO;
+                _apiresponse.Result = updatePersonajeDto;
                 return _apiresponse;
             }
             catch (Exception ex)

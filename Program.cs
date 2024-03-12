@@ -93,7 +93,6 @@ builder.Services.AddScoped<IRepositoryArma, RepositoryArma>();
 builder.Services.AddScoped<IRepositoryEstiloDePelea, RepositoryEstiloDePelea>();
 builder.Services.AddScoped<IRepositoryUsuario, RepositoryUsuario>();
 builder.Services.AddScoped<IRepositoryRol,  RepositoryRol>();
-builder.Services.AddScoped<IRepositoryLogin, RepositoryLogin>();
 //service
 builder.Services.AddScoped<IServicePersonaje,ServicePersonaje>();
 builder.Services.AddScoped<IServiceClan, ServiceClan>();

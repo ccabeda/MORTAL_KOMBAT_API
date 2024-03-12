@@ -9,7 +9,7 @@ namespace API_MortalKombat.Service.IService
     {
         public Task<APIResponse> GetReinos();
         public Task<APIResponse> GetReinoById(int id);
-        public Task<APIResponse> GetReinoByName(String name);
+        public Task<APIResponse> GetReinoByName(string name);
         public Task<APIResponse> CreateReino([FromBody] ReinoCreateDto reinoCreateDto);
         public Task<APIResponse> UpdateReino(int id, [FromBody] ReinoUpdateDto reinoUpdateDto);
         public Task<APIResponse> DeleteReino(int id);

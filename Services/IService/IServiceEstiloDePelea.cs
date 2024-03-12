@@ -9,7 +9,7 @@ namespace API_MortalKombat.Services.IService
     {
         public Task<APIResponse> GetEstilosDePelea();
         public Task<APIResponse> GetEstiloDePeleaById(int id);
-        public Task<APIResponse> GetEstiloDePeleaByName(String name);
+        public Task<APIResponse> GetEstiloDePeleaByName(string name);
         public Task<APIResponse> CreateEstiloDePelea([FromBody] EstiloDePeleaCreateDto estiloCreateDto);
         public Task<APIResponse> UpdateEstiloDePelea(int id, [FromBody] EstiloDePeleaUpdateDto estiloUpdateDto);
         public Task<APIResponse> DeleteEstiloDePelea(int id);

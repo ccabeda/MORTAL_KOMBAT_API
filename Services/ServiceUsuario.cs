@@ -7,7 +7,8 @@ using API_MortalKombat.Services.IService;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Microsoft.AspNetCore.JsonPatch;
-using API_MortalKombat.Models.DTOs.ReinoDTO;
+using Microsoft.AspNetCore.Identity;
+using API_MortalKombat.Services.Utils;
 
 namespace API_MortalKombat.Service
 {
@@ -101,18 +102,12 @@ namespace API_MortalKombat.Service
             return _apiresponse;
         }
 
-        public async Task<APIResponse> CreateUsuario([FromBody] UsuarioCreateDto usuarioCreateDto)
+        public async Task<APIResponse> CreateMyUsuario([FromBody] UsuarioCreateDto usuarioCreateDto)
         {
             try
             {
-                var fluentValidation = await _validator.ValidateAsync(usuarioCreateDto); //uso de fluent validations
-                if (!fluentValidation.IsValid)
+                if (Utils.FluentValidator(usuarioCreateDto, _validator, _apiresponse, _logger) != null)
                 {
-                    var errors = fluentValidation.Errors.Select(error => error.ErrorMessage).ToList();
-                    _logger.LogError("Error al validar los datos de entrada.");
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
-                    _apiresponse.ErrorList = errors;
                     return _apiresponse;
                 }
                 var existUsuario = await _repository.GetByName(usuarioCreateDto.NombreDeUsuario);
@@ -126,6 +121,7 @@ namespace API_MortalKombat.Service
                 var usuario = _mapper.Map<Usuario>(usuarioCreateDto);
                 usuario!.FechaCreacion = DateTime.Now;
                 usuario.RolId = 3; //todos los usuarios se crean con el rol publico
+                usuario.Contraseña = Encrypt.EncryptPassword(usuario.Contraseña); //encripto contraseña
                 await _repository.Create(usuario);
                 var result =_mapper.Map<UsuarioGetDto>(usuario);
                 _apiresponse.statusCode = HttpStatusCode.Created;
@@ -142,7 +138,7 @@ namespace API_MortalKombat.Service
             return _apiresponse;
         }
 
-        public async Task<APIResponse> DeleteUsuario(int id)
+        public async Task<APIResponse> ADMIN_DeleteUsuario(int id)
         {
             try
             {
@@ -170,49 +166,48 @@ namespace API_MortalKombat.Service
             return _apiresponse;
         }
 
-        public async Task<APIResponse> UpdateUsuario(int id, [FromBody] UsuarioUpdateDto usuarioUpdateDto)
+        public async Task<APIResponse> UpdateMyUsuario([FromBody] UsuarioUpdateDto usuarioUpdateDto, string username, string password)
         {
             try
             {
-                var fluentValidation = await _validatorUpdate.ValidateAsync(usuarioUpdateDto); //uso de fluent validations
-                if (!fluentValidation.IsValid)
+                if (Utils.FluentValidator(usuarioUpdateDto, _validatorUpdate, _apiresponse, _logger) != null)
                 {
-                    var errors = fluentValidation.Errors.Select(error => error.ErrorMessage).ToList();
-                    _logger.LogError("Error al validar los datos de entrada.");
+                    return _apiresponse;
+                }
+                var user = await _repository.GetByName(username);
+                if (user == null)
+                {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.BadRequest;
-                    _apiresponse.ErrorList = errors;
+                    _logger.LogError("El usuario que ingreso no existe.");
                     return _apiresponse;
                 }
-                if (id == 0 || id != usuarioUpdateDto.Id)
+                if (!Encrypt.VerifyPassword(password, user.Contraseña))
                 {
                     _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("Error con la id ingresada.");
+                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
+                    _logger.LogError("Contraseña incorrecta");
                     return _apiresponse;
                 }
-                var existUsuario = await _repository.GetById(id);
-                if (existUsuario == null)
-                {
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("No se encuentra registrado el id ingresado.");
-                    return _apiresponse;
-                }
-                var registredName = await _repository.GetByName(usuarioUpdateDto.NombreDeUsuario);
-                if (registredName != null && registredName.Id != usuarioUpdateDto.Id)
+               var registredNewName = await _repository.GetByName(usuarioUpdateDto.NombreDeUsuario);
+                if (registredNewName != null && registredNewName.Id != user.Id )
                 {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.Conflict;
                     _logger.LogError("Ya existe un usuario con el mismo nombre.");
                     return _apiresponse;
                 }
-                _mapper.Map(usuarioUpdateDto, existUsuario);
-                existUsuario.FechaActualizacion = DateTime.Now;
+                //ENCRIPTAR CONTRASEÑA EN CASO DE QUE LA CAMBIE
+                if (user.Contraseña != usuarioUpdateDto.Contraseña)
+                {
+                    usuarioUpdateDto.Contraseña = Encrypt.EncryptPassword(usuarioUpdateDto.Contraseña); //encripto contraseña
+                }
+                _mapper.Map(usuarioUpdateDto, user);
+                user.FechaActualizacion = DateTime.Now;
                 _apiresponse.statusCode = HttpStatusCode.OK;
-                _apiresponse.Result = _mapper.Map<UsuarioDto>(existUsuario);
+                _apiresponse.Result = _mapper.Map<UsuarioGetDto>(user);
                 _logger.LogInformation("¡Usuario Actualizado con exito!");
-                await _repository.Update(existUsuario);
+                await _repository.Update(user);
                 return _apiresponse;
             }
             catch (Exception ex)
@@ -225,44 +220,84 @@ namespace API_MortalKombat.Service
             return _apiresponse;
         }
 
-        public async Task<APIResponse> UpdatePartialUsuario(int id, JsonPatchDocument<UsuarioUpdateDto> usuarioUpdateDto)
+        public async Task<APIResponse> UpdatePartialMyUsuario(JsonPatchDocument<UsuarioUpdateDto> usuarioUpdateDto, string username, string password)
         {
             try
             {
-                var usuario = await _repository.GetById(id);
-                if (usuario == null)
+                var user = await _repository.GetByName(username);
+                if (user == null)
                 {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.BadRequest;
-                    _logger.LogError("El id ingresado no esta registrado");
+                    _logger.LogError("El usuario que ingreso no existe.");
                     return _apiresponse;
                 }
-                var usuarioDTO = _mapper.Map<UsuarioUpdateDto>(usuario);
-                usuarioUpdateDto.ApplyTo(usuarioDTO!);
-                var fluentValidation = await _validatorUpdate.ValidateAsync(usuarioDTO!);
-                if (!fluentValidation.IsValid)
+                if (!Encrypt.VerifyPassword(password, user.Contraseña))
                 {
-                    var errors = fluentValidation.Errors.Select(error => error.ErrorMessage).ToList();
-                    _logger.LogError("Error al validar los datos de entrada.");
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.BadRequest;
-                    _apiresponse.ErrorList = errors;
+                    _logger.LogError("Contraseña incorrecta");
                     return _apiresponse;
-
                 }
-                _mapper.Map(usuarioDTO, usuario);
-                usuario.FechaActualizacion = DateTime.Now;
-                await _repository.Update(usuario);
+                var updateUsuarioDto = _mapper.Map<UsuarioUpdateDto>(user); //mapeo el usuario a usuarioDTO
+                usuarioUpdateDto.ApplyTo(updateUsuarioDto);
+                if (Utils.FluentValidator(updateUsuarioDto, _validatorUpdate, _apiresponse, _logger) != null)
+                {
+                    return _apiresponse;
+                }
+                if (updateUsuarioDto.Contraseña != user.Contraseña) //si cambio la contraseña, la encripto 
+                {
+                    updateUsuarioDto.Contraseña = Encrypt.EncryptPassword(updateUsuarioDto.Contraseña);
+                }
+                _mapper.Map(updateUsuarioDto, user);
+                _logger.LogInformation("¡Dato cambiado con exito!");
+                user.FechaActualizacion = DateTime.Now;
+                await _repository.Update(user);
                 _apiresponse.statusCode = HttpStatusCode.OK;
-                _apiresponse.Result = usuarioDTO;
+                _apiresponse.Result = _mapper.Map<UsuarioGetDto>(user);
                 return _apiresponse;
             }
             catch (Exception ex)
             {
-                _logger.LogError("Ocurrió un error al intentar actualizar el usuario de id: " + id + ". Error: " + ex.Message);
+                _logger.LogError("Ocurrió un error al intentar actualizar el usuario. Error: " + ex.Message);
                 _apiresponse.isExit = false;
                 _apiresponse.statusCode = HttpStatusCode.NotFound;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() };
+            }
+            return _apiresponse;
+        }
+
+        public async Task<APIResponse> DeleteMyUsuario(string username, string password)
+        {
+            try
+            {
+                var user = await _repository.GetByName(username);
+                if (user == null)
+                {
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
+                    _logger.LogError("Usuario incorrecto.");
+                    return _apiresponse;
+                }
+                if (!Encrypt.VerifyPassword(password, user.Contraseña))
+                {
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
+                    _logger.LogError("Contraseña incorrecta");
+                    return _apiresponse;
+                }
+                await _repository.Delete(user);
+                var result = _mapper.Map<UsuarioGetDto>(user);
+                _apiresponse.statusCode = HttpStatusCode.OK;
+                _apiresponse.Result = result;
+                _logger.LogInformation("¡Usuario eliminado con exito!");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Ocurrió un error al intentar eliminar el Usuario: " + ex.Message);
+                _apiresponse.isExit = false;
+                _apiresponse.statusCode = HttpStatusCode.NotFound;
+                _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
             }
             return _apiresponse;
         }

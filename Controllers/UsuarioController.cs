@@ -74,9 +74,9 @@ namespace API_MortalKombat.Controllers
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<APIResponse>> CreateUsuario([FromBody] UsuarioCreateDto usuarioCreateDto)
+        public async Task<ActionResult<APIResponse>> CreateMyUsuario([FromBody] UsuarioCreateDto usuarioCreateDto)
         {
-            var result = await _service.CreateUsuario(usuarioCreateDto);
+            var result = await _service.CreateMyUsuario(usuarioCreateDto);
             switch (result.statusCode)
             {
                 case HttpStatusCode.Created:
@@ -90,16 +90,15 @@ namespace API_MortalKombat.Controllers
             }
         }
 
-        [HttpPut(("{id}"), Name = "PutUsuariobyId")]
-        [Authorize(Roles = "1")]
+        [HttpPut(("{username}/{password}"), Name = "PutMyUsuario")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
-        public async Task<ActionResult<APIResponse>> PutUsuario(int id, [FromBody] UsuarioUpdateDto usuarioUpdateDto)
+        public async Task<ActionResult<APIResponse>> PutMyUsuario([FromBody] UsuarioUpdateDto usuarioUpdateDto, string username, string password)
         {
-            var result = await _service.UpdateUsuario(id, usuarioUpdateDto);
+            var result = await _service.UpdateMyUsuario(usuarioUpdateDto,username, password);
             switch (result.statusCode)
             {
                 case HttpStatusCode.OK:
@@ -113,14 +112,14 @@ namespace API_MortalKombat.Controllers
             }
         }
 
-        [HttpDelete(("{id}"), Name = "DeleteUsuario")]
+        [HttpDelete(("{id}"), Name = "ADMIN_DeleteUsuario")]
         [Authorize(Roles = "1")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<APIResponse>> DeleteUsuario(int id)
+        public async Task<ActionResult<APIResponse>> ADMIN_DeleteUsuario(int id)
         {
-            var result = await _service.DeleteUsuario(id);
+            var result = await _service.ADMIN_DeleteUsuario(id);
             switch (result.statusCode)
             {
                 case HttpStatusCode.OK:
@@ -130,13 +129,30 @@ namespace API_MortalKombat.Controllers
             }
         }
 
-        [HttpPatch(("{id}"), Name = "UpdatePartialUsuario")]
-        [Authorize(Roles = "1")]
+        [HttpDelete(("{username}/{password}"), Name = "DeleteMyUsuario")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<APIResponse>> DeleteMyUsuario(string username, string password)
+        {
+            var result = await _service.DeleteMyUsuario(username, password);
+            switch (result.statusCode)
+            {
+                case HttpStatusCode.OK:
+                    return Ok(result);
+                case HttpStatusCode.BadRequest:
+                    return BadRequest(result);
+                default:
+                    return NotFound(result);
+            }
+        }
+
+        [HttpPatch(("{username}/{password}"), Name = "UpdatePartialMyUsuario")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> UpdatePartialUsuario(int id, JsonPatchDocument<UsuarioUpdateDto> usuarioUpdateDto)
+        public async Task<IActionResult> UpdatePartialMyUsuario(JsonPatchDocument<UsuarioUpdateDto> usuarioUpdateDto, string username, string password)
         {
-            var result = await _service.UpdatePartialUsuario(id, usuarioUpdateDto);
+            var result = await _service.UpdatePartialMyUsuario(usuarioUpdateDto, username, password);
             switch (result.statusCode)
             {
                 case HttpStatusCode.OK:

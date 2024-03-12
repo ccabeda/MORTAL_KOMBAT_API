@@ -2,6 +2,7 @@
 using API_MortalKombat.Models.DTOs.ReinoDTO;
 using API_MortalKombat.Repository.IRepository;
 using API_MortalKombat.Service.IService;
+using API_MortalKombat.Services.Utils;
 using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.JsonPatch;
@@ -106,14 +107,8 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                var fluentValidation = await _validator.ValidateAsync(reinoCreateDto); //uso de fluent validations
-                if (!fluentValidation.IsValid)
+                if (Utils.FluentValidator(reinoCreateDto, _validator, _apiresponse, _logger) != null)
                 {
-                    var errors = fluentValidation.Errors.Select(error => error.ErrorMessage).ToList();
-                    _logger.LogError("Error al validar los datos de entrada.");
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
-                    _apiresponse.ErrorList = errors;
                     return _apiresponse;
                 }
                 var existReino = await _repository.GetByName(reinoCreateDto.Nombre); //verifico que no haya otro con el mismo nomrbe
@@ -185,14 +180,8 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                var fluentValidation = await _validatorUpdate.ValidateAsync(reinoUpdateDto); //uso de fluent validations
-                if (!fluentValidation.IsValid)
+                if (Utils.FluentValidator(reinoUpdateDto, _validatorUpdate, _apiresponse, _logger) != null)
                 {
-                    var errors = fluentValidation.Errors.Select(error => error.ErrorMessage).ToList();
-                    _logger.LogError("Error al validar los datos de entrada.");
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
-                    _apiresponse.ErrorList = errors;
                     return _apiresponse;
                 }
                 if (id == 0 || id != reinoUpdateDto.Id)
@@ -248,24 +237,17 @@ namespace API_MortalKombat.Service
                     _logger.LogError("El id ingresado no esta registrado");
                     return _apiresponse;
                 }
-                var reinoDTO = _mapper.Map<ReinoUpdateDto>(reino);
-                reinoUpdateDto.ApplyTo(reinoDTO!);
-                var fluentValidation = await _validatorUpdate.ValidateAsync(reinoDTO!);
-                if (!fluentValidation.IsValid)
+                var updateReinoDto = _mapper.Map<ReinoUpdateDto>(reino);
+                reinoUpdateDto.ApplyTo(updateReinoDto!);
+                if (Utils.FluentValidator(updateReinoDto, _validatorUpdate, _apiresponse, _logger) != null)
                 {
-                    var errors = fluentValidation.Errors.Select(error => error.ErrorMessage).ToList();
-                    _logger.LogError("Error al validar los datos de entrada.");
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
-                    _apiresponse.ErrorList = errors;
                     return _apiresponse;
-
                 }
-                _mapper.Map(reinoDTO, reino);
+                _mapper.Map(updateReinoDto, reino);
                 reino.FechaActualizacion = DateTime.Now;
                 await _repository.Update(reino);
                 _apiresponse.statusCode = HttpStatusCode.OK;
-                _apiresponse.Result = reinoDTO;
+                _apiresponse.Result = updateReinoDto;
                 return _apiresponse;
             }
             catch (Exception ex)

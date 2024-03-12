@@ -11,13 +11,13 @@ namespace API_MortalKombat.Service
 {
     public class ServiceLogin : IServiceLogin
     {
-        private readonly IRepositoryLogin _repository;
+        private readonly IRepositoryUsuario _repositoryUsuario;
         private readonly ILogger _logger;
         private readonly APIResponse _apiresponse;
         private readonly IConfiguration _config;
-        public ServiceLogin(IRepositoryLogin repository, IConfiguration config, ILogger<ServiceLogin> logger, APIResponse response)
+        public ServiceLogin(IRepositoryUsuario repositoryUsuario, IConfiguration config, ILogger<ServiceLogin> logger, APIResponse response)
         {
-            _repository = repository;
+            _repositoryUsuario = repositoryUsuario;
             _config = config;
             _logger = logger;
             _apiresponse = response;
@@ -25,11 +25,11 @@ namespace API_MortalKombat.Service
 
         public string GenerarTokendeLogin(Usuario user)
         {
-            var llave = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]!));
+            var llave = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]!)); //configurar cosas de creación de token JWT 
             var credencial = new SigningCredentials(llave, SecurityAlgorithms.HmacSha256);
             var claims = new[]
             {
-                new Claim(ClaimTypes.NameIdentifier, user.NombreDeUsuario),
+                new Claim(ClaimTypes.NameIdentifier, user.NombreDeUsuario), //no meter contraseña, ya que es facil de ver lo que trae el token
                 new Claim(ClaimTypes.GivenName, user.Nombre),
                 new Claim(ClaimTypes.Surname, user.Apellido),
                 new Claim(ClaimTypes.Email, user.Mail),
@@ -46,18 +46,27 @@ namespace API_MortalKombat.Service
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        public async Task<APIResponse> LoginUsuario(Login login)
+        public async Task<APIResponse> LoginUsuario(Login userAndPass)
         {
             try
             {
-                var user = await _repository.Authenticate(login);
+                var user = await _repositoryUsuario.GetByName(userAndPass.Usuario);
                 if (user == null)
                 {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.BadRequest;
-                    _logger.LogError("Usuario o contraseña incorrecta.");
+                    _logger.LogError("El usuario que ingreso no existe.");
                     return _apiresponse;
                 }
+                //var passwordVerify = user.Contraseña;
+                if (!Encrypt.VerifyPassword(userAndPass.Contraseña, user.Contraseña))
+                {
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
+                    _logger.LogError("Contraseña incorrecta");
+                    return _apiresponse;
+                }
+                _logger.LogInformation("Inicio de sesión correcto");
                 var token = GenerarTokendeLogin(user);
                 _apiresponse.statusCode = HttpStatusCode.OK;
                 _apiresponse.Token = token;
@@ -65,7 +74,7 @@ namespace API_MortalKombat.Service
             }
             catch (Exception ex)
             {
-                _logger.LogError("Ocurrió un error al intentar ingrear a su usuario: " + ex.Message);
+                _logger.LogError("Ocurrió un error al intentar ingresar a su usuario: " + ex.Message);
                 _apiresponse.isExit = false;
                 _apiresponse.statusCode = HttpStatusCode.NotFound;
                 _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error

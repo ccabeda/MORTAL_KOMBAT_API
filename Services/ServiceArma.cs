@@ -2,11 +2,11 @@
 using API_MortalKombat.Models.DTOs.ArmaDTO;
 using API_MortalKombat.Repository.IRepository;
 using API_MortalKombat.Service.IService;
+using API_MortalKombat.Services.Utils;
 using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using System.Net;
 
 namespace API_MortalKombat.Service
@@ -105,14 +105,8 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                var fluetValidation = await _validator.ValidateAsync(armaCreateDto); //uso de fluent validations
-                if (!fluetValidation.IsValid)
+                if (Utils.FluentValidator(armaCreateDto, _validator, _apiresponse, _logger) != null)
                 {
-                    var errors = fluetValidation.Errors.Select(error => error.ErrorMessage).ToList();
-                    _logger.LogError("Error al validar los datos de entrada.");
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
-                    _apiresponse.ErrorList = errors;
                     return _apiresponse;
                 }
                 var existArma = await _repository.GetByName(armaCreateDto.Nombre); //verifico que no haya otro con el mismo nomrbe
@@ -173,14 +167,8 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                var fluentValidation = await _validatorUpdate.ValidateAsync(armaUpdateDto); //uso de fluent validations
-                if (!fluentValidation.IsValid)
+                if (Utils.FluentValidator(armaUpdateDto, _validatorUpdate, _apiresponse, _logger) != null)
                 {
-                    var errors = fluentValidation.Errors.Select(error => error.ErrorMessage).ToList();
-                    _logger.LogError("Error al validar los datos de entrada.");
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
-                    _apiresponse.ErrorList = errors;
                     return _apiresponse;
                 }
                 if (id == 0 || id != armaUpdateDto.Id)
@@ -236,24 +224,17 @@ namespace API_MortalKombat.Service
                     _logger.LogError("El id ingresado no esta registrado");
                         return _apiresponse;
                 }
-                var armaDTO = _mapper.Map<ArmaUpdateDto>(arma); 
-                armaUpdateDto.ApplyTo(armaDTO!); 
-                var fluentValidation = await _validatorUpdate.ValidateAsync(armaDTO!);
-                if (!fluentValidation.IsValid)
+                var updateUserDto = _mapper.Map<ArmaUpdateDto>(arma); 
+                armaUpdateDto.ApplyTo(updateUserDto!);
+                if (Utils.FluentValidator(updateUserDto, _validatorUpdate, _apiresponse, _logger) != null)
                 {
-                    var errors = fluentValidation.Errors.Select(error => error.ErrorMessage).ToList();
-                    _logger.LogError("Error al validar los datos de entrada.");
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
-                    _apiresponse.ErrorList = errors;
                     return _apiresponse;
-
                 }
-                _mapper.Map(armaDTO, arma);
+                _mapper.Map(updateUserDto, arma);
                 arma.FechaActualizacion = DateTime.Now;
                 await _repository.Update(arma); 
                 _apiresponse.statusCode = HttpStatusCode.OK;
-                _apiresponse.Result = armaDTO;
+                _apiresponse.Result = updateUserDto;
                 return _apiresponse;
             }
             catch (Exception ex)

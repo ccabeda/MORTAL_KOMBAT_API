@@ -19,9 +19,9 @@ namespace API_MortalKombat.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)] //documentamos el estado 200
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)] //documentamos el estado 400
-        public async Task<ActionResult<APIResponse>> LoginUsuario(Login user) //metodo para logearse
+        public async Task<ActionResult<APIResponse>> LoginUsuario(Login userAndPass) //metodo para logearse
         {
-            var result = await _service.LoginUsuario(user); //creo el token de logeo o null si falla
+            var result = await _service.LoginUsuario(userAndPass); //creo el token de logeo o null si falla
             switch (result.statusCode)
             {
                 case HttpStatusCode.OK:

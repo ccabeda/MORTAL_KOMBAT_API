@@ -41,9 +41,9 @@ namespace API_MortalKombat.Repository
             return await _context.Usuarios.Include(u => u.Rol).FirstOrDefaultAsync(u => u.Id == id);
         }
 
-        public async Task<Usuario?> GetByName(string name)
+        public async Task<Usuario?> GetByName(string username)
         {
-            return await _context.Usuarios.Include(u => u.Rol).FirstOrDefaultAsync(u => u.NombreDeUsuario == name);
+            return await _context.Usuarios.Include(u => u.Rol).FirstOrDefaultAsync(u => u.NombreDeUsuario == username);
         }
 
         public async Task<List<Usuario>> GetAll()
