@@ -59,10 +59,11 @@ Proximamente agregare una interfaz simple, ya que mi objetivo es enfocarme en el
 	- [Get All Usuarios](#Get-All-Usuarios)
    	- [Get Usuario by Id](#Get-Usuario-By-Id)
   - [Get Usuario by Name](#Get-Usuario-By-Name)
-  - [Create Usuario](#Create-Usuario)
-  - [Update Usuario](#Update-Usuario)
-  - [Update Partial Usuario](#Update-Partial-Usuario)
-  - [Delete Usuario](#Delete-Usuario)
+  - [Create My Usuario](#Create-My-Usuario)
+  - [Update My Usuario](#Update-My-Usuario)
+  - [Update Partial My Usuario](#Update-Partial-My-Usuario)
+  - [Delete My Usuario](#Delete-My-Usuario)
+  - [ADMIN Delete Usuario](#ADMIN-Delete-usuario)
 - [Rol](#Rol)
 	- [Get All Roles](#Get-All-Roles)
    	- [Get Rol by Id](#Get-Rol-By-Id)
@@ -1091,7 +1092,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 	- 404: Error
 
 
-### [ADMIN] Delete Usuario
+### ADMIN Delete Usuario
 
 [Autorización: Super Administrador]
 ```http
