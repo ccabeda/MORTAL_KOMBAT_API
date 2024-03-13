@@ -9,6 +9,7 @@ Proximamente agregare una interfaz simple, ya que mi objetivo es enfocarme en el
 - [Nugets](#NuGets)
 - [Documentación Swagger](#Documentación-swagger)
 - [Autentificación por token Jwt](#Autentificación-por-token-Jwt)
+- [Encriptación mediante HMACSHA256](#Encriptación-mediante-HMACSHA256)
 - [Endpoints](#Endpoints-api)
 - [Personaje](#Personaje)
 	- [Get All Personajes](#Get-All-Personajes)
@@ -58,10 +59,11 @@ Proximamente agregare una interfaz simple, ya que mi objetivo es enfocarme en el
 	- [Get All Usuarios](#Get-All-Usuarios)
    	- [Get Usuario by Id](#Get-Usuario-By-Id)
   - [Get Usuario by Name](#Get-Usuario-By-Name)
-  - [Create Usuario](#Create-Usuario)
-  - [Update Usuario](#Update-Usuario)
-  - [Update Partial Usuario](#Update-Partial-Usuario)
-  - [Delete Usuario](#Delete-Usuario)
+  - [Create My Usuario](#Create-My-Usuario)
+  - [Update My Usuario](#Update-My-Usuario)
+  - [Update Partial My Usuario](#Update-Partial-My-Usuario)
+  - [Delete My Usuario](#Delete-My-Usuario)
+  - [ADMIN Delete Usuario](#ADMIN-Delete-usuario)
 - [Rol](#Rol)
 	- [Get All Roles](#Get-All-Roles)
    	- [Get Rol by Id](#Get-Rol-By-Id)
@@ -131,6 +133,10 @@ Para acceder a la documentación, una vez corrido el programa, ingrese a: https:
 Se agregó la autentificación por token Jwt, que consiste en un login que devuelve un token Jwt unico por usuario. Una vez "iniciada sesión" hay diferentes tipos de roles (Super Administrador, Administrador y Público), y dependiendo el rango puedes acceder a diferentes
 Endpoints. Todos los usuarios vienen por defecto con el rol Público. Se aclarará arriba de cada uno de los Endpoints el nivel necesario para utilizarlos.
 
+## Encriptación mediante HMACSHA256
+
+Agregue la encriptación para las contraseñas, estas ya no podran verse desde la base de dato. Cada vez que se cambia la contraseña se genera un nuevo script (aunque sea la misma palabra).
+
 Hay dos maneras de utilizar la API, con la interfaz Swagger, y con la aplicación Postman. A continuación, explicaré como utilizar la autentificación en cada uno.
 
 - [Swagger](#Swagger)
@@ -193,7 +199,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 
 | Parametro | Tipo     | Descripción                     |
 | :-------- | :------- | :-------------------------------- |
-| `Nombre`  | `string` | **Requerido** por URL.  |
+| `Name`  | `string` | **Requerido** por URL.  |
 
 - URL: https://localhost:7104/api/Personaje/nombre/{name}
 - Metodo GET
@@ -425,7 +431,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 
 | Parametro | Tipo     | Descripción                     |
 | :-------- | :------- | :-------------------------------- |
-| `Nombre`  | `string` | **Requerido** por URL.  |
+| `Name`  | `string` | **Requerido** por URL.  |
 
 - URL: https://localhost:7104/api/Clan/nombre/{name}
 - Metodo GET
@@ -563,7 +569,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 
 | Parametro | Tipo     | Descripción                     |
 | :-------- | :------- | :-------------------------------- |
-| `Nombre`  | `string` | **Requerido** por URL.  |
+| `Name`  | `string` | **Requerido** por URL.  |
 
 - URL: https://localhost:7104/api/Reino/nombre/{name}
 - Metodo GET
@@ -702,7 +708,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 
 | Parametro | Tipo     | Descripción                     |
 | :-------- | :------- | :-------------------------------- |
-| `Nombre`  | `string` | **Requerido** por URL.  |
+| `Name`  | `string` | **Requerido** por URL.  |
 
 - URL: https://localhost:7104/api/Arma/nombre/{name}
 - Metodo GET
@@ -840,7 +846,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 
 | Parametro | Tipo     | Descripción                     |
 | :-------- | :------- | :-------------------------------- |
-| `Nombre`  | `string` | **Requerido** por URL.  |
+| `Name`  | `string` | **Requerido** por URL.  |
 
 - URL: https://localhost:7104/api/EstiloDePelea/nombre/{name}
 - Metodo GET
@@ -982,7 +988,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 
 | Parametro | Tipo     | Descripción                     |
 | :-------- | :------- | :-------------------------------- |
-| `Nombre`  | `string` | **Requerido** por URL.  |
+| `Name`  | `string` | **Requerido** por URL.  |
 
 - URL: https://localhost:7104/api/Usuario/nombre/{name}
 - Metodo GET
@@ -992,7 +998,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 	- 200: Id, Nombre, Apellido, Mail, NombreDeUsuario, Rol (DTO)  
 	- 400 - 404: Error
 
-### Create Usuario
+### Create My Usuario
 
 ```http
   POST localhost:{su_puerto}/api/Usuario
@@ -1007,54 +1013,86 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 - Parametros:
   	Datos personales en formato Json (body)
 - Respuesta:  
-	- 200: Id, Nombre, Apellido, Mail, NombreDeUsuario (DTO)
+	- 200: Nombre, Apellido, Mail, NombreDeUsuario (DTO)
 	- 400, 404, 409: Error
 
-### Update Usuario
+### Update My Usuario
 
-[Autorización: Super Administrador]
 ```http
-  PUT localhost:{su_puerto}/api/Usuario/{id}
+  PUT localhost:{su_puerto}/api/Usuario/{username}/{password}
 ```
-| Parametro | Tipo     | Descripción              |
-| :-------- | :------- | :------------------------- |
-| `Id` | `int` | **Requerido** por URL.  |
 
 | Parametro | Tipo     | Descripción              |
 | :-------- | :------- | :------------------------- |
 | `Usuario` | `UsuarioUpdateDto` | **Requerido** por body.  |
 
-- URL: https://localhost:7104/api/Usuario/{id}
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `Username` | `string` | **Requerido** por body.  |
+
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `Password` | `string` | **Requerido** por body.  |
+
+- URL: https://localhost:7104/api/Usuario/{username}/{password}
 - Metodo: PUT
 - Parametros:
-  Id (URL), datos personales en formato Json (body)
+  Username (URL), password (URL), datos personales en formato Json (body)
 - Respuesta:
-	- 200: Id, Nombre, Apellido, Mail, NombreDeUsuario (DTO)
+	- 200: Nombre, Apellido, Mail, NombreDeUsuario (DTO)
 	- 404: Error
 
-### Update Partial Usuario
+### Update Partial My Usuario
 
 [Autorización: Super Administrador]
 ```http
-  PATCH localhost:{su_puerto}/api/Usuario/{id}
+  PATCH localhost:{su_puerto}/api/Usuario/{username}/{password}
 ```
-| Parametro | Tipo     | Descripción              |
-| :-------- | :------- | :------------------------- |
-| `Id` | `int` | **Requerido** por URL.  |
 
 | Parametro | Tipo     | Descripción              |
 | :-------- | :------- | :------------------------- |
 | `JsonPatchDocument` | `UsuarioUpdateDto` | **Requerido** por body.  |
 
-- URL: https://localhost:7104/api/Usuario/{id}
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `Username` | `string` | **Requerido** por body.  |
+
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `Password` | `string` | **Requerido** por body.  |
+
+- URL: https://localhost:7104/api/Usuario/{username}/{password}
 - Metodo: PATCH
 - Parametros:
-  Id (URL), dato a actualizar (body)
+  Username (URL), password (URL), dato a actualizar (body)
 - Respuesta:
-	- 200: Id, Nombre, Apellido, Mail, NombreDeUsuario (DTO)
+	- 200: Nombre, Apellido, Mail, NombreDeUsuario (DTO)
+	- 404: Error
+ 
+### Delete My Usuario
+
+```http
+  DELETE localhost:{su_puerto}/api/Usuario/{username}/{password}
+```
+
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `Username` | `string` | **Requerido** por body.  |
+
+| Parametro | Tipo     | Descripción              |
+| :-------- | :------- | :------------------------- |
+| `Password` | `string` | **Requerido** por body.  |
+
+- URL: https://localhost:7104/api/Usuario/{username}/{password}
+- Metodo DELETE
+- Parametros:
+  Username (URL), password (URL)
+- Respuesta:
+	- 200: Nombre, Apellido, Mail, NombreDeUsuario (DTO que se desea eliminar)
 	- 404: Error
 
-### Delete Usuario
+
+### ADMIN Delete Usuario
 
 [Autorización: Super Administrador]
 ```http
@@ -1122,7 +1160,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 
 | Parametro | Tipo     | Descripción                     |
 | :-------- | :------- | :-------------------------------- |
-| `Nombre`  | `string` | **Requerido** por URL.  |
+| `Name`  | `string` | **Requerido** por URL.  |
 
 - URL: https://localhost:7104/api/Rol/nombre/{name}
 - Metodo GET
@@ -1225,7 +1263,7 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 
 | Parametro | Tipo     | Descripción                     |
 | :-------- | :------- | :-------------------------------- |
-| `Usuario`      | `Login`    | **Requerido** por URL.  |
+| `User And Password`      | `Login`    | **Requerido** por URL.  |
 
 
 - URL: https://localhost:7104/api/Login
