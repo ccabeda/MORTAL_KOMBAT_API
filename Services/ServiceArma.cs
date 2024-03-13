@@ -35,11 +35,8 @@ namespace API_MortalKombat.Service
             try
             {
                 var arma = await _repository.GetById(id);
-                if (arma == null)
+                if (Utils.CheckIfNull(arma, _apiresponse, _logger) != null)
                 {
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("El id " + id + "no esta registrado.");
                     return _apiresponse;
                 }
                 _apiresponse.Result = _mapper.Map<ArmaDto>(arma);
@@ -48,10 +45,7 @@ namespace API_MortalKombat.Service
             }
             catch (Exception ex)
             {
-                _logger.LogError("Ocurrió un error al obtener el arma de id: " + id + " : " + ex.Message);
-                _apiresponse.isExit = false;
-                _apiresponse.statusCode = HttpStatusCode.NotFound;
-                _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
+                Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
             return _apiresponse;
         }
@@ -61,11 +55,8 @@ namespace API_MortalKombat.Service
             try
             {
                 var arma = await _repository.GetByName(name);
-                if (arma == null)
+                if (Utils.CheckIfNull(arma, _apiresponse, _logger) != null)
                 {
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("El arma " + name + " no esta registrado.");
                     return _apiresponse;
                 }
                 _apiresponse.Result = _mapper.Map<ArmaDto>(arma);
@@ -74,10 +65,7 @@ namespace API_MortalKombat.Service
             }
             catch (Exception ex)
             {
-                _logger.LogError("Ocurrió un error al obtener el arma de nombre: " + name + " : " + ex.Message);
-                _apiresponse.isExit = false;
-                _apiresponse.statusCode = HttpStatusCode.NotFound;
-                _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
+                Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
             return _apiresponse;
         }
@@ -86,17 +74,14 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                IEnumerable<Arma> listArmas = await _repository.GetAll();
+                List<Arma> listArmas = await _repository.GetAll();
                 _apiresponse.Result = _mapper.Map<IEnumerable<ArmaDto>>(listArmas);
                 _apiresponse.statusCode = HttpStatusCode.OK;
                 return _apiresponse;
             }
             catch (Exception ex)
             {
-                _logger.LogError("Ocurrió un error al obtener la lista de Armas: " + ex.Message);
-                _apiresponse.isExit = false;
-                _apiresponse.statusCode = HttpStatusCode.NotFound;
-                _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
+                Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
             return _apiresponse;
         }
@@ -105,8 +90,9 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                if (Utils.FluentValidator(armaCreateDto, _validator, _apiresponse, _logger) != null)
+                if (await Utils.FluentValidator(armaCreateDto, _validator, _apiresponse, _logger) != null)
                 {
+                    _logger.LogError("dsaudsagdas");
                     return _apiresponse;
                 }
                 var existArma = await _repository.GetByName(armaCreateDto.Nombre); //verifico que no haya otro con el mismo nomrbe
@@ -127,10 +113,7 @@ namespace API_MortalKombat.Service
             }
             catch (Exception ex)
             {
-                _logger.LogError("Ocurrió un error al intentar crear el arma: " + ex.Message);
-                _apiresponse.isExit = false;
-                _apiresponse.statusCode = HttpStatusCode.NotFound;
-                _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
+                Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
             return _apiresponse;
         }
@@ -140,11 +123,8 @@ namespace API_MortalKombat.Service
             try
             {
                 var arma = await _repository.GetById(id); ;
-                if (arma == null)
+                if (Utils.CheckIfNull(arma, _apiresponse, _logger) != null)
                 {
-                    _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("El arma no se encuentra registrada. Verifica que el id ingresado sea correcto.");
-                    _apiresponse.isExit = false;
                     return _apiresponse;
                 }
                 await _repository.Delete(arma);
@@ -155,10 +135,7 @@ namespace API_MortalKombat.Service
             }
             catch (Exception ex)
             {
-                _logger.LogError("Ocurrió un error al eliminar el arma de id " + id + ": " + ex.Message);
-                _apiresponse.isExit = false;
-                _apiresponse.statusCode = HttpStatusCode.NotFound;
-                _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
+                Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
             return _apiresponse;
         }
@@ -167,7 +144,7 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                if (Utils.FluentValidator(armaUpdateDto, _validatorUpdate, _apiresponse, _logger) != null)
+                if (await Utils.FluentValidator(armaUpdateDto, _validatorUpdate, _apiresponse, _logger) != null)
                 {
                     return _apiresponse;
                 }
@@ -204,10 +181,7 @@ namespace API_MortalKombat.Service
             }
             catch (Exception ex) 
             {
-                _logger.LogError("Ocurrió un error al intentar actualizar el arma: " + ex.Message);
-                _apiresponse.isExit = false;
-                _apiresponse.statusCode = HttpStatusCode.NotFound;
-                _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
+                Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
             return _apiresponse;
         }
@@ -217,17 +191,22 @@ namespace API_MortalKombat.Service
             try
             {
                 var arma = await _repository.GetById(id);
-                if (arma == null)
+                if (Utils.CheckIfNull(arma, _apiresponse, _logger) != null)
                 {
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
-                    _logger.LogError("El id ingresado no esta registrado");
-                        return _apiresponse;
+                    return _apiresponse;
                 }
                 var updateUserDto = _mapper.Map<ArmaUpdateDto>(arma); 
                 armaUpdateDto.ApplyTo(updateUserDto!);
-                if (Utils.FluentValidator(updateUserDto, _validatorUpdate, _apiresponse, _logger) != null)
+                if (await Utils.FluentValidator(updateUserDto, _validatorUpdate, _apiresponse, _logger) != null)
                 {
+                    return _apiresponse;
+                }
+                var registredName = await _repository.GetByName(updateUserDto.Nombre); //verifico que no haya otro con el mismo nomrbe
+                if (registredName != null && registredName.Id != arma.Id)
+                {
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.Conflict; // Conflict indica que ya existe un recurso con el mismo nombre
+                    _logger.LogError("Ya existe un arma con el mismo nombre.");
                     return _apiresponse;
                 }
                 _mapper.Map(updateUserDto, arma);
@@ -239,10 +218,7 @@ namespace API_MortalKombat.Service
             }
             catch (Exception ex)
             {
-                _logger.LogError("Ocurrió un error al intentar actualizar el arma de id: " + id + ". Error: " + ex.Message);
-                _apiresponse.isExit = false;
-                _apiresponse.statusCode = HttpStatusCode.NotFound;
-                _apiresponse.ErrorList = new List<string> { ex.ToString() }; 
+                Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
             return _apiresponse;
         }

@@ -1,8 +1,5 @@
 ﻿namespace API_MortalKombat.Models.DTOs.RolDTO
 {
-    public class RolDto
-    {
-        public int Id { get; set; }
-        public required string Nombre { get; set; }
-    }
+    public record RolDto(int Id,
+                         string Nombre);
 }

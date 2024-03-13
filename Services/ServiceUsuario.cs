@@ -42,10 +42,7 @@ namespace API_MortalKombat.Service
             }
             catch (Exception ex)
             {
-                _logger.LogError("Ocurrió un error al obtener la lista de Usuarios: " + ex.Message);
-                _apiresponse.isExit = false;
-                _apiresponse.statusCode = HttpStatusCode.NotFound;
-                _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
+                Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
             return _apiresponse;
         }
@@ -55,11 +52,8 @@ namespace API_MortalKombat.Service
             try
             {
                 var usuario = await _repository.GetById(id);
-                if (usuario == null)
+                if (Utils.CheckIfNull(usuario, _apiresponse, _logger) != null)
                 {
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("El id " + id + " no esta registrado.");
                     return _apiresponse;
                 }
                 _apiresponse.Result = _mapper.Map<UsuarioDto>(usuario);
@@ -68,10 +62,7 @@ namespace API_MortalKombat.Service
             }
             catch (Exception ex)
             {
-                _logger.LogError("Ocurrió un error al intentar crear el Usuario: " + ex.Message);
-                _apiresponse.isExit = false;
-                _apiresponse.statusCode = HttpStatusCode.NotFound;
-                _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
+                Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
             return _apiresponse;
         }
@@ -81,11 +72,8 @@ namespace API_MortalKombat.Service
             try
             {
                 var usuario = await _repository.GetByName(name);
-                if (usuario == null)
+                if (Utils.CheckIfNull(usuario, _apiresponse, _logger) != null)
                 {
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("El usuario " + name + " no esta registrado.");
                     return _apiresponse;
                 }
                 _apiresponse.Result = _mapper.Map<UsuarioDto>(usuario);
@@ -94,10 +82,7 @@ namespace API_MortalKombat.Service
             }
             catch (Exception ex)
             {
-                _logger.LogError("Ocurrió un error al intentar crear el Usuario: " + ex.Message);
-                _apiresponse.isExit = false;
-                _apiresponse.statusCode = HttpStatusCode.NotFound;
-                _apiresponse.ErrorList = new List<string> { ex.ToString() };
+                Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
             return _apiresponse;
         }
@@ -106,7 +91,7 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                if (Utils.FluentValidator(usuarioCreateDto, _validator, _apiresponse, _logger) != null)
+                if (await Utils.FluentValidator(usuarioCreateDto, _validator, _apiresponse, _logger) != null)
                 {
                     return _apiresponse;
                 }
@@ -130,10 +115,7 @@ namespace API_MortalKombat.Service
             }
             catch (Exception ex) 
             {
-                _logger.LogError("Ocurrió un error al intentar crear el Usuario: " + ex.Message);
-                _apiresponse.isExit = false;
-                _apiresponse.statusCode = HttpStatusCode.NotFound;
-                _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
+                Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
             return _apiresponse;
         }
@@ -143,11 +125,8 @@ namespace API_MortalKombat.Service
             try
             {
                 var usuario = await _repository.GetById(id);
-                if (usuario == null)
+                if (Utils.CheckIfNull(usuario, _apiresponse, _logger) != null)
                 {
-                    _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("El usuario no se encuentra registrado. Verifica que el id ingresado sea correcto.");
-                    _apiresponse.isExit = false;
                     return _apiresponse;
                 }
                 await _repository.Delete(usuario);
@@ -158,10 +137,7 @@ namespace API_MortalKombat.Service
             }
             catch (Exception ex)
             {
-                _logger.LogError("Ocurrió un error al intentar crear el Usuario: " + ex.Message);
-                _apiresponse.isExit = false;
-                _apiresponse.statusCode = HttpStatusCode.NotFound;
-                _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
+                Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
             return _apiresponse;
         }
@@ -170,19 +146,16 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                if (Utils.FluentValidator(usuarioUpdateDto, _validatorUpdate, _apiresponse, _logger) != null)
+                if (await Utils.FluentValidator(usuarioUpdateDto, _validatorUpdate, _apiresponse, _logger) != null)
                 {
                     return _apiresponse;
                 }
-                var user = await _repository.GetByName(username);
-                if (user == null)
+                var usuario = await _repository.GetByName(username);
+                if (Utils.CheckIfNull(usuario, _apiresponse, _logger) != null)
                 {
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
-                    _logger.LogError("El usuario que ingreso no existe.");
                     return _apiresponse;
                 }
-                if (!Encrypt.VerifyPassword(password, user.Contraseña))
+                if (!Encrypt.VerifyPassword(password, usuario.Contraseña))
                 {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.BadRequest;
@@ -190,32 +163,26 @@ namespace API_MortalKombat.Service
                     return _apiresponse;
                 }
                var registredNewName = await _repository.GetByName(usuarioUpdateDto.NombreDeUsuario);
-                if (registredNewName != null && registredNewName.Id != user.Id )
+                if (registredNewName != null && registredNewName.Id != usuario.Id )
                 {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.Conflict;
                     _logger.LogError("Ya existe un usuario con el mismo nombre.");
                     return _apiresponse;
                 }
-                //ENCRIPTAR CONTRASEÑA EN CASO DE QUE LA CAMBIE
-                if (user.Contraseña != usuarioUpdateDto.Contraseña)
-                {
-                    usuarioUpdateDto.Contraseña = Encrypt.EncryptPassword(usuarioUpdateDto.Contraseña); //encripto contraseña
-                }
-                _mapper.Map(usuarioUpdateDto, user);
-                user.FechaActualizacion = DateTime.Now;
+                _mapper.Map(usuarioUpdateDto, usuario);
+                //ENCRIPTAR CONTRASEÑA
+                usuario.Contraseña = Encrypt.EncryptPassword(usuario.Contraseña);
+                usuario.FechaActualizacion = DateTime.Now;
                 _apiresponse.statusCode = HttpStatusCode.OK;
-                _apiresponse.Result = _mapper.Map<UsuarioGetDto>(user);
+                _apiresponse.Result = _mapper.Map<UsuarioGetDto>(usuario);
                 _logger.LogInformation("¡Usuario Actualizado con exito!");
-                await _repository.Update(user);
+                await _repository.Update(usuario);
                 return _apiresponse;
             }
             catch (Exception ex)
             {
-                _logger.LogError("Ocurrió un error al intentar actualizar al Usuario: " + ex.Message);
-                _apiresponse.isExit = false;
-                _apiresponse.statusCode = HttpStatusCode.NotFound;
-                _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
+                Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
             return _apiresponse;
         }
@@ -224,45 +191,48 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                var user = await _repository.GetByName(username);
-                if (user == null)
+                var usuario = await _repository.GetByName(username);
+                if (Utils.CheckIfNull(usuario, _apiresponse, _logger) != null)
                 {
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
-                    _logger.LogError("El usuario que ingreso no existe.");
                     return _apiresponse;
                 }
-                if (!Encrypt.VerifyPassword(password, user.Contraseña))
+                if (!Encrypt.VerifyPassword(password, usuario.Contraseña))
                 {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.BadRequest;
                     _logger.LogError("Contraseña incorrecta");
                     return _apiresponse;
                 }
-                var updateUsuarioDto = _mapper.Map<UsuarioUpdateDto>(user); //mapeo el usuario a usuarioDTO
+                var updateUsuarioDto = _mapper.Map<UsuarioUpdateDto>(usuario); //mapeo el usuario a usuarioDTO
                 usuarioUpdateDto.ApplyTo(updateUsuarioDto);
-                if (Utils.FluentValidator(updateUsuarioDto, _validatorUpdate, _apiresponse, _logger) != null)
+                if (await Utils.FluentValidator(updateUsuarioDto, _validatorUpdate, _apiresponse, _logger) != null)
                 {
                     return _apiresponse;
                 }
-                if (updateUsuarioDto.Contraseña != user.Contraseña) //si cambio la contraseña, la encripto 
+                var registredName = await _repository.GetByName(updateUsuarioDto.NombreDeUsuario); //verifico que no haya otro con el mismo nomrbe
+                if (registredName != null && registredName.Id != usuario.Id)
                 {
-                    updateUsuarioDto.Contraseña = Encrypt.EncryptPassword(updateUsuarioDto.Contraseña);
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.Conflict; // Conflict indica que ya existe un recurso con el mismo nombre
+                    _logger.LogError("Ya existe un usuario con el mismo nombre de usuario.");
+                    return _apiresponse;
                 }
-                _mapper.Map(updateUsuarioDto, user);
+                var encryptPassword = usuario.Contraseña;
+                _mapper.Map(updateUsuarioDto, usuario);
+                if (usuario.Contraseña != encryptPassword) //encripto contraseña
+                {
+                    usuario.Contraseña = Encrypt.EncryptPassword(updateUsuarioDto.Contraseña);
+                }
                 _logger.LogInformation("¡Dato cambiado con exito!");
-                user.FechaActualizacion = DateTime.Now;
-                await _repository.Update(user);
+                usuario.FechaActualizacion = DateTime.Now;
+                await _repository.Update(usuario);
                 _apiresponse.statusCode = HttpStatusCode.OK;
-                _apiresponse.Result = _mapper.Map<UsuarioGetDto>(user);
+                _apiresponse.Result = _mapper.Map<UsuarioGetDto>(usuario);
                 return _apiresponse;
             }
             catch (Exception ex)
             {
-                _logger.LogError("Ocurrió un error al intentar actualizar el usuario. Error: " + ex.Message);
-                _apiresponse.isExit = false;
-                _apiresponse.statusCode = HttpStatusCode.NotFound;
-                _apiresponse.ErrorList = new List<string> { ex.ToString() };
+                Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
             return _apiresponse;
         }
@@ -271,33 +241,27 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                var user = await _repository.GetByName(username);
-                if (user == null)
+                var usuario = await _repository.GetByName(username);
+                if (Utils.CheckIfNull(usuario, _apiresponse, _logger) != null)
                 {
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
-                    _logger.LogError("Usuario incorrecto.");
                     return _apiresponse;
                 }
-                if (!Encrypt.VerifyPassword(password, user.Contraseña))
+                if (!Encrypt.VerifyPassword(password, usuario.Contraseña))
                 {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.BadRequest;
                     _logger.LogError("Contraseña incorrecta");
                     return _apiresponse;
                 }
-                await _repository.Delete(user);
-                var result = _mapper.Map<UsuarioGetDto>(user);
+                await _repository.Delete(usuario);
+                var result = _mapper.Map<UsuarioGetDto>(usuario);
                 _apiresponse.statusCode = HttpStatusCode.OK;
                 _apiresponse.Result = result;
                 _logger.LogInformation("¡Usuario eliminado con exito!");
             }
             catch (Exception ex)
             {
-                _logger.LogError("Ocurrió un error al intentar eliminar el Usuario: " + ex.Message);
-                _apiresponse.isExit = false;
-                _apiresponse.statusCode = HttpStatusCode.NotFound;
-                _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
+                Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
             return _apiresponse;
         }

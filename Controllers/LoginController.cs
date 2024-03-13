@@ -1,5 +1,6 @@
 ﻿using API_MortalKombat.Models;
 using API_MortalKombat.Services.IService;
+using API_MortalKombat.Services.Utils;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -22,15 +23,7 @@ namespace API_MortalKombat.Controllers
         public async Task<ActionResult<APIResponse>> LoginUsuario(Login userAndPass) //metodo para logearse
         {
             var result = await _service.LoginUsuario(userAndPass); //creo el token de logeo o null si falla
-            switch (result.statusCode)
-            {
-                case HttpStatusCode.OK:
-                    return Ok(result);
-                case HttpStatusCode.BadRequest:
-                    return BadRequest(result);
-                default:
-                    return NotFound(result);
-            }
+            return Utils.ControllerHelper(result);
         }
     }
 }

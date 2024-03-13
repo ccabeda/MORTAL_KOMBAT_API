@@ -37,11 +37,8 @@ namespace API_MortalKombat.Service
             try
             {
                 var reino = await _repository.GetById(id);
-                if (reino == null)
+                if (Utils.CheckIfNull(reino, _apiresponse, _logger) != null)
                 {
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("El id " + id + "no esta registrado.");
                     return _apiresponse;
                 }
                 _apiresponse.Result = _mapper.Map<ReinoDto>(reino);
@@ -50,10 +47,7 @@ namespace API_MortalKombat.Service
             }
             catch (Exception ex)
             {
-                _logger.LogError("Ocurrió un error al obtener el reino de id: " + id + " : " + ex.Message);
-                _apiresponse.isExit = false;
-                _apiresponse.statusCode = HttpStatusCode.NotFound;
-                _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
+                Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
             return _apiresponse;
         }
@@ -63,11 +57,8 @@ namespace API_MortalKombat.Service
             try
             {
                 var reino = await _repository.GetByName(name);
-                if (reino == null)
+                if (Utils.CheckIfNull(reino, _apiresponse, _logger) != null)
                 {
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("El reino " + name + " no esta registrado.");
                     return _apiresponse;
                 }
                 _apiresponse.Result = _mapper.Map<ReinoDto>(reino);
@@ -76,10 +67,7 @@ namespace API_MortalKombat.Service
             }
             catch (Exception ex)
             {
-                _logger.LogError("Ocurrió un error al obtener el reino de nombre: " + name + " : " + ex.Message);
-                _apiresponse.isExit = false;
-                _apiresponse.statusCode = HttpStatusCode.NotFound;
-                _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
+                Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
             return _apiresponse;
         }
@@ -88,17 +76,14 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                IEnumerable<Reino> listReinos = await _repository.GetAll();
+                List<Reino> listReinos = await _repository.GetAll();
                 _apiresponse.Result = _mapper.Map<IEnumerable<ReinoDto>>(listReinos);
                 _apiresponse.statusCode = HttpStatusCode.OK;
                 return _apiresponse;
             }
             catch (Exception ex)
             {
-                _logger.LogError("Ocurrió un error al obtener la lista de Reinos: " + ex.Message);
-                _apiresponse.isExit = false;
-                _apiresponse.statusCode = HttpStatusCode.NotFound;
-                _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
+                Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
             return _apiresponse;
         }
@@ -107,7 +92,7 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                if (Utils.FluentValidator(reinoCreateDto, _validator, _apiresponse, _logger) != null)
+                if (await Utils.FluentValidator(reinoCreateDto, _validator, _apiresponse, _logger) != null)
                 {
                     return _apiresponse;
                 }
@@ -129,10 +114,7 @@ namespace API_MortalKombat.Service
             }
             catch (Exception ex)
             {
-                _logger.LogError("Ocurrió un error al intentar crear el reino: " + ex.Message);
-                _apiresponse.isExit = false;
-                _apiresponse.statusCode = HttpStatusCode.NotFound;
-                _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
+                Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
             return _apiresponse;
         }
@@ -142,11 +124,8 @@ namespace API_MortalKombat.Service
             try 
             {
                 var reino = await _repository.GetById(id); ;
-                if (reino == null)
+                if (Utils.CheckIfNull(reino, _apiresponse, _logger) != null)
                 {
-                    _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("El reino no se encuentra registrado. Verifica que el id ingresado sea correcto.");
-                    _apiresponse.isExit = false;
                     return _apiresponse;
                 }
                 var listPersonajes = await _repositoryPersonaje.GetAll();
@@ -168,10 +147,7 @@ namespace API_MortalKombat.Service
             }
             catch (Exception ex)
             {
-                _logger.LogError("Ocurrió un error al eliminar el reino de id " + id + ": " + ex.Message);
-                _apiresponse.isExit = false;
-                _apiresponse.statusCode = HttpStatusCode.NotFound;
-                _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
+                Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
             return _apiresponse;
         }
@@ -180,7 +156,7 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                if (Utils.FluentValidator(reinoUpdateDto, _validatorUpdate, _apiresponse, _logger) != null)
+                if (await Utils.FluentValidator(reinoUpdateDto, _validatorUpdate, _apiresponse, _logger) != null)
                 {
                     return _apiresponse;
                 }
@@ -191,8 +167,8 @@ namespace API_MortalKombat.Service
                     _logger.LogError("Error con la id ingresada.");
                     return _apiresponse;
                 }
-                var existereino = await _repository.GetById(id);
-                if (existereino == null)
+                var existReino = await _repository.GetById(id);
+                if (existReino == null)
                 {
                     _apiresponse.isExit = false;
                     _apiresponse.statusCode = HttpStatusCode.NotFound;
@@ -207,20 +183,17 @@ namespace API_MortalKombat.Service
                     _logger.LogError("Ya existe un reino con el mismo nombre.");
                     return _apiresponse;
                 }
-                _mapper.Map(reinoUpdateDto, existereino);
-                existereino.FechaActualizacion = DateTime.Now;
+                _mapper.Map(reinoUpdateDto, existReino);
+                existReino.FechaActualizacion = DateTime.Now;
                 _apiresponse.statusCode = HttpStatusCode.OK;
-                _apiresponse.Result = _mapper.Map<ReinoDto>(existereino);
+                _apiresponse.Result = _mapper.Map<ReinoDto>(existReino);
                 _logger.LogInformation("¡Reino Actualizado con exito!");
-                await _repository.Update(existereino);
+                await _repository.Update(existReino);
                 return _apiresponse;
             }
             catch (Exception ex)
             {
-                _logger.LogError("Ocurrió un error al intentar actualizar el reino: " + ex.Message);
-                _apiresponse.isExit = false;
-                _apiresponse.statusCode = HttpStatusCode.NotFound;
-                _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
+                Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
             return _apiresponse;
         }
@@ -230,17 +203,22 @@ namespace API_MortalKombat.Service
             try
             {
                 var reino = await _repository.GetById(id);
-                if (reino == null)
+                if (Utils.CheckIfNull(reino, _apiresponse, _logger) != null)
                 {
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
-                    _logger.LogError("El id ingresado no esta registrado");
                     return _apiresponse;
                 }
                 var updateReinoDto = _mapper.Map<ReinoUpdateDto>(reino);
                 reinoUpdateDto.ApplyTo(updateReinoDto!);
-                if (Utils.FluentValidator(updateReinoDto, _validatorUpdate, _apiresponse, _logger) != null)
+                if (await Utils.FluentValidator(updateReinoDto, _validatorUpdate, _apiresponse, _logger) != null)
                 {
+                    return _apiresponse;
+                }
+                var registredName = await _repository.GetByName(updateReinoDto.Nombre); //verifico que no haya otro con el mismo nomrbe
+                if (registredName != null && registredName.Id != reino.Id)
+                {
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.Conflict; // Conflict indica que ya existe un recurso con el mismo nombre
+                    _logger.LogError("Ya existe un reino con el mismo nombre.");
                     return _apiresponse;
                 }
                 _mapper.Map(updateReinoDto, reino);
@@ -252,10 +230,7 @@ namespace API_MortalKombat.Service
             }
             catch (Exception ex)
             {
-                _logger.LogError("Ocurrió un error al intentar actualizar el reino de id: " + id + ". Error: " + ex.Message);
-                _apiresponse.isExit = false;
-                _apiresponse.statusCode = HttpStatusCode.NotFound;
-                _apiresponse.ErrorList = new List<string> { ex.ToString() };
+                Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
             return _apiresponse;
         }

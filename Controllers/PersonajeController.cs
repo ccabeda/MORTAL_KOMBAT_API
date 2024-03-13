@@ -1,6 +1,7 @@
 ﻿using API_MortalKombat.Models;
 using API_MortalKombat.Models.DTOs.PersonajeDTO;
 using API_MortalKombat.Service.IService;
+using API_MortalKombat.Services.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -24,13 +25,7 @@ namespace API_MortalKombat.Controllers
         public async Task<ActionResult<APIResponse>> GetPersonajes()
         {
             var result = await _service.GetPersonajes();
-            switch (result.statusCode)
-            {
-                case HttpStatusCode.OK:
-                    return Ok(result);
-                default:
-                    return NotFound(result);
-            }
+            return Utils.ControllerHelper(result);
         } 
 
         [HttpGet(("{id}"), Name = "GetPersonajebyId")]
@@ -39,13 +34,7 @@ namespace API_MortalKombat.Controllers
         public async Task<ActionResult<APIResponse>> GetPersonajeById(int id) //get para traer con id
         {
             var result = await _service.GetPersonajeById(id);
-            switch (result.statusCode)
-            {
-                case HttpStatusCode.OK:
-                    return Ok(result);
-                default:
-                    return NotFound(result);
-            }
+            return Utils.ControllerHelper(result);
         }  
 
         [HttpGet(("nombre/{name}"), Name = "GetPersonajebyName")]
@@ -54,13 +43,7 @@ namespace API_MortalKombat.Controllers
         public async Task<ActionResult<APIResponse>> GetPersonajeByName(String name) //get para traer con nombre
         {
             var result = await _service.GetPersonajeByName(name);
-            switch (result.statusCode)
-            {
-                case HttpStatusCode.OK:
-                    return Ok(result);
-                default:
-                    return NotFound(result);
-            }
+            return Utils.ControllerHelper(result);
         } 
 
         [HttpPost]
@@ -73,17 +56,7 @@ namespace API_MortalKombat.Controllers
         public async Task<ActionResult<APIResponse>> CreatePersonaje ([FromBody] PersonajeCreateDto personajeCreateDto)
         {
             var result = await _service.CreatePersonaje(personajeCreateDto);
-            switch (result.statusCode)
-            {
-                case HttpStatusCode.Created:
-                    return Ok(result);
-                case HttpStatusCode.Conflict:
-                    return Conflict(result);
-                case HttpStatusCode.BadRequest:
-                    return BadRequest(result);
-                default:
-                    return NotFound(result);
-            }
+            return Utils.ControllerHelper(result);
         }
 
         [HttpPut(("{id}"), Name = "PutPersonabyId")]
@@ -96,17 +69,7 @@ namespace API_MortalKombat.Controllers
         public async Task<ActionResult<APIResponse>> UpdatePersonaje (int id, [FromBody] PersonajeUpdateDto personajeUpdateDto)
         {
             var result = await _service.UpdatePersonaje(id, personajeUpdateDto);
-            switch (result.statusCode)
-            {
-                case HttpStatusCode.OK:
-                    return Ok(result);
-                case HttpStatusCode.BadRequest:
-                    return BadRequest(result);
-                case HttpStatusCode.Conflict:
-                    return Conflict(result);
-                default:
-                    return NotFound(result);
-            }
+            return Utils.ControllerHelper(result);
         }
 
         [HttpDelete(("{id}"), Name = "DeletePersonaje")]
@@ -117,13 +80,7 @@ namespace API_MortalKombat.Controllers
         public async Task<ActionResult<APIResponse>> DeletePersonaje(int id)
         {
             var result = await _service.DeletePersonaje(id);
-            switch (result.statusCode)
-            {
-                case HttpStatusCode.OK:
-                    return Ok(result);
-                default:
-                    return NotFound(result);
-            }
+            return Utils.ControllerHelper(result);
         }
 
         [HttpPut(("{idPersonaje}/AddWeapon/{idArma}"), Name = "AddWeaponToPersonaje")]
@@ -134,13 +91,7 @@ namespace API_MortalKombat.Controllers
         public async Task<ActionResult<APIResponse>> AddWeaponToPersonaje(int idPersonaje, int idArma)
         {
             var result = await _service.AddWeaponToPersonaje(idPersonaje, idArma);
-            switch (result.statusCode)
-            {
-                case HttpStatusCode.OK:
-                    return Ok(result);
-                default:
-                    return NotFound(result);
-            }
+            return Utils.ControllerHelper(result);
         }
 
         [HttpPut(("{idPersonaje}/RemoveWeapon/{idArma}"), Name = "RemoveWeaponToPersonaje")]
@@ -152,15 +103,7 @@ namespace API_MortalKombat.Controllers
         public async Task<ActionResult<APIResponse>> RemoveWeaponToPersonaje(int idPersonaje, int idArma)
         {
             var result = await _service.RemoveWeaponToPersonaje(idPersonaje, idArma);
-            switch (result.statusCode)
-            {
-                case HttpStatusCode.OK:
-                    return Ok(result);
-                case HttpStatusCode.BadRequest:
-                    return BadRequest(result);
-                default:
-                    return NotFound(result);
-            }
+            return Utils.ControllerHelper(result);
         }
 
         [HttpPut(("{idPersonaje}/AddStyle/{idEstilDePelea}"), Name = "AddStyleToPersonaje")]
@@ -171,13 +114,7 @@ namespace API_MortalKombat.Controllers
         public async Task<ActionResult<APIResponse>> AddStyleToPersonaje(int idPersonaje, int idEstilDePelea)
         {
             var result = await _service.AddStyleToPersonaje(idPersonaje, idEstilDePelea);
-            switch (result.statusCode)
-            {
-                case HttpStatusCode.OK:
-                    return Ok(result);
-                default:
-                    return NotFound(result);
-            }
+            return Utils.ControllerHelper(result);
         }
 
         [HttpPut(("{idPersonaje}/RemoveStyle/{idEstilDePelea}"), Name = "RemoveStyleToPersonaje")]
@@ -189,31 +126,19 @@ namespace API_MortalKombat.Controllers
         public async Task<ActionResult<APIResponse>> RemoveStyleToPersonaje(int idPersonaje, int idEstilDePelea)
         {
             var result = await _service.RemoveStyleToPersonaje(idPersonaje, idEstilDePelea);
-            switch (result.statusCode)
-            {
-                case HttpStatusCode.OK:
-                    return Ok(result);
-                case HttpStatusCode.BadRequest:
-                    return BadRequest(result);
-                default:
-                    return NotFound(result);
-            }
+            return Utils.ControllerHelper(result);
         }
 
         [HttpPatch(("{id}"), Name = "UpdatePartialPersonaje")]
         [Authorize(Roles = "1,2")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> UpdatePartialPersonaje(int id, JsonPatchDocument<PersonajeUpdateDto> personajeUpdateDto)
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult<APIResponse>> UpdatePartialPersonaje(int id, JsonPatchDocument<PersonajeUpdateDto> personajeUpdateDto)
         {
             var result = await _service.UpdatePartialPersonaje(id, personajeUpdateDto);
-            switch (result.statusCode)
-            {
-                case HttpStatusCode.OK:
-                    return Ok(result);
-                default:
-                    return NotFound(result);
-            }
+            return Utils.ControllerHelper(result);
         }
     }
 }

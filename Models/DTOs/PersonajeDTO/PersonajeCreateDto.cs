@@ -1,13 +1,10 @@
 ﻿namespace API_MortalKombat.Models.DTOs.PersonajeDTO
-{
-    public class PersonajeCreateDto
-    {
-        public required string Nombre { get; set; }
-        public required string ImagenURl { get; set; }
-        public required string Alineacion { get; set; }
-        public required string Raza { get; set; }
-        public required string Descripcion { get; set; }
-        public int ClanId { set; get; }
-        public int ReinoId { set; get; }
-    }
+{ 
+    public record PersonajeCreateDto(string Nombre,
+                                     string ImagenURL,
+                                     string Alineacion,
+                                     string Raza,
+                                     string Descripcion,
+                                     int ClanId,
+                                     int ReinoId);
 }

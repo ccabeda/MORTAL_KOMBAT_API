@@ -5,6 +5,7 @@ using API_MortalKombat.Services.IService;
 using API_MortalKombat.Models.DTOs.RolDTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
+using API_MortalKombat.Services.Utils;
 
 namespace API_MortalKombat.Controllers
 {
@@ -26,13 +27,7 @@ namespace API_MortalKombat.Controllers
         public async Task<ActionResult<APIResponse>> GetRoles()
         {
             var result = await _service.GetRoles();
-            switch (result.statusCode)
-            {
-                case HttpStatusCode.OK:
-                    return Ok(result);
-                default:
-                    return NotFound(result);
-            }
+            return Utils.ControllerHelper(result);
         }
 
         [HttpGet(("{id}"), Name = "GetRolbyId")]
@@ -42,13 +37,7 @@ namespace API_MortalKombat.Controllers
         public async Task<ActionResult<APIResponse>> GetRolById(int id) //get para traer con id
         {
             var result = await _service.GetRolById(id);
-            switch (result.statusCode)
-            {
-                case HttpStatusCode.OK:
-                    return Ok(result);
-                default:
-                    return NotFound(result);
-            }
+            return Utils.ControllerHelper(result);
         }
 
         [HttpGet(("nombre/{name}"), Name = "GetRolbyName")]
@@ -58,13 +47,7 @@ namespace API_MortalKombat.Controllers
         public async Task<ActionResult<APIResponse>> GetRolByName(String name) //get para traer con nombre
         {
             var result = await _service.GetRolByName(name);
-            switch (result.statusCode)
-            {
-                case HttpStatusCode.OK:
-                    return Ok(result);
-                default:
-                    return NotFound(result);
-            }
+            return Utils.ControllerHelper(result);
         }
 
         [HttpPost]
@@ -75,17 +58,7 @@ namespace API_MortalKombat.Controllers
         public async Task<ActionResult<APIResponse>> CreateRol([FromBody] RolCreateDto rolCreateDto)
         {
             var result = await _service.CreateRol(rolCreateDto);
-            switch (result.statusCode)
-            {
-                case HttpStatusCode.Created:
-                    return Ok(result);
-                case HttpStatusCode.Conflict:
-                    return Conflict(result);
-                case HttpStatusCode.BadRequest:
-                    return BadRequest(result);
-                default:
-                    return NotFound(result);
-            }
+            return Utils.ControllerHelper(result);
         }
 
         [HttpPut(("{id}"), Name = "PutRolbyId")]
@@ -96,15 +69,7 @@ namespace API_MortalKombat.Controllers
         public async Task<ActionResult<APIResponse>> PutRol(int id, [FromBody] RolUpdateDto rolUpdateDto)
         {
             var result = await _service.UpdateRol(id, rolUpdateDto);
-            switch (result.statusCode)
-            {
-                case HttpStatusCode.OK:
-                    return Ok(result);
-                case HttpStatusCode.BadRequest:
-                    return Conflict(result);
-                default:
-                    return NotFound(result);
-            }
+            return Utils.ControllerHelper(result);
         }
 
         [HttpDelete(("{id}"), Name = "DeleteRol")]
@@ -114,28 +79,18 @@ namespace API_MortalKombat.Controllers
         public async Task<ActionResult<APIResponse>> DeleteRol(int id)
         {
             var result = await _service.DeleteRol(id);
-            switch (result.statusCode)
-            {
-                case HttpStatusCode.OK:
-                    return Ok(result);
-                default:
-                    return NotFound(result);
-            }
+            return Utils.ControllerHelper(result);
         }
 
         [HttpPatch(("{id}"), Name = "UpdatePartialRol")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> UpdatePartialRol(int id, JsonPatchDocument<RolUpdateDto> rolUpdateDto)
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult<APIResponse>> UpdatePartialRol(int id, JsonPatchDocument<RolUpdateDto> rolUpdateDto)
         {
             var result = await _service.UpdatePartialRol(id, rolUpdateDto);
-            switch (result.statusCode)
-            {
-                case HttpStatusCode.OK:
-                    return Ok(result);
-                default:
-                    return NotFound(result);
-            }
+            return Utils.ControllerHelper(result);
         }
     }
 }

@@ -37,17 +37,14 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                IEnumerable<Rol> listRoles = await _repository.GetAll();
+                List<Rol> listRoles = await _repository.GetAll();
                 _apiresponse.Result = _mapper.Map<IEnumerable<RolDto>>(listRoles);
                 _apiresponse.statusCode = HttpStatusCode.OK;
                 return _apiresponse;
             }
             catch (Exception ex)
             {
-                _logger.LogError("Ocurrió un error al obtener la lista de Roles: " + ex.Message);
-                _apiresponse.isExit = false;
-                _apiresponse.statusCode = HttpStatusCode.NotFound;
-                _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
+                Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
             return _apiresponse;
         }
@@ -57,11 +54,8 @@ namespace API_MortalKombat.Service
             try
             {
                 var rol = await _repository.GetById(id);
-                if (rol == null)
+                if (Utils.CheckIfNull(rol, _apiresponse, _logger) != null)
                 {
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("El id " + id + " no esta registrado.");
                     return _apiresponse;
                 }
                 _apiresponse.Result = _mapper.Map<RolDto>(rol);
@@ -70,10 +64,7 @@ namespace API_MortalKombat.Service
             }
             catch (Exception ex)
             {
-                _logger.LogError("Ocurrió un error al intentar crear el Rol: " + ex.Message);
-                _apiresponse.isExit = false;
-                _apiresponse.statusCode = HttpStatusCode.NotFound;
-                _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
+                Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
             return _apiresponse;
         }
@@ -83,11 +74,8 @@ namespace API_MortalKombat.Service
             try
             {
                 var rol = await _repository.GetByName(name);
-                if (rol == null)
+                if (Utils.CheckIfNull(rol, _apiresponse, _logger) != null)
                 {
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("El rol " + name + " no esta registrado.");
                     return _apiresponse;
                 }
                 _apiresponse.Result = _mapper.Map<RolDto>(rol);
@@ -96,10 +84,7 @@ namespace API_MortalKombat.Service
             }
             catch (Exception ex)
             {
-                _logger.LogError("Ocurrió un error al intentar crear el Rol: " + ex.Message);
-                _apiresponse.isExit = false;
-                _apiresponse.statusCode = HttpStatusCode.NotFound;
-                _apiresponse.ErrorList = new List<string> { ex.ToString() };
+                Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
             return _apiresponse;
         }
@@ -108,7 +93,7 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                if (Utils.FluentValidator(rolCreateDto, _validator, _apiresponse, _logger) != null)
+                if (await Utils.FluentValidator(rolCreateDto, _validator, _apiresponse, _logger) != null)
                 {
                     return _apiresponse;
                 }
@@ -129,10 +114,7 @@ namespace API_MortalKombat.Service
             }
             catch (Exception ex)
             {
-                _logger.LogError("Ocurrió un error al intentar crear el Rol: " + ex.Message);
-                _apiresponse.isExit = false;
-                _apiresponse.statusCode = HttpStatusCode.NotFound;
-                _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
+                Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
             return _apiresponse;
         }
@@ -142,11 +124,8 @@ namespace API_MortalKombat.Service
             try
             {
                 var rol = await _repository.GetById(id);
-                if (rol == null)
+                if (Utils.CheckIfNull(rol, _apiresponse, _logger) != null)
                 {
-                    _apiresponse.statusCode = HttpStatusCode.NotFound;
-                    _logger.LogError("El rol no se encuentra registrado. Verifica que el id ingresado sea correcto.");
-                    _apiresponse.isExit = false;
                     return _apiresponse;
                 }
                 var listUsuarios = await _repositoryUsuario.GetAll();
@@ -168,10 +147,7 @@ namespace API_MortalKombat.Service
             }
             catch (Exception ex)
             {
-                _logger.LogError("Ocurrió un error al intentar crear el Rol: " + ex.Message);
-                _apiresponse.isExit = false;
-                _apiresponse.statusCode = HttpStatusCode.NotFound;
-                _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
+                Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
             return _apiresponse;
         }
@@ -180,7 +156,7 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                if (Utils.FluentValidator(rolUpdateDto, _validatorUpdate, _apiresponse, _logger) != null)
+                if (await Utils.FluentValidator(rolUpdateDto, _validatorUpdate, _apiresponse, _logger) != null)
                 {
                     return _apiresponse;
                 }
@@ -217,10 +193,7 @@ namespace API_MortalKombat.Service
             }
             catch (Exception ex)
             {
-                _logger.LogError("Ocurrió un error al intentar actualizar al personaje: " + ex.Message);
-                _apiresponse.isExit = false;
-                _apiresponse.statusCode = HttpStatusCode.NotFound;
-                _apiresponse.ErrorList = new List<string> { ex.ToString() }; //creo una lista que almacene el error
+                Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
             return _apiresponse;
         }
@@ -230,17 +203,22 @@ namespace API_MortalKombat.Service
             try
             {
                 var rol = await _repository.GetById(id);
-                if (rol == null)
+                if (Utils.CheckIfNull(rol, _apiresponse, _logger) != null)
                 {
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
-                    _logger.LogError("El id ingresado no esta registrado");
                     return _apiresponse;
                 }
                 var updateRolDto = _mapper.Map<RolUpdateDto>(rol);
                 rolUpdateDto.ApplyTo(updateRolDto!);
-                if (Utils.FluentValidator(updateRolDto, _validatorUpdate, _apiresponse, _logger) != null)
+                if (await Utils.FluentValidator(updateRolDto, _validatorUpdate, _apiresponse, _logger) != null)
                 {
+                    return _apiresponse;
+                }
+                var registredName = await _repository.GetByName(updateRolDto.Nombre); //verifico que no haya otro con el mismo nomrbe
+                if (registredName != null && registredName.Id != rol.Id)
+                {
+                    _apiresponse.isExit = false;
+                    _apiresponse.statusCode = HttpStatusCode.Conflict; // Conflict indica que ya existe un recurso con el mismo nombre
+                    _logger.LogError("Ya existe un rol con el mismo nombre.");
                     return _apiresponse;
                 }
                 _mapper.Map(updateRolDto, rol);
@@ -252,10 +230,7 @@ namespace API_MortalKombat.Service
             }
             catch (Exception ex)
             {
-                _logger.LogError("Ocurrió un error al intentar actualizar el rol de id: " + id + ". Error: " + ex.Message);
-                _apiresponse.isExit = false;
-                _apiresponse.statusCode = HttpStatusCode.NotFound;
-                _apiresponse.ErrorList = new List<string> { ex.ToString() };
+                Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
             return _apiresponse;
         }

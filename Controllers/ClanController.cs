@@ -1,6 +1,7 @@
 ﻿using API_MortalKombat.Models;
 using API_MortalKombat.Models.DTOs.ClanDTO;
 using API_MortalKombat.Service.IService;
+using API_MortalKombat.Services.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -24,13 +25,7 @@ namespace API_MortalKombat.Controllers
         public async Task<ActionResult<APIResponse>> GetClanes()
         {
             var result = await _service.GetClanes();
-            switch (result.statusCode)
-            {
-                case HttpStatusCode.OK:
-                    return Ok(result);
-                default:
-                    return NotFound(result);
-            }
+            return Utils.ControllerHelper(result);
         }
 
         [HttpGet(("{id}"), Name = "GetClanbyId")]
@@ -39,13 +34,7 @@ namespace API_MortalKombat.Controllers
         public async Task<ActionResult<APIResponse>> GetClanById(int id) //get para traer con id
         {
             var result = await _service.GetClanById(id);
-            switch (result.statusCode)
-            {
-                case HttpStatusCode.OK:
-                    return Ok(result);
-                default:
-                    return NotFound(result);
-            }
+            return Utils.ControllerHelper(result);
         }
 
         [HttpGet(("nombre/{name}"), Name = "GetClanbyName")]
@@ -54,13 +43,7 @@ namespace API_MortalKombat.Controllers
         public async Task<ActionResult<APIResponse>> GetClanByName(String name) //get para traer con nombre
         {
             var result = await _service.GetClanByName(name);
-            switch (result.statusCode)
-            {
-                case HttpStatusCode.OK:
-                    return Ok(result);
-                default:
-                    return NotFound(result);
-            }
+            return Utils.ControllerHelper(result);
         }
 
         [HttpPost]
@@ -73,17 +56,7 @@ namespace API_MortalKombat.Controllers
         public async Task<ActionResult<APIResponse>> CreateClan([FromBody] ClanCreateDto clanCreateDto)
         {
             var result = await _service.CreateClan(clanCreateDto);
-            switch (result.statusCode)
-            {
-                case HttpStatusCode.Created:
-                    return Ok(result);
-                case HttpStatusCode.Conflict:
-                    return Conflict(result);
-                case HttpStatusCode.BadRequest:
-                    return BadRequest(result);
-                default:
-                    return NotFound(result);
-            }
+            return Utils.ControllerHelper(result);
         }
 
         [HttpPut(("{id}"), Name = "PutClanbyId")]
@@ -96,17 +69,7 @@ namespace API_MortalKombat.Controllers
         public async Task<ActionResult<APIResponse>> PutClan(int id, [FromBody] ClanUpdateDto clanUpdateDto)
         {
             var result = await _service.UpdateClan(id, clanUpdateDto);
-            switch (result.statusCode)
-            {
-                case HttpStatusCode.OK:
-                    return Ok(result);
-                case HttpStatusCode.BadRequest:
-                    return BadRequest(result);
-                case HttpStatusCode.Conflict:
-                    return Conflict(result);
-                default:
-                    return NotFound(result);
-            }
+            return Utils.ControllerHelper(result);
         }
 
         [HttpDelete(("{id}"), Name = "DeleteClan")]
@@ -117,29 +80,19 @@ namespace API_MortalKombat.Controllers
         public async Task<ActionResult<APIResponse>> DeleteClan(int id)
         {
             var result = await _service.DeleteClan(id);
-            switch (result.statusCode)
-            {
-                case HttpStatusCode.OK:
-                    return Ok(result);
-                default:
-                    return NotFound(result);
-            }
+            return Utils.ControllerHelper(result);
         }
 
         [HttpPatch(("{id}"), Name = "UpdatePartialClan")]
         [Authorize(Roles = "1,2")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> UpdatePartialClan(int id, JsonPatchDocument<ClanUpdateDto> clanUpdateDto)
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult<APIResponse>> UpdatePartialClan(int id, JsonPatchDocument<ClanUpdateDto> clanUpdateDto)
         {
             var result = await _service.UpdatePartialClan(id, clanUpdateDto);
-            switch (result.statusCode)
-            {
-                case HttpStatusCode.OK:
-                    return Ok(result);
-                default:
-                    return NotFound(result);
-            }
+            return Utils.ControllerHelper(result);
         }
     }
 }
