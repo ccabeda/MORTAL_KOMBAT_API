@@ -232,20 +232,17 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 
 [Autorización: Super Administrador y Administrador]
 ```http
-  PUT localhost:{su_puerto}/api/Personaje/{id}
+  PUT localhost:{su_puerto}/api/Personaje
 ```
-| Parametro | Tipo     | Descripción              |
-| :-------- | :------- | :------------------------- |
-| `Id` | `int` | **Requerido** por URL.  |
 
 | Parametro | Tipo     | Descripción              |
 | :-------- | :------- | :------------------------- |
 | `Personaje` | `PersonajeUpdateDto` | **Requerido** por body.  |
 
-- URL: https://localhost:7104/api/Personaje/{id}
+- URL: https://localhost:7104/api/Personaje
 - Metodo: PUT
 - Parametros:
-  Id (URL), datos personales en formato Json (body)
+  Datos personales en formato Json (body)
 - Respuesta:  
 	- 200: Id, Nombre, ImagenURl, Alineación, Raza, Descripción, Clan y Reino (DTO)
  	-  400: Error
@@ -464,20 +461,17 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 
 [Autorización: Super Administrador y Administrador]
 ```http
-  PUT localhost:{su_puerto}/api/Clan/{id}
+  PUT localhost:{su_puerto}/api/Clan
 ```
-| Parametro | Tipo     | Descripción              |
-| :-------- | :------- | :------------------------- |
-| `Id` | `int` | **Requerido** por URL.  |
 
 | Parametro | Tipo     | Descripción              |
 | :-------- | :------- | :------------------------- |
 | `Clan` | `ClanUpdateDto` | **Requerido** por body.  |
 
-- URL: https://localhost:7104/api/Clan/{id}
+- URL: https://localhost:7104/api/Clan
 - Metodo: PUT
 - Parametros:
-  Id (URL), datos personales en formato Json (body)
+  Datos personales en formato Json (body)
 - Respuesta:
 	- 200: Id, Nombre, Descripción. (DTO)
 	- 404: Error
@@ -602,20 +596,17 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 
 [Autorización: Super Administrador y Administrador]
 ```http
-  PUT localhost:{su_puerto}/api/Reino/{id}
+  PUT localhost:{su_puerto}/api/Reino
 ```
-| Parametro | Tipo     | Descripción              |
-| :-------- | :------- | :------------------------- |
-| `Id` | `int` | **Requerido** por URL.  |
 
 | Parametro | Tipo     | Descripción              |
 | :-------- | :------- | :------------------------- |
 | `Reino` | `ReinoUpdateDto` | **Requerido** por body.  |
 
-- URL: https://localhost:7104/api/Reino/{id}
+- URL: https://localhost:7104/api/Reino
 - Metodo: PUT
 - Parametros:
-  Id (URL), datos personales en formato Json (body)
+  Datos personales en formato Json (body)
 - Respuesta:
 	- 200: Id, Nombre, Descripción. (DTO)
 	- 404: Error
@@ -741,20 +732,17 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 
 [Autorización: Super Administrador y Administrador]
 ```http
-  PUT localhost:{su_puerto}/api/Arma/{id}
+  PUT localhost:{su_puerto}/api/Arma
 ```
-| Parametro | Tipo     | Descripción              |
-| :-------- | :------- | :------------------------- |
-| `Id` | `int` | **Requerido** por URL.  |
 
 | Parametro | Tipo     | Descripción              |
 | :-------- | :------- | :------------------------- |
 | `Arma` | `ArmaUpdateDto` | **Requerido** por body.  |
 
-- URL: https://localhost:7104/api/Arma/{id}
+- URL: https://localhost:7104/api/Arma
 - Metodo: PUT
 - Parametros:
-  Id (URL), datos personales en formato Json (body)
+  Datos personales en formato Json (body)
 - Respuesta:
 	- 200: Id, Nombre, Descripción. (DTO)
 	- 404: Error
@@ -879,21 +867,17 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 
 [Autorización: Super Administrador y Administrador]
 ```http
-  PUT localhost:{su_puerto}/api/EstiloDePelea/{id}
+  PUT localhost:{su_puerto}/api/EstiloDePelea
 ```
-| Parametro | Tipo     | Descripción              |
-| :-------- | :------- | :------------------------- |
-| `Id` | `int` | **Requerido** por URL.  |
 
 | Parametro | Tipo     | Descripción              |
 | :-------- | :------- | :------------------------- |
 | `EstiloDePelea` | `EstiloDePeleaUpdateDto` | **Requerido** por body.  |
 
-
-- URL: https://localhost:7104/api/EstiloDePelea/{id}
+- URL: https://localhost:7104/api/EstiloDePelea
 - Metodo: PUT
 - Parametros:
-  Id (URL), datos personales en formato Json (body)
+  Datos personales en formato Json (body)
 - Respuesta:
 	- 200: Id, Nombre, Descripción. (DTO)
 	- 404: Error
@@ -1193,20 +1177,17 @@ Una vez registrado y con el token en tu poder, te diriges al Endpoint que deseas
 
 [Autorización: Super Administrador]
 ```http
-  PUT localhost:{su_puerto}/api/Rol/{id}
+  PUT localhost:{su_puerto}/api/Rol
 ```
-| Parametro | Tipo     | Descripción              |
-| :-------- | :------- | :------------------------- |
-| `Id` | `int` | **Requerido** por URL.  |
 
 | Parametro | Tipo     | Descripción              |
 | :-------- | :------- | :------------------------- |
 | `Rol` | `RolUpdateDto` | **Requerido** por body.  |
 
-- URL: https://localhost:7104/api/Rol/{id}
+- URL: https://localhost:7104/api/Rol
 - Metodo: PUT
 - Parametros:
-  Id (URL), datos personales en formato Json (body)
+  Datos personales en formato Json (body)
 - Respuesta:
 	- 200: Id, Nombre, Descripción (DTO)
 	- 404: Error
