@@ -1,6 +1,5 @@
 ﻿using API_MortalKombat.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 using API_MortalKombat.Services.IService;
 using API_MortalKombat.Models.DTOs.RolDTO;
 using Microsoft.AspNetCore.Authorization;
@@ -14,8 +13,8 @@ namespace API_MortalKombat.Controllers
     [Authorize(Roles = "1")] //pongo aqui para que todos sean necesarios autorización
     public class RolController : ControllerBase
     {
-        private readonly IServiceRol _service;
-        public RolController(IServiceRol service)
+        private readonly IServiceGeneric<RolUpdateDto, RolCreateDto> _service;
+        public RolController(IServiceGeneric<RolUpdateDto, RolCreateDto> service)
         {
             _service = service;
         }
@@ -26,7 +25,7 @@ namespace API_MortalKombat.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<APIResponse>> GetRoles()
         {
-            var result = await _service.GetRoles();
+            var result = await _service.GetAll();
             return Utils.ControllerHelper(result);
         }
 
@@ -36,7 +35,7 @@ namespace API_MortalKombat.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<APIResponse>> GetRolById(int id) //get para traer con id
         {
-            var result = await _service.GetRolById(id);
+            var result = await _service.GetById(id);
             return Utils.ControllerHelper(result);
         }
 
@@ -46,7 +45,7 @@ namespace API_MortalKombat.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<APIResponse>> GetRolByName(String name) //get para traer con nombre
         {
-            var result = await _service.GetRolByName(name);
+            var result = await _service.GetByName(name);
             return Utils.ControllerHelper(result);
         }
 
@@ -57,18 +56,18 @@ namespace API_MortalKombat.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<APIResponse>> CreateRol([FromBody] RolCreateDto rolCreateDto)
         {
-            var result = await _service.CreateRol(rolCreateDto);
+            var result = await _service.Create(rolCreateDto);
             return Utils.ControllerHelper(result);
         }
 
-        [HttpPut(("{id}"), Name = "PutRolbyId")]
+        [HttpPut]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
-        public async Task<ActionResult<APIResponse>> PutRol(int id, [FromBody] RolUpdateDto rolUpdateDto)
+        public async Task<ActionResult<APIResponse>> UpdateRol([FromBody] RolUpdateDto rolUpdateDto)
         {
-            var result = await _service.UpdateRol(id, rolUpdateDto);
+            var result = await _service.Update(rolUpdateDto);
             return Utils.ControllerHelper(result);
         }
 
@@ -78,7 +77,7 @@ namespace API_MortalKombat.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<APIResponse>> DeleteRol(int id)
         {
-            var result = await _service.DeleteRol(id);
+            var result = await _service.Delete(id);
             return Utils.ControllerHelper(result);
         }
 
@@ -89,7 +88,7 @@ namespace API_MortalKombat.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<APIResponse>> UpdatePartialRol(int id, JsonPatchDocument<RolUpdateDto> rolUpdateDto)
         {
-            var result = await _service.UpdatePartialRol(id, rolUpdateDto);
+            var result = await _service.UpdatePartial(id, rolUpdateDto);
             return Utils.ControllerHelper(result);
         }
     }

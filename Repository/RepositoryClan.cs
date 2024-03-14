@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API_MortalKombat.Repository
 {
-    public class RepositoryClan : IRepositoryClan
+    public class RepositoryClan : IRepositoryGeneric<Clan>
     {
         private readonly AplicationDbContext _context;
         public RepositoryClan(AplicationDbContext context)

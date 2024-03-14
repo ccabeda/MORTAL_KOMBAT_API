@@ -2,7 +2,6 @@
 using API_MortalKombat.Services.IService;
 using API_MortalKombat.Services.Utils;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 
 namespace API_MortalKombat.Controllers
 {

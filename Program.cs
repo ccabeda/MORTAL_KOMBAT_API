@@ -11,7 +11,6 @@ using API_MortalKombat.Models.DTOs.UsuarioDTO;
 using API_MortalKombat.Repository;
 using API_MortalKombat.Repository.IRepository;
 using API_MortalKombat.Service;
-using API_MortalKombat.Service.IService;
 using API_MortalKombat.Services.IService;
 using API_MortalKombat.Validations;
 using FluentValidation;
@@ -86,22 +85,22 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     };
 });
 //repository
-builder.Services.AddScoped<IRepositoryPersonaje, RepositoryPersonaje>();
-builder.Services.AddScoped<IRepositoryClan, RepositoryClan>();
-builder.Services.AddScoped<IRepositoryReino, RepositoryReino>();
-builder.Services.AddScoped<IRepositoryArma, RepositoryArma>();
-builder.Services.AddScoped<IRepositoryEstiloDePelea, RepositoryEstiloDePelea>();
-builder.Services.AddScoped<IRepositoryUsuario, RepositoryUsuario>();
-builder.Services.AddScoped<IRepositoryRol,  RepositoryRol>();
+builder.Services.AddScoped<IRepositoryGeneric<Personaje>, RepositoryPersonaje>();
+builder.Services.AddScoped<IRepositoryGeneric<Clan>, RepositoryClan>();
+builder.Services.AddScoped<IRepositoryGeneric<Reino>, RepositoryReino>();
+builder.Services.AddScoped<IRepositoryGeneric<Arma>, RepositoryArma>();
+builder.Services.AddScoped<IRepositoryGeneric<EstiloDePelea>, RepositoryEstiloDePelea>();
+builder.Services.AddScoped<IRepositoryGeneric<Usuario>, RepositoryUsuario>();
+builder.Services.AddScoped<IRepositoryGeneric<Rol>,  RepositoryRol>();
 //service
-builder.Services.AddScoped<IServicePersonaje,ServicePersonaje>();
-builder.Services.AddScoped<IServiceClan, ServiceClan>();
-builder.Services.AddScoped<IServiceReino, ServiceReino>();
-builder.Services.AddScoped<IServiceArma, ServiceArma>();
-builder.Services.AddScoped<IServiceEstiloDePelea, ServiceEstiloDePelea>();
-builder.Services.AddScoped<IServiceUsuario, ServiceUsuario>();
-builder.Services.AddScoped<IServiceRol, ServiceRol>();
+builder.Services.AddScoped<IServiceGeneric<ClanUpdateDto, ClanCreateDto>, ServiceClan>();
+builder.Services.AddScoped<IServiceGeneric<ReinoUpdateDto, ReinoCreateDto>, ServiceReino>();
+builder.Services.AddScoped<IServiceGeneric<ArmaUpdateDto, ArmaCreateDto>, ServiceArma>();
+builder.Services.AddScoped<IServiceGeneric<EstiloDePeleaUpdateDto, EstiloDePeleaCreateDto>, ServiceEstiloDePelea>();
+builder.Services.AddScoped<IServiceGeneric<RolUpdateDto, RolCreateDto>, ServiceRol>();
 builder.Services.AddScoped<IServiceLogin, ServiceLogin>();
+builder.Services.AddScoped<IServiceUsuario, ServiceUsuario>();
+builder.Services.AddScoped<IServicePersonaje, ServicePersonaje>();
 //fluent validation
 builder.Services.AddScoped<IValidator<PersonajeCreateDto>, PersonajeCreateValidator>();
 builder.Services.AddScoped<IValidator<PersonajeUpdateDto>, PersonajeUpdateValidator>();

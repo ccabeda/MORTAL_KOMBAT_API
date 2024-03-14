@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API_MortalKombat.Repository
 {
-    public class RepositoryPersonaje : IRepositoryPersonaje
+    public class RepositoryPersonaje : IRepositoryGeneric<Personaje>
     {
         private readonly AplicationDbContext _context;
         public RepositoryPersonaje(AplicationDbContext context)

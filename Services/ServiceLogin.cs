@@ -4,16 +4,15 @@ using API_MortalKombat.Services.IService;
 using API_MortalKombat.Services.Utils;
 using System.Net;
 
-
 namespace API_MortalKombat.Service
 {
     public class ServiceLogin : IServiceLogin
     {
-        private readonly IRepositoryUsuario _repositoryUsuario;
+        private readonly IRepositoryGeneric<Usuario> _repositoryUsuario;
         private readonly ILogger _logger;
         private readonly APIResponse _apiresponse;
         private readonly IConfiguration _config;
-        public ServiceLogin(IRepositoryUsuario repositoryUsuario, IConfiguration config, ILogger<ServiceLogin> logger, APIResponse response)
+        public ServiceLogin(IRepositoryGeneric<Usuario> repositoryUsuario, IConfiguration config, ILogger<ServiceLogin> logger, APIResponse response)
         {
             _repositoryUsuario = repositoryUsuario;
             _config = config;
@@ -26,15 +25,12 @@ namespace API_MortalKombat.Service
             try
             {
                 var usuario = await _repositoryUsuario.GetByName(userAndPass.Usuario);
-                if (Utils.CheckIfNull(usuario, _apiresponse, _logger) != null)
+                if (!Utils.CheckIfNull(usuario, _apiresponse, _logger))
                 {
                     return _apiresponse;
                 }
-                if (!Encrypt.VerifyPassword(userAndPass.Contraseña, usuario.Contraseña)) //verifico ocntraseña encriptada
+                if (!Utils.VerifyPassword(userAndPass.Contraseña, usuario.Contraseña, _apiresponse, _logger))
                 {
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
-                    _logger.LogError("Contraseña incorrecta");
                     return _apiresponse;
                 }
                 _logger.LogInformation("Inicio de sesión correcto");

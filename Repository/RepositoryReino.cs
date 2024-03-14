@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API_MortalKombat.Repository
 {
-    public class RepositoryReino : IRepositoryReino
+    public class RepositoryReino : IRepositoryGeneric<Reino>
     {
         private readonly AplicationDbContext _context;
         public RepositoryReino(AplicationDbContext context)

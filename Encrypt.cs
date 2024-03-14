@@ -1,5 +1,4 @@
 ﻿using System.Security.Cryptography;
-using System.Text;
 
 namespace API_MortalKombat
 {
@@ -49,7 +48,5 @@ namespace API_MortalKombat
             }
             return true;
         }
-
-
     }
 }

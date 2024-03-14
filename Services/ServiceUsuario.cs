@@ -5,22 +5,20 @@ using FluentValidation;
 using API_MortalKombat.Models.DTOs.UsuarioDTO;
 using API_MortalKombat.Services.IService;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 using Microsoft.AspNetCore.JsonPatch;
-using Microsoft.AspNetCore.Identity;
 using API_MortalKombat.Services.Utils;
 
 namespace API_MortalKombat.Service
 {
     public class ServiceUsuario : IServiceUsuario
     {
-        private readonly IRepositoryUsuario _repository;
+        private readonly IRepositoryGeneric<Usuario> _repository;
         private readonly IMapper _mapper;
         private readonly APIResponse _apiresponse;
         private readonly ILogger<ServiceUsuario> _logger;
         private readonly IValidator<UsuarioCreateDto> _validator;
         private readonly IValidator<UsuarioUpdateDto> _validatorUpdate;
-        public ServiceUsuario(IMapper mapper, APIResponse apiresponse, ILogger<ServiceUsuario> logger, IRepositoryUsuario repository, IValidator<UsuarioCreateDto> validator,
+        public ServiceUsuario(IMapper mapper, APIResponse apiresponse, ILogger<ServiceUsuario> logger, IRepositoryGeneric<Usuario> repository, IValidator<UsuarioCreateDto> validator,
             IValidator<UsuarioUpdateDto> validatorUpdate)
         {
             _mapper = mapper;
@@ -31,14 +29,12 @@ namespace API_MortalKombat.Service
             _validatorUpdate = validatorUpdate;
         }
 
-        public async Task<APIResponse> GetUsuarios()
+        public async Task<APIResponse> GetAll()
         {
             try
             {
-                IEnumerable<Usuario> listUsuarios = await _repository.GetAll();
-                _apiresponse.Result = _mapper.Map<IEnumerable<UsuarioDto>>(listUsuarios);
-                _apiresponse.statusCode = HttpStatusCode.OK;
-                return _apiresponse;
+                List<Usuario> listUsuarios = await _repository.GetAll();
+                Utils.ListCorrectResponse<UsuarioDto, Usuario>(_mapper, listUsuarios, _apiresponse);
             }
             catch (Exception ex)
             {
@@ -47,18 +43,16 @@ namespace API_MortalKombat.Service
             return _apiresponse;
         }
 
-        public async Task<APIResponse> GetUsuarioById(int id)
+        public async Task<APIResponse> GetById(int id)
         {
             try
             {
                 var usuario = await _repository.GetById(id);
-                if (Utils.CheckIfNull(usuario, _apiresponse, _logger) != null)
+                if (!Utils.CheckIfNull(usuario, _apiresponse, _logger))
                 {
                     return _apiresponse;
                 }
-                _apiresponse.Result = _mapper.Map<UsuarioDto>(usuario);
-                _apiresponse.statusCode = HttpStatusCode.OK;
-                return _apiresponse;
+                Utils.CorrectResponse<UsuarioDto, Usuario>(_mapper, usuario, _apiresponse);
             }
             catch (Exception ex)
             {
@@ -67,18 +61,16 @@ namespace API_MortalKombat.Service
             return _apiresponse;
         }
 
-        public async Task<APIResponse> GetUsuarioByName(string name)
+        public async Task<APIResponse> GetByName(string name)
         {
             try
             {
                 var usuario = await _repository.GetByName(name);
-                if (Utils.CheckIfNull(usuario, _apiresponse, _logger) != null)
+                if (!Utils.CheckIfNull(usuario, _apiresponse, _logger))
                 {
                     return _apiresponse;
                 }
-                _apiresponse.Result = _mapper.Map<UsuarioDto>(usuario);
-                _apiresponse.statusCode = HttpStatusCode.OK;
-                return _apiresponse;
+                Utils.CorrectResponse<UsuarioDto, Usuario>(_mapper, usuario, _apiresponse);
             }
             catch (Exception ex)
             {
@@ -96,11 +88,8 @@ namespace API_MortalKombat.Service
                     return _apiresponse;
                 }
                 var existUsuario = await _repository.GetByName(usuarioCreateDto.NombreDeUsuario);
-                if (existUsuario != null)
+                if (!Utils.CheckIfObjectExist<Usuario>(existUsuario, _apiresponse, _logger))
                 {
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.Conflict;
-                    _logger.LogError("Ya existe un usuario con el mismo nombre.");
                     return _apiresponse;
                 }
                 var usuario = _mapper.Map<Usuario>(usuarioCreateDto);
@@ -108,10 +97,8 @@ namespace API_MortalKombat.Service
                 usuario.RolId = 3; //todos los usuarios se crean con el rol publico
                 usuario.Contraseña = Encrypt.EncryptPassword(usuario.Contraseña); //encripto contraseña
                 await _repository.Create(usuario);
-                var result =_mapper.Map<UsuarioGetDto>(usuario);
-                _apiresponse.statusCode = HttpStatusCode.Created;
-                _apiresponse.Result = result;
-                _logger.LogInformation("¡Usuario creado con exito!");   
+                _logger.LogInformation("¡Usuario creado con exito!");
+                Utils.CorrectResponse<UsuarioGetDto, Usuario>(_mapper, usuario, _apiresponse);
             }
             catch (Exception ex) 
             {
@@ -125,15 +112,13 @@ namespace API_MortalKombat.Service
             try
             {
                 var usuario = await _repository.GetById(id);
-                if (Utils.CheckIfNull(usuario, _apiresponse, _logger) != null)
+                if (!Utils.CheckIfNull(usuario, _apiresponse, _logger))
                 {
                     return _apiresponse;
                 }
                 await _repository.Delete(usuario);
-                _apiresponse.statusCode = HttpStatusCode.OK;
-                _apiresponse.Result = _mapper.Map<UsuarioDto>(usuario);
                 _logger.LogInformation("!Usuario eliminado con exito¡");
-                return _apiresponse;
+                Utils.CorrectResponse<UsuarioDto, Usuario>(_mapper, usuario, _apiresponse);
             }
             catch (Exception ex)
             {
@@ -151,34 +136,26 @@ namespace API_MortalKombat.Service
                     return _apiresponse;
                 }
                 var usuario = await _repository.GetByName(username);
-                if (Utils.CheckIfNull(usuario, _apiresponse, _logger) != null)
+                if (!Utils.CheckIfNull(usuario, _apiresponse, _logger))
                 {
                     return _apiresponse;
                 }
-                if (!Encrypt.VerifyPassword(password, usuario.Contraseña))
+                if (!Utils.VerifyPassword(password, usuario.Contraseña, _apiresponse, _logger))
                 {
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
-                    _logger.LogError("Contraseña incorrecta");
                     return _apiresponse;
                 }
-               var registredNewName = await _repository.GetByName(usuarioUpdateDto.NombreDeUsuario);
-                if (registredNewName != null && registredNewName.Id != usuario.Id )
+                var registredName = await _repository.GetByName(usuarioUpdateDto.NombreDeUsuario);
+                if (!Utils.CheckIfNameAlreadyExist<Usuario>(registredName, usuario, _apiresponse, _logger))
                 {
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.Conflict;
-                    _logger.LogError("Ya existe un usuario con el mismo nombre.");
                     return _apiresponse;
                 }
                 _mapper.Map(usuarioUpdateDto, usuario);
                 //ENCRIPTAR CONTRASEÑA
                 usuario.Contraseña = Encrypt.EncryptPassword(usuario.Contraseña);
                 usuario.FechaActualizacion = DateTime.Now;
-                _apiresponse.statusCode = HttpStatusCode.OK;
-                _apiresponse.Result = _mapper.Map<UsuarioGetDto>(usuario);
-                _logger.LogInformation("¡Usuario Actualizado con exito!");
                 await _repository.Update(usuario);
-                return _apiresponse;
+                _logger.LogInformation("¡Usuario Actualizado con exito!");
+                Utils.CorrectResponse<UsuarioDto, Usuario>(_mapper, usuario, _apiresponse);
             }
             catch (Exception ex)
             {
@@ -192,15 +169,12 @@ namespace API_MortalKombat.Service
             try
             {
                 var usuario = await _repository.GetByName(username);
-                if (Utils.CheckIfNull(usuario, _apiresponse, _logger) != null)
+                if (!Utils.CheckIfNull(usuario, _apiresponse, _logger))
                 {
                     return _apiresponse;
                 }
-                if (!Encrypt.VerifyPassword(password, usuario.Contraseña))
+                if (!Utils.VerifyPassword(password, usuario.Contraseña, _apiresponse, _logger))
                 {
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
-                    _logger.LogError("Contraseña incorrecta");
                     return _apiresponse;
                 }
                 var updateUsuarioDto = _mapper.Map<UsuarioUpdateDto>(usuario); //mapeo el usuario a usuarioDTO
@@ -210,11 +184,8 @@ namespace API_MortalKombat.Service
                     return _apiresponse;
                 }
                 var registredName = await _repository.GetByName(updateUsuarioDto.NombreDeUsuario); //verifico que no haya otro con el mismo nomrbe
-                if (registredName != null && registredName.Id != usuario.Id)
+                if (!Utils.CheckIfNameAlreadyExist<Usuario>(registredName, usuario, _apiresponse, _logger))
                 {
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.Conflict; // Conflict indica que ya existe un recurso con el mismo nombre
-                    _logger.LogError("Ya existe un usuario con el mismo nombre de usuario.");
                     return _apiresponse;
                 }
                 var encryptPassword = usuario.Contraseña;
@@ -226,9 +197,8 @@ namespace API_MortalKombat.Service
                 _logger.LogInformation("¡Dato cambiado con exito!");
                 usuario.FechaActualizacion = DateTime.Now;
                 await _repository.Update(usuario);
-                _apiresponse.statusCode = HttpStatusCode.OK;
-                _apiresponse.Result = _mapper.Map<UsuarioGetDto>(usuario);
-                return _apiresponse;
+                _logger.LogInformation("¡Usuario Actualizado con exito!");
+                Utils.CorrectResponse<UsuarioDto, Usuario>(_mapper, usuario, _apiresponse);
             }
             catch (Exception ex)
             {
@@ -242,22 +212,17 @@ namespace API_MortalKombat.Service
             try
             {
                 var usuario = await _repository.GetByName(username);
-                if (Utils.CheckIfNull(usuario, _apiresponse, _logger) != null)
+                if (!Utils.CheckIfNull(usuario, _apiresponse, _logger))
                 {
                     return _apiresponse;
                 }
-                if (!Encrypt.VerifyPassword(password, usuario.Contraseña))
+                if (!Utils.VerifyPassword(password, usuario.Contraseña, _apiresponse, _logger))
                 {
-                    _apiresponse.isExit = false;
-                    _apiresponse.statusCode = HttpStatusCode.BadRequest;
-                    _logger.LogError("Contraseña incorrecta");
                     return _apiresponse;
                 }
                 await _repository.Delete(usuario);
-                var result = _mapper.Map<UsuarioGetDto>(usuario);
-                _apiresponse.statusCode = HttpStatusCode.OK;
-                _apiresponse.Result = result;
                 _logger.LogInformation("¡Usuario eliminado con exito!");
+                Utils.CorrectResponse<UsuarioDto, Usuario>(_mapper, usuario, _apiresponse);
             }
             catch (Exception ex)
             {

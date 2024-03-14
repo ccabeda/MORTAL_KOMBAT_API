@@ -1,6 +1,5 @@
 ﻿using API_MortalKombat.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 using API_MortalKombat.Services.IService;
 using API_MortalKombat.Models.DTOs.UsuarioDTO;
 using Microsoft.AspNetCore.Authorization;
@@ -26,7 +25,7 @@ namespace API_MortalKombat.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<APIResponse>> GetUsuarios()
         {
-            var result = await _service.GetUsuarios();
+            var result = await _service.GetAll();
             return Utils.ControllerHelper(result);
         }
 
@@ -37,18 +36,18 @@ namespace API_MortalKombat.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<APIResponse>> GetUsuarioById(int id) //get para traer con id
         {
-            var result = await _service.GetUsuarioById(id);
+            var result = await _service.GetById(id);
             return Utils.ControllerHelper(result);
         }
 
-        [HttpGet(("nombreDeUsuario/{name}"), Name = "GetUsuariobyName")]
+        [HttpGet(("nombreDeUsuario/{username}"), Name = "GetUsuariobyName")]
         [Authorize(Roles = "1,2")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<APIResponse>> GetUsuarioByName(String name) //get para traer con nombre
+        public async Task<ActionResult<APIResponse>> GetUsuarioByUsername(String username) //get para traer con nombre
         {
-            var result = await _service.GetUsuarioByName(name);
+            var result = await _service.GetByName(username);
             return Utils.ControllerHelper(result);
         }
 

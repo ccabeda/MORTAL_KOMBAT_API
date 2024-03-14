@@ -1,11 +1,10 @@
 ﻿using API_MortalKombat.Models;
 using API_MortalKombat.Models.DTOs.ReinoDTO;
-using API_MortalKombat.Service.IService;
+using API_MortalKombat.Services.IService;
 using API_MortalKombat.Services.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 
 namespace API_MortalKombat.Controllers
 {
@@ -13,8 +12,8 @@ namespace API_MortalKombat.Controllers
     [ApiController]
     public class ReinoController : ControllerBase
     {
-        private readonly IServiceReino _service;
-        public ReinoController(IServiceReino service)
+        private readonly IServiceGeneric<ReinoUpdateDto, ReinoCreateDto> _service;
+        public ReinoController(IServiceGeneric<ReinoUpdateDto, ReinoCreateDto> service)
         {
             _service = service;
         }
@@ -24,7 +23,7 @@ namespace API_MortalKombat.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<APIResponse>> GetReinos()
         {
-            var result = await _service.GetReinos();
+            var result = await _service.GetAll();
             return Utils.ControllerHelper(result);
         }
 
@@ -33,7 +32,7 @@ namespace API_MortalKombat.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<APIResponse>> GetReinoById(int id) //get para traer con id
         {
-            var result = await _service.GetReinoById(id);
+            var result = await _service.GetById(id);
             return Utils.ControllerHelper(result);
         }
 
@@ -42,7 +41,7 @@ namespace API_MortalKombat.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<APIResponse>> GetReinoByName(String name) //get para traer con nombre
         {
-            var result = await _service.GetReinoByName(name);
+            var result = await _service.GetByName(name);
             return Utils.ControllerHelper(result);
         }
 
@@ -55,20 +54,20 @@ namespace API_MortalKombat.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<APIResponse>> CreateReino([FromBody] ReinoCreateDto reinoCreateDto)
         {
-            var result = await _service.CreateReino(reinoCreateDto);
+            var result = await _service.Create(reinoCreateDto);
             return Utils.ControllerHelper(result);
         }
 
-        [HttpPut(("{id}"), Name = "PutReinobyId")]
+        [HttpPut]
         [Authorize(Roles = "1,2")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
-        public async Task<ActionResult<APIResponse>> PutReino(int id, [FromBody] ReinoUpdateDto reinoUpdateDto)
+        public async Task<ActionResult<APIResponse>> UpdateReino([FromBody] ReinoUpdateDto reinoUpdateDto)
         {
-            var result = await _service.UpdateReino(id, reinoUpdateDto);
+            var result = await _service.Update(reinoUpdateDto);
             return Utils.ControllerHelper(result);
         }
 
@@ -79,7 +78,7 @@ namespace API_MortalKombat.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<APIResponse>> DeleteReino(int id)
         {
-            var result = await _service.DeleteReino(id);
+            var result = await _service.Delete(id);
             return Utils.ControllerHelper(result);
         }
 
@@ -91,7 +90,7 @@ namespace API_MortalKombat.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<APIResponse>> UpdatePartialReino(int id, JsonPatchDocument<ReinoUpdateDto> reinoUpdateDto)
         {
-            var result = await _service.UpdatePartialReino(id, reinoUpdateDto);
+            var result = await _service.UpdatePartial(id, reinoUpdateDto);
             return Utils.ControllerHelper(result);
         }
     }

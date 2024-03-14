@@ -1,22 +1,15 @@
 ﻿using API_MortalKombat.Models;
 using API_MortalKombat.Models.DTOs.PersonajeDTO;
-using Microsoft.AspNetCore.JsonPatch;
-using Microsoft.AspNetCore.Mvc;
+using API_MortalKombat.Services.IService;
 
-namespace API_MortalKombat.Service.IService
+
+namespace API_MortalKombat.Services.IService
 {
-    public interface IServicePersonaje
+    public interface IServicePersonaje : IServiceGeneric<PersonajeUpdateDto, PersonajeCreateDto>
     {
-        public Task<APIResponse> GetPersonajes();
-        public Task<APIResponse> GetPersonajeById(int id);
-        public Task<APIResponse> GetPersonajeByName(string name);
-        public Task<APIResponse> CreatePersonaje([FromBody] PersonajeCreateDto personajeCreateDto);
-        public Task<APIResponse> AddWeaponToPersonaje(int idPersonaje, int idArma);
-        public Task<APIResponse> RemoveWeaponToPersonaje(int idPersonaje, int idArma);
-        public Task<APIResponse> AddStyleToPersonaje(int idPersonaje, int idEstiloDePelea);
-        public Task<APIResponse> RemoveStyleToPersonaje(int idPersonaje, int idEstiloDePelea);
-        public Task<APIResponse> UpdatePersonaje(int id, [FromBody] PersonajeUpdateDto personajeUpdateDto);
-        public Task<APIResponse> DeletePersonaje(int id);
-        public Task<APIResponse> UpdatePartialPersonaje(int id, JsonPatchDocument<PersonajeUpdateDto> personajeUpdateDto);
+        public Task<APIResponse> AddWeapon(int idPersonaje, int idArma);
+        public Task<APIResponse> RemoveWeapon(int idPersonaje, int idArma);
+        public Task<APIResponse> AddStyle(int idPersonaje, int idEstiloDePelea);
+        public Task<APIResponse> RemoveStyle(int idPersonaje, int idEstiloDePelea);
     }
 }
