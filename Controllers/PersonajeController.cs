@@ -20,7 +20,7 @@ namespace API_MortalKombat.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<APIResponse>> GetPersonajes()
         {
             var result = await _service.GetAll();
@@ -29,7 +29,7 @@ namespace API_MortalKombat.Controllers
 
         [HttpGet(("{id}"), Name = "GetPersonajebyId")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<APIResponse>> GetPersonajeById(int id) //get para traer con id
         {
             var result = await _service.GetById(id);
@@ -38,7 +38,7 @@ namespace API_MortalKombat.Controllers
 
         [HttpGet(("nombre/{name}"), Name = "GetPersonajebyName")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<APIResponse>> GetPersonajeByName(String name) //get para traer con nombre
         {
             var result = await _service.GetByName(name);
@@ -52,6 +52,7 @@ namespace API_MortalKombat.Controllers
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<APIResponse>> CreatePersonaje ([FromBody] PersonajeCreateDto personajeCreateDto)
         {
             var result = await _service.Create(personajeCreateDto);
@@ -65,6 +66,7 @@ namespace API_MortalKombat.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<APIResponse>> UpdatePersonaje([FromBody] PersonajeUpdateDto personajeUpdateDto)
         {
             var result = await _service.Update(personajeUpdateDto);
@@ -76,6 +78,7 @@ namespace API_MortalKombat.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<APIResponse>> DeletePersonaje(int id)
         {
             var result = await _service.Delete(id);
@@ -87,6 +90,7 @@ namespace API_MortalKombat.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<APIResponse>> AddWeaponToPersonaje(int idPersonaje, int idArma)
         {
             var result = await _service.AddWeapon(idPersonaje, idArma);
@@ -99,6 +103,7 @@ namespace API_MortalKombat.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<APIResponse>> RemoveWeaponToPersonaje(int idPersonaje, int idArma)
         {
             var result = await _service.RemoveWeapon(idPersonaje, idArma);
@@ -110,6 +115,7 @@ namespace API_MortalKombat.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<APIResponse>> AddStyleToPersonaje(int idPersonaje, int idEstilDePelea)
         {
             var result = await _service.AddStyle(idPersonaje, idEstilDePelea);
@@ -122,6 +128,7 @@ namespace API_MortalKombat.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<APIResponse>> RemoveStyleToPersonaje(int idPersonaje, int idEstilDePelea)
         {
             var result = await _service.RemoveStyle(idPersonaje, idEstilDePelea);
@@ -134,6 +141,7 @@ namespace API_MortalKombat.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<APIResponse>> UpdatePartialPersonaje(int id, JsonPatchDocument<PersonajeUpdateDto> personajeUpdateDto)
         {
             var result = await _service.UpdatePartial(id, personajeUpdateDto);

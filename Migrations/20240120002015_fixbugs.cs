@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace API_MortalKombat.Migrations
 {
     /// <inheritdoc />
-    public partial class fixbugs : Migration
+    public partial class Fixbugs : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

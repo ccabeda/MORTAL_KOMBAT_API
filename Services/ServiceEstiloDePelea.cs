@@ -38,13 +38,12 @@ namespace API_MortalKombat.Service
                 {
                     return _apiresponse;
                 }
-                Utils.CorrectResponse<EstiloDePeleaDto, EstiloDePelea>(_mapper, estiloDePelea, _apiresponse);
+                return Utils.CorrectResponse<EstiloDePeleaDto, EstiloDePelea>(_mapper, estiloDePelea, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
 
         public async Task<APIResponse> GetByName(string name)
@@ -56,13 +55,12 @@ namespace API_MortalKombat.Service
                 {
                     return _apiresponse;
                 }
-                Utils.CorrectResponse<EstiloDePeleaDto, EstiloDePelea>(_mapper, estiloDePelea, _apiresponse);
+                return Utils.CorrectResponse<EstiloDePeleaDto, EstiloDePelea>(_mapper, estiloDePelea, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
 
         public async Task<APIResponse> GetAll()
@@ -70,13 +68,16 @@ namespace API_MortalKombat.Service
             try
             {
                 List<EstiloDePelea> listEstilos = await _repository.GetAll();
-                Utils.ListCorrectResponse<EstiloDePeleaDto, EstiloDePelea>(_mapper, listEstilos, _apiresponse);
+                if (!Utils.CheckIfLsitIsNull<EstiloDePelea>(listEstilos, _apiresponse, _logger))
+                {
+                    return _apiresponse;
+                }
+                return Utils.ListCorrectResponse<EstiloDePeleaDto, EstiloDePelea>(_mapper, listEstilos, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
 
         public async Task<APIResponse> Create([FromBody] EstiloDePeleaCreateDto estiloCreateDto)
@@ -96,13 +97,12 @@ namespace API_MortalKombat.Service
                 estiloDePelea!.FechaCreacion = DateTime.Now;
                 await _repository.Create(estiloDePelea);
                 _logger.LogInformation("¡Estilo de pelea creado con exito!");
-                Utils.CorrectResponse<EstiloDePeleaDto, EstiloDePelea>(_mapper, estiloDePelea, _apiresponse);
+                return Utils.CorrectResponse<EstiloDePeleaDto, EstiloDePelea>(_mapper, estiloDePelea, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
 
         public async Task<APIResponse> Delete(int id)
@@ -116,13 +116,12 @@ namespace API_MortalKombat.Service
                 }
                 await _repository.Delete(estiloDePelea);
                 _logger.LogInformation("El clan fue eliminado con exito.");
-                Utils.CorrectResponse<EstiloDePeleaDto, EstiloDePelea>(_mapper, estiloDePelea, _apiresponse);
+                return Utils.CorrectResponse<EstiloDePeleaDto, EstiloDePelea>(_mapper, estiloDePelea, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
 
         public async Task<APIResponse> Update([FromBody] EstiloDePeleaUpdateDto estiloUpdateDto)
@@ -147,13 +146,12 @@ namespace API_MortalKombat.Service
                 estiloDePelea.FechaActualizacion = DateTime.Now;
                 await _repository.Update(estiloDePelea);
                 _logger.LogInformation("¡Estilo de pelea Actualizado con exito!");
-                Utils.CorrectResponse<EstiloDePeleaDto, EstiloDePelea>(_mapper, estiloDePelea, _apiresponse);
+                return Utils.CorrectResponse<EstiloDePeleaDto, EstiloDePelea>(_mapper, estiloDePelea, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
 
         public async Task<APIResponse> UpdatePartial(int id, JsonPatchDocument<EstiloDePeleaUpdateDto> estiloDePeleaUpdateDto)
@@ -180,13 +178,12 @@ namespace API_MortalKombat.Service
                 estiloDePelea.FechaActualizacion = DateTime.Now;
                 await _repository.Update(estiloDePelea);
                 _logger.LogInformation("¡Estilo de pelea Actualizado con exito!");
-                Utils.CorrectResponse<EstiloDePeleaDto, EstiloDePelea>(_mapper, estiloDePelea, _apiresponse);
+                return Utils.CorrectResponse<EstiloDePeleaDto, EstiloDePelea>(_mapper, estiloDePelea, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
     }
 }

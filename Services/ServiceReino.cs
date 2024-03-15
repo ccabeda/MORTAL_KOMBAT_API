@@ -40,13 +40,12 @@ namespace API_MortalKombat.Service
                 {
                     return _apiresponse;
                 }
-                Utils.CorrectResponse<ReinoDto, Reino>(_mapper, reino, _apiresponse);
+                return Utils.CorrectResponse<ReinoDto, Reino>(_mapper, reino, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
 
         public async Task<APIResponse> GetByName(string name)
@@ -58,13 +57,12 @@ namespace API_MortalKombat.Service
                 {
                     return _apiresponse;
                 }
-                Utils.CorrectResponse<ReinoDto, Reino>(_mapper, reino, _apiresponse);
+                return Utils.CorrectResponse<ReinoDto, Reino>(_mapper, reino, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
 
         public async Task<APIResponse> GetAll()
@@ -72,13 +70,16 @@ namespace API_MortalKombat.Service
             try
             {
                 List<Reino> listReinos = await _repository.GetAll();
-                Utils.ListCorrectResponse<ReinoDto, Reino>(_mapper, listReinos, _apiresponse);
+                if (!Utils.CheckIfLsitIsNull<Reino>(listReinos, _apiresponse, _logger))
+                {
+                    return _apiresponse;
+                }
+                return Utils.ListCorrectResponse<ReinoDto, Reino>(_mapper, listReinos, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
 
         public async Task<APIResponse> Create([FromBody] ReinoCreateDto reinoCreateDto)
@@ -98,13 +99,12 @@ namespace API_MortalKombat.Service
                 reino!.FechaCreacion = DateTime.Now;
                 await _repository.Create(reino);
                 _logger.LogInformation("¡Reino creado con exito!");
-                Utils.CorrectResponse<ReinoDto, Reino>(_mapper, reino, _apiresponse);
+                return Utils.CorrectResponse<ReinoDto, Reino>(_mapper, reino, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
     
         public async Task<APIResponse> Delete(int id)
@@ -117,20 +117,19 @@ namespace API_MortalKombat.Service
                     return _apiresponse;
                 }
                 var listPersonajes = await _repositoryPersonaje.GetAll();
-                if (!Utils.PreventDeletionIfRelaredCharacterExist(listPersonajes, _apiresponse, id))
+                if (!Utils.PreventDeletionIfRelatedCharacterExist(reino, listPersonajes, _apiresponse, id))
                 {
                     _logger.LogError("El reino no se puede eliminar porque hay un personaje que contiene como ReinoId este reino.");
                     return _apiresponse;
                 }
                 await _repository.Delete(reino);
                 _logger.LogInformation("El reino fue eliminado con exito.");
-                Utils.CorrectResponse<ReinoDto, Reino>(_mapper, reino, _apiresponse);
+                return Utils.CorrectResponse<ReinoDto, Reino>(_mapper, reino, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
 
         public async Task<APIResponse> Update([FromBody] ReinoUpdateDto reinoUpdateDto)
@@ -155,13 +154,12 @@ namespace API_MortalKombat.Service
                 reino.FechaActualizacion = DateTime.Now;
                 await _repository.Update(reino);
                 _logger.LogInformation("¡Reino Actualizado con exito!");
-                Utils.CorrectResponse<ReinoDto, Reino>(_mapper, reino, _apiresponse);
+                return Utils.CorrectResponse<ReinoDto, Reino>(_mapper, reino, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
 
         public async Task<APIResponse> UpdatePartial(int id, JsonPatchDocument<ReinoUpdateDto> reinoUpdateDto)
@@ -188,13 +186,12 @@ namespace API_MortalKombat.Service
                 reino.FechaActualizacion = DateTime.Now;
                 await _repository.Update(reino);
                 _logger.LogInformation("¡Reino Actualizado con exito!");
-                Utils.CorrectResponse<ReinoDto, Reino>(_mapper, reino, _apiresponse);
+                return Utils.CorrectResponse<ReinoDto, Reino>(_mapper, reino, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
     }
 }

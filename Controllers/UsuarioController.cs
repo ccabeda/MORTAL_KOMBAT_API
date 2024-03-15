@@ -22,7 +22,7 @@ namespace API_MortalKombat.Controllers
         [Authorize(Roles = "1,2")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<APIResponse>> GetUsuarios()
         {
             var result = await _service.GetAll();
@@ -33,7 +33,7 @@ namespace API_MortalKombat.Controllers
         [Authorize(Roles = "1,2")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<APIResponse>> GetUsuarioById(int id) //get para traer con id
         {
             var result = await _service.GetById(id);
@@ -44,7 +44,7 @@ namespace API_MortalKombat.Controllers
         [Authorize(Roles = "1,2")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<APIResponse>> GetUsuarioByUsername(String username) //get para traer con nombre
         {
             var result = await _service.GetByName(username);
@@ -56,6 +56,7 @@ namespace API_MortalKombat.Controllers
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<APIResponse>> CreateMyUsuario([FromBody] UsuarioCreateDto usuarioCreateDto)
         {
             var result = await _service.CreateMyUsuario(usuarioCreateDto);
@@ -68,6 +69,7 @@ namespace API_MortalKombat.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<APIResponse>> PutMyUsuario([FromBody] UsuarioUpdateDto usuarioUpdateDto, string username, string password)
         {
             var result = await _service.UpdateMyUsuario(usuarioUpdateDto,username, password);
@@ -79,6 +81,7 @@ namespace API_MortalKombat.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<APIResponse>> ADMIN_DeleteUsuario(int id)
         {
             var result = await _service.ADMIN_DeleteUsuario(id);
@@ -89,6 +92,7 @@ namespace API_MortalKombat.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<APIResponse>> DeleteMyUsuario(string username, string password)
         {
             var result = await _service.DeleteMyUsuario(username, password);
@@ -100,6 +104,7 @@ namespace API_MortalKombat.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<APIResponse>> UpdatePartialMyUsuario(JsonPatchDocument<UsuarioUpdateDto> usuarioUpdateDto, string username, string password)
         {
             var result = await _service.UpdatePartialMyUsuario(usuarioUpdateDto, username, password);

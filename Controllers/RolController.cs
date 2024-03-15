@@ -22,7 +22,7 @@ namespace API_MortalKombat.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<APIResponse>> GetRoles()
         {
             var result = await _service.GetAll();
@@ -32,7 +32,7 @@ namespace API_MortalKombat.Controllers
         [HttpGet(("{id}"), Name = "GetRolbyId")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<APIResponse>> GetRolById(int id) //get para traer con id
         {
             var result = await _service.GetById(id);
@@ -42,7 +42,7 @@ namespace API_MortalKombat.Controllers
         [HttpGet(("nombre/{name}"), Name = "GetRolbyName")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<APIResponse>> GetRolByName(String name) //get para traer con nombre
         {
             var result = await _service.GetByName(name);
@@ -54,6 +54,7 @@ namespace API_MortalKombat.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<APIResponse>> CreateRol([FromBody] RolCreateDto rolCreateDto)
         {
             var result = await _service.Create(rolCreateDto);
@@ -64,6 +65,7 @@ namespace API_MortalKombat.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         public async Task<ActionResult<APIResponse>> UpdateRol([FromBody] RolUpdateDto rolUpdateDto)
         {
@@ -75,6 +77,7 @@ namespace API_MortalKombat.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<APIResponse>> DeleteRol(int id)
         {
             var result = await _service.Delete(id);
@@ -86,6 +89,7 @@ namespace API_MortalKombat.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<APIResponse>> UpdatePartialRol(int id, JsonPatchDocument<RolUpdateDto> rolUpdateDto)
         {
             var result = await _service.UpdatePartial(id, rolUpdateDto);

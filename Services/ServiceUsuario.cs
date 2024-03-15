@@ -34,13 +34,16 @@ namespace API_MortalKombat.Service
             try
             {
                 List<Usuario> listUsuarios = await _repository.GetAll();
-                Utils.ListCorrectResponse<UsuarioDto, Usuario>(_mapper, listUsuarios, _apiresponse);
+                if (!Utils.CheckIfLsitIsNull<Usuario>(listUsuarios, _apiresponse, _logger))
+                {
+                    return _apiresponse;
+                }
+                return Utils.ListCorrectResponse<UsuarioDto, Usuario>(_mapper, listUsuarios, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
 
         public async Task<APIResponse> GetById(int id)
@@ -52,13 +55,12 @@ namespace API_MortalKombat.Service
                 {
                     return _apiresponse;
                 }
-                Utils.CorrectResponse<UsuarioDto, Usuario>(_mapper, usuario, _apiresponse);
+                return Utils.CorrectResponse<UsuarioDto, Usuario>(_mapper, usuario, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
 
         public async Task<APIResponse> GetByName(string name)
@@ -70,13 +72,12 @@ namespace API_MortalKombat.Service
                 {
                     return _apiresponse;
                 }
-                Utils.CorrectResponse<UsuarioDto, Usuario>(_mapper, usuario, _apiresponse);
+                return Utils.CorrectResponse<UsuarioDto, Usuario>(_mapper, usuario, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
 
         public async Task<APIResponse> CreateMyUsuario([FromBody] UsuarioCreateDto usuarioCreateDto)
@@ -98,13 +99,12 @@ namespace API_MortalKombat.Service
                 usuario.Contraseña = Encrypt.EncryptPassword(usuario.Contraseña); //encripto contraseña
                 await _repository.Create(usuario);
                 _logger.LogInformation("¡Usuario creado con exito!");
-                Utils.CorrectResponse<UsuarioGetDto, Usuario>(_mapper, usuario, _apiresponse);
+                return Utils.CorrectResponse<UsuarioGetDto, Usuario>(_mapper, usuario, _apiresponse);
             }
             catch (Exception ex) 
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
 
         public async Task<APIResponse> ADMIN_DeleteUsuario(int id)
@@ -118,13 +118,12 @@ namespace API_MortalKombat.Service
                 }
                 await _repository.Delete(usuario);
                 _logger.LogInformation("!Usuario eliminado con exito¡");
-                Utils.CorrectResponse<UsuarioDto, Usuario>(_mapper, usuario, _apiresponse);
+                return Utils.CorrectResponse<UsuarioDto, Usuario>(_mapper, usuario, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
 
         public async Task<APIResponse> UpdateMyUsuario([FromBody] UsuarioUpdateDto usuarioUpdateDto, string username, string password)
@@ -155,13 +154,12 @@ namespace API_MortalKombat.Service
                 usuario.FechaActualizacion = DateTime.Now;
                 await _repository.Update(usuario);
                 _logger.LogInformation("¡Usuario Actualizado con exito!");
-                Utils.CorrectResponse<UsuarioDto, Usuario>(_mapper, usuario, _apiresponse);
+                return Utils.CorrectResponse<UsuarioDto, Usuario>(_mapper, usuario, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
 
         public async Task<APIResponse> UpdatePartialMyUsuario(JsonPatchDocument<UsuarioUpdateDto> usuarioUpdateDto, string username, string password)
@@ -198,13 +196,12 @@ namespace API_MortalKombat.Service
                 usuario.FechaActualizacion = DateTime.Now;
                 await _repository.Update(usuario);
                 _logger.LogInformation("¡Usuario Actualizado con exito!");
-                Utils.CorrectResponse<UsuarioDto, Usuario>(_mapper, usuario, _apiresponse);
+                return Utils.CorrectResponse<UsuarioDto, Usuario>(_mapper, usuario, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
 
         public async Task<APIResponse> DeleteMyUsuario(string username, string password)
@@ -222,13 +219,12 @@ namespace API_MortalKombat.Service
                 }
                 await _repository.Delete(usuario);
                 _logger.LogInformation("¡Usuario eliminado con exito!");
-                Utils.CorrectResponse<UsuarioDto, Usuario>(_mapper, usuario, _apiresponse);
+                return Utils.CorrectResponse<UsuarioDto, Usuario>(_mapper, usuario, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
     }
 }

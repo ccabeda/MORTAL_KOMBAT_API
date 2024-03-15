@@ -24,6 +24,8 @@ namespace API_MortalKombat.Services.Utils
                     return new ConflictObjectResult(apiresponse);
                 case HttpStatusCode.BadRequest:
                     return new BadRequestObjectResult(apiresponse);
+                case HttpStatusCode.InternalServerError:
+                    return new NotFoundObjectResult(apiresponse);
                 default:
                     return new NotFoundObjectResult(apiresponse);
             }
@@ -52,6 +54,18 @@ namespace API_MortalKombat.Services.Utils
                 apiresponse.statusCode = HttpStatusCode.NotFound;
                logger.LogError("Error con los datos ingresados, verifique que todo sea correcto.");
                return false;
+            }
+            return true;
+        }
+
+        public static bool CheckIfLsitIsNull<T>(List<T> model, APIResponse apiresponse, ILogger logger) //funcion para verificar que la lista no este vacia
+        {
+            if (model.Count == 0) //verifica (list == null)
+            {
+                apiresponse.isExit = false;
+                apiresponse.statusCode = HttpStatusCode.BadRequest;
+                logger.LogError("La lista deseada esta vacia.");
+                return false;
             }
             return true;
         }
@@ -146,7 +160,7 @@ namespace API_MortalKombat.Services.Utils
             return true;
         }
 
-        public static bool PreventDeletionIfRelaredCharacterExist(IEnumerable<Personaje> list, APIResponse apiresponse, int id) //aqui podria usarse el metodo cascada para que se borre todo, pero decidi agergarle esto para mas seguridad
+        public static bool PreventDeletionIfRelatedCharacterExist<T>(T obj,IEnumerable<Personaje> list, APIResponse apiresponse, int id) //aqui podria usarse el metodo cascada para que se borre todo, pero decidi agergarle esto para mas seguridad
         {
             foreach (var i in list)
             {
@@ -160,7 +174,7 @@ namespace API_MortalKombat.Services.Utils
             return true;
         }
 
-        public static bool PreventDeletionIfRelaredUserExist(IEnumerable<Usuario> list, APIResponse apiresponse, int id) 
+        public static bool PreventDeletionIfRelatedUserExist(IEnumerable<Usuario> list, APIResponse apiresponse, int id) 
         {
             foreach (var i in list)
             {

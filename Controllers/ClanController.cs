@@ -20,7 +20,7 @@ namespace API_MortalKombat.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<APIResponse>> GetClanes()
         {
             var result = await _service.GetAll();
@@ -29,7 +29,7 @@ namespace API_MortalKombat.Controllers
 
         [HttpGet(("{id}"), Name = "GetClanbyId")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<APIResponse>> GetClanById(int id) //get para traer con id
         {
             var result = await _service.GetById(id);
@@ -38,7 +38,7 @@ namespace API_MortalKombat.Controllers
 
         [HttpGet(("nombre/{name}"), Name = "GetClanbyName")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<APIResponse>> GetClanByName(String name) //get para traer con nombre
         {
             var result = await _service.GetByName(name);
@@ -52,6 +52,7 @@ namespace API_MortalKombat.Controllers
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<APIResponse>> CreateClan([FromBody] ClanCreateDto clanCreateDto)
         {
             var result = await _service.Create(clanCreateDto);
@@ -65,6 +66,7 @@ namespace API_MortalKombat.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<APIResponse>> UpdateClan([FromBody] ClanUpdateDto clanUpdateDto)
         {
             var result = await _service.Update(clanUpdateDto);
@@ -76,6 +78,7 @@ namespace API_MortalKombat.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<APIResponse>> DeleteClan(int id)
         {
             var result = await _service.Delete(id);
@@ -88,6 +91,7 @@ namespace API_MortalKombat.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<APIResponse>> UpdatePartialClan(int id, JsonPatchDocument<ClanUpdateDto> clanUpdateDto)
         {
             var result = await _service.UpdatePartial(id, clanUpdateDto);

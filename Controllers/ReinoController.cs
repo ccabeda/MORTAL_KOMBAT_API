@@ -20,7 +20,7 @@ namespace API_MortalKombat.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<APIResponse>> GetReinos()
         {
             var result = await _service.GetAll();
@@ -29,7 +29,7 @@ namespace API_MortalKombat.Controllers
 
         [HttpGet(("{id}"), Name = "GetReinobyId")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<APIResponse>> GetReinoById(int id) //get para traer con id
         {
             var result = await _service.GetById(id);
@@ -38,7 +38,7 @@ namespace API_MortalKombat.Controllers
 
         [HttpGet(("nombre/{name}"), Name = "GetReinobyName")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<APIResponse>> GetReinoByName(String name) //get para traer con nombre
         {
             var result = await _service.GetByName(name);
@@ -52,6 +52,7 @@ namespace API_MortalKombat.Controllers
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<APIResponse>> CreateReino([FromBody] ReinoCreateDto reinoCreateDto)
         {
             var result = await _service.Create(reinoCreateDto);
@@ -65,6 +66,7 @@ namespace API_MortalKombat.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<APIResponse>> UpdateReino([FromBody] ReinoUpdateDto reinoUpdateDto)
         {
             var result = await _service.Update(reinoUpdateDto);
@@ -76,6 +78,7 @@ namespace API_MortalKombat.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<APIResponse>> DeleteReino(int id)
         {
             var result = await _service.Delete(id);
@@ -88,6 +91,7 @@ namespace API_MortalKombat.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<APIResponse>> UpdatePartialReino(int id, JsonPatchDocument<ReinoUpdateDto> reinoUpdateDto)
         {
             var result = await _service.UpdatePartial(id, reinoUpdateDto);

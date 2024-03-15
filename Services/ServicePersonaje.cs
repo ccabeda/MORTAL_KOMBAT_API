@@ -47,13 +47,12 @@ namespace API_MortalKombat.Service
                 {
                     return _apiresponse;
                 }
-                Utils.CorrectResponse<PersonajeDto, Personaje>(_mapper, personaje, _apiresponse);
+                return Utils.CorrectResponse<PersonajeDto, Personaje>(_mapper, personaje, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
 
         public async Task<APIResponse> GetByName(string name)
@@ -65,13 +64,12 @@ namespace API_MortalKombat.Service
                 {
                     return _apiresponse;
                 }
-                Utils.CorrectResponse<PersonajeDto, Personaje>(_mapper, personaje, _apiresponse);
+                return Utils.CorrectResponse<PersonajeDto, Personaje>(_mapper, personaje, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
 
         public async Task<APIResponse> GetAll()
@@ -79,13 +77,16 @@ namespace API_MortalKombat.Service
             try
             {
                 List<Personaje> listPersonajes = await _repository.GetAll();
-                Utils.ListCorrectResponse<PersonajeDto, Personaje>(_mapper, listPersonajes, _apiresponse);
+                if (!Utils.CheckIfLsitIsNull<Personaje>(listPersonajes, _apiresponse, _logger))
+                {
+                    return _apiresponse;
+                }
+                return Utils.ListCorrectResponse<PersonajeDto, Personaje>(_mapper, listPersonajes, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
 
         public async Task<APIResponse> Create([FromBody] PersonajeCreateDto personajeCreateDto)
@@ -117,13 +118,12 @@ namespace API_MortalKombat.Service
                 personaje!.FechaCreacion = DateTime.Now;
                 await _repository.Create(personaje);
                 _logger.LogInformation("¡Personaje creado con exito!");
-                Utils.CorrectResponse<PersonajeUpdateDto, Personaje>(_mapper, personaje, _apiresponse);
+                return Utils.CorrectResponse<PersonajeUpdateDto, Personaje>(_mapper, personaje, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
 
         public async Task<APIResponse> Delete(int id)
@@ -137,13 +137,12 @@ namespace API_MortalKombat.Service
                 }
                 await _repository.Delete(personaje);
                 _logger.LogInformation("El personaje fue eliminado con exito.");
-                Utils.CorrectResponse<PersonajeDto, Personaje>(_mapper, personaje, _apiresponse);
+                return Utils.CorrectResponse<PersonajeDto, Personaje>(_mapper, personaje, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
 
         public async Task<APIResponse> Update([FromBody] PersonajeUpdateDto personajeUpdateDto)
@@ -180,13 +179,13 @@ namespace API_MortalKombat.Service
                 personaje.FechaActualizacion = DateTime.Now;
                 await _repository.Update(personaje);
                 _logger.LogInformation("¡Personaje Actualizado con exito!");
-                Utils.CorrectResponse<PersonajeDto, Personaje>(_mapper, personaje, _apiresponse);
+                return Utils.CorrectResponse<PersonajeDto, Personaje>(_mapper, personaje, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
+
         }
 
         public async Task<APIResponse> AddWeapon(int idPersonaje, int idArma)
@@ -213,13 +212,12 @@ namespace API_MortalKombat.Service
                 personaje.Armas!.Add(arma);
                 await _repository.Save();
                 _logger.LogInformation("Arma agregada con exito a personaje.");
-                Utils.CorrectResponse<PersonajeDto, Personaje>(_mapper, personaje, _apiresponse);
+                return Utils.CorrectResponse<PersonajeDto, Personaje>(_mapper, personaje, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
 
         public async Task<APIResponse> RemoveWeapon(int idPersonaje, int idArma)
@@ -246,13 +244,12 @@ namespace API_MortalKombat.Service
                 personaje.Armas.Remove(arma);
                 await _repository.Save();
                 _logger.LogInformation("Arma removida con exito del personaje.");
-                Utils.CorrectResponse<PersonajeDto, Personaje>(_mapper, personaje, _apiresponse);
+                return Utils.CorrectResponse<PersonajeDto, Personaje>(_mapper, personaje, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
 
         public async Task<APIResponse> AddStyle(int idPersonaje, int idEstiloDePelea)
@@ -279,13 +276,12 @@ namespace API_MortalKombat.Service
                 personaje.EstilosDePeleas!.Add(estilo);
                 await _repository.Save();
                 _logger.LogInformation("Estilo de pelea agregado con exito a personaje.");
-                Utils.CorrectResponse<PersonajeDto, Personaje>(_mapper, personaje, _apiresponse);
+                return Utils.CorrectResponse<PersonajeDto, Personaje>(_mapper, personaje, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
 
         public async Task<APIResponse> RemoveStyle(int idPersonaje, int idEstiloDePelea)
@@ -312,13 +308,12 @@ namespace API_MortalKombat.Service
                 personaje.EstilosDePeleas.Remove(estilo);
                 await _repository.Save();
                 _logger.LogInformation("Estilo de pelea removido con exito del personaje.");
-                Utils.CorrectResponse<PersonajeDto, Personaje>(_mapper, personaje, _apiresponse);
+                return Utils.CorrectResponse<PersonajeDto, Personaje>(_mapper, personaje, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
 
         public async Task<APIResponse> UpdatePartial(int id, JsonPatchDocument<PersonajeUpdateDto> personajeUpdateDto)
@@ -357,13 +352,12 @@ namespace API_MortalKombat.Service
                 personaje.FechaActualizacion = DateTime.Now;
                 await _repository.Update(personaje);
                 _logger.LogInformation("¡Personaje Actualizado con exito!");
-                Utils.CorrectResponse<PersonajeDto, Personaje>(_mapper, personaje, _apiresponse);
+                return Utils.CorrectResponse<PersonajeDto, Personaje>(_mapper, personaje, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
     }
 }

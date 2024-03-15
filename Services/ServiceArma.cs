@@ -38,13 +38,12 @@ namespace API_MortalKombat.Service
                 {
                     return _apiresponse;
                 }
-                Utils.CorrectResponse<ArmaDto,Arma>(_mapper, arma, _apiresponse);
+                return Utils.CorrectResponse<ArmaDto,Arma>(_mapper, arma, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
 
         public async Task<APIResponse> GetByName(string name)
@@ -56,13 +55,12 @@ namespace API_MortalKombat.Service
                 {
                     return _apiresponse;
                 }
-                Utils.CorrectResponse<ArmaDto, Arma>(_mapper, arma, _apiresponse);
+                return Utils.CorrectResponse<ArmaDto, Arma>(_mapper, arma, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
 
         public async Task<APIResponse> GetAll()
@@ -70,13 +68,16 @@ namespace API_MortalKombat.Service
             try
             {
                 List<Arma> listArmas = await _repository.GetAll();
-                Utils.ListCorrectResponse<ArmaDto, Arma>(_mapper, listArmas, _apiresponse);
+                if (!Utils.CheckIfLsitIsNull<Arma>(listArmas,_apiresponse, _logger))
+                {
+                    return _apiresponse;
+                }
+                return Utils.ListCorrectResponse<ArmaDto, Arma>(_mapper, listArmas, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
 
         public async Task<APIResponse> Create([FromBody] ArmaCreateDto armaCreateDto)
@@ -85,7 +86,6 @@ namespace API_MortalKombat.Service
             {
                 if (await Utils.FluentValidator(armaCreateDto, _validator, _apiresponse, _logger) != null)
                 {
-                    _logger.LogError("dsaudsagdas");
                     return _apiresponse;
                 }
                 var existArma = await _repository.GetByName(armaCreateDto.Nombre); //verifico que no haya otro con el mismo nomrbe
@@ -97,13 +97,12 @@ namespace API_MortalKombat.Service
                 arma!.FechaCreacion = DateTime.Now;
                 await _repository.Create(arma);
                 _logger.LogInformation("¡Arma creado con exito!");
-                Utils.CorrectResponse<ArmaDto, Arma>(_mapper, arma, _apiresponse);
+                return Utils.CorrectResponse<ArmaDto, Arma>(_mapper, arma, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
 
         public async Task<APIResponse> Delete(int id)
@@ -117,13 +116,12 @@ namespace API_MortalKombat.Service
                 }
                 await _repository.Delete(arma);
                 _logger.LogInformation("El arma fue eliminado con exito.");
-                Utils.CorrectResponse<ArmaDto, Arma>(_mapper, arma, _apiresponse);
+                return Utils.CorrectResponse<ArmaDto, Arma>(_mapper, arma, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
 
         public async Task<APIResponse> Update([FromBody] ArmaUpdateDto armaUpdateDto)
@@ -149,13 +147,12 @@ namespace API_MortalKombat.Service
                 arma.FechaActualizacion = DateTime.Now; 
                 await _repository.Update(arma);
                 _logger.LogInformation("¡Arma Actualizado con exito!");
-                Utils.CorrectResponse<ArmaDto, Arma>(_mapper, arma, _apiresponse);
+                return Utils.CorrectResponse<ArmaDto, Arma>(_mapper, arma, _apiresponse);
             }
             catch (Exception ex) 
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
 
         public async Task<APIResponse> UpdatePartial(int id, JsonPatchDocument<ArmaUpdateDto> armaUpdateDto)
@@ -182,13 +179,12 @@ namespace API_MortalKombat.Service
                 arma.FechaActualizacion = DateTime.Now;
                 await _repository.Update(arma);
                 _logger.LogInformation("¡Arma Actualizado con exito!");
-                Utils.CorrectResponse<ArmaDto, Arma>(_mapper, arma, _apiresponse);
+                return Utils.CorrectResponse<ArmaDto, Arma>(_mapper, arma, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
     }
 }

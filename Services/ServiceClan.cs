@@ -40,13 +40,12 @@ namespace API_MortalKombat.Service
                 {
                     return _apiresponse;
                 }
-                Utils.CorrectResponse<ClanDto, Clan>(_mapper, clan, _apiresponse);
+                return Utils.CorrectResponse<ClanDto, Clan>(_mapper, clan, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
 
         public async Task<APIResponse> GetByName(string name)
@@ -58,13 +57,12 @@ namespace API_MortalKombat.Service
                 {
                     return _apiresponse;
                 }
-                Utils.CorrectResponse<ClanDto, Clan>(_mapper, clan, _apiresponse);
+                return Utils.CorrectResponse<ClanDto, Clan>(_mapper, clan, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
 
         public async Task<APIResponse> GetAll()
@@ -72,13 +70,16 @@ namespace API_MortalKombat.Service
             try
             {
                 List<Clan> listClanes = await _repository.GetAll();
-                Utils.ListCorrectResponse<ClanDto, Clan>(_mapper, listClanes, _apiresponse);
+                if (!Utils.CheckIfLsitIsNull<Clan>(listClanes, _apiresponse, _logger))
+                {
+                    return _apiresponse;
+                }
+                return Utils.ListCorrectResponse<ClanDto, Clan>(_mapper, listClanes, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
 
         public async Task<APIResponse> Create([FromBody] ClanCreateDto clanCreateDto)
@@ -98,13 +99,12 @@ namespace API_MortalKombat.Service
                 clan!.FechaCreacion = DateTime.Now;
                 await _repository.Create(clan);
                 _logger.LogInformation("¡Clan creado con exito!");
-                Utils.CorrectResponse<ClanDto, Clan>(_mapper, clan, _apiresponse);
+                return Utils.CorrectResponse<ClanDto, Clan>(_mapper, clan, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
     
         public async Task<APIResponse> Delete(int id)
@@ -117,20 +117,19 @@ namespace API_MortalKombat.Service
                     return _apiresponse;
                 }
                 var listPersonajes = await _repositoryPersonaje.GetAll();
-                if (!Utils.PreventDeletionIfRelaredCharacterExist(listPersonajes, _apiresponse, id))
+                if (!Utils.PreventDeletionIfRelatedCharacterExist(clan ,listPersonajes, _apiresponse, id))
                 {
                     _logger.LogError("El clan no se puede eliminar porque hay un personaje que contiene como ClanId este clan.");
                     return _apiresponse;
                 }
                 await _repository.Delete(clan);
                 _logger.LogInformation("El clan fue eliminado con exito.");
-                Utils.CorrectResponse<ClanDto, Clan>(_mapper, clan, _apiresponse);
+                return Utils.CorrectResponse<ClanDto, Clan>(_mapper, clan, _apiresponse);
             }
             catch (Exception ex)
-            { 
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+            {
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
 
         public async Task<APIResponse> Update([FromBody] ClanUpdateDto clanUpdateDto)
@@ -155,13 +154,12 @@ namespace API_MortalKombat.Service
                 clan.FechaActualizacion = DateTime.Now;
                 await _repository.Update(clan);
                 _logger.LogInformation("¡Clan Actualizado con exito!");
-                Utils.CorrectResponse<ClanDto, Clan>(_mapper, clan, _apiresponse);
+                return Utils.CorrectResponse<ClanDto, Clan>(_mapper, clan, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
 
         public async Task<APIResponse> UpdatePartial(int id, JsonPatchDocument<ClanUpdateDto> clanUpdateDto)
@@ -188,13 +186,12 @@ namespace API_MortalKombat.Service
                 clan.FechaActualizacion = DateTime.Now;
                 await _repository.Update(clan);
                 _logger.LogInformation("¡Clan Actualizado con exito!");
-                Utils.CorrectResponse<ClanDto, Clan>(_mapper, clan, _apiresponse);
+                return Utils.CorrectResponse<ClanDto, Clan>(_mapper, clan, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
     }
 }

@@ -36,13 +36,16 @@ namespace API_MortalKombat.Service
             try
             {
                 List<Rol> listRoles = await _repository.GetAll();
-                Utils.ListCorrectResponse<RolDto, Rol>(_mapper, listRoles, _apiresponse);
+                if (!Utils.CheckIfLsitIsNull<Rol>(listRoles, _apiresponse, _logger))
+                {
+                    return _apiresponse;
+                }
+                return Utils.ListCorrectResponse<RolDto, Rol>(_mapper, listRoles, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
 
         public async Task<APIResponse> GetById(int id)
@@ -54,13 +57,12 @@ namespace API_MortalKombat.Service
                 {
                     return _apiresponse;
                 }
-                Utils.CorrectResponse<RolDto, Rol>(_mapper, rol, _apiresponse);
+                return Utils.CorrectResponse<RolDto, Rol>(_mapper, rol, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
 
         public async Task<APIResponse> GetByName(string name)
@@ -72,13 +74,12 @@ namespace API_MortalKombat.Service
                 {
                     return _apiresponse;
                 }
-                Utils.CorrectResponse<RolDto, Rol>(_mapper, rol, _apiresponse);
+                return Utils.CorrectResponse<RolDto, Rol>(_mapper, rol, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
 
         public async Task<APIResponse> Create([FromBody] RolCreateDto rolCreateDto)
@@ -98,13 +99,12 @@ namespace API_MortalKombat.Service
                 rol!.FechaCreacion = DateTime.Now;
                 await _repository.Create(rol);
                 _logger.LogInformation("¡Rol creado con exito!");
-                Utils.CorrectResponse<RolDto, Rol>(_mapper, rol, _apiresponse);
+                return Utils.CorrectResponse<RolDto, Rol>(_mapper, rol, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
 
         public async Task<APIResponse> Delete(int id)
@@ -117,20 +117,19 @@ namespace API_MortalKombat.Service
                     return _apiresponse;
                 }
                 var listUsuarios = await _repositoryUsuario.GetAll();
-                if (!Utils.PreventDeletionIfRelaredUserExist(listUsuarios, _apiresponse, id))
+                if (!Utils.PreventDeletionIfRelatedUserExist(listUsuarios, _apiresponse, id))
                 {
                     _logger.LogError("El rol no se puede eliminar porque hay un usuario que contiene como RolId este rol.");
                     return _apiresponse;
                 }
                 await _repository.Delete(rol);
                 _logger.LogInformation("!Rol eliminado con exito¡");
-                Utils.CorrectResponse<RolDto, Rol>(_mapper, rol, _apiresponse);
+                return Utils.CorrectResponse<RolDto, Rol>(_mapper, rol, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
 
         public async Task<APIResponse> Update([FromBody] RolUpdateDto rolUpdateDto)
@@ -155,13 +154,12 @@ namespace API_MortalKombat.Service
                 rol.FechaActualizacion = DateTime.Now;
                 await _repository.Update(rol);
                 _logger.LogInformation("¡Rol Actualizado con exito!");
-                Utils.CorrectResponse<RolDto, Rol>(_mapper, rol, _apiresponse);                
+                return Utils.CorrectResponse<RolDto, Rol>(_mapper, rol, _apiresponse);                
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
 
         public async Task<APIResponse> UpdatePartial(int id, JsonPatchDocument<RolUpdateDto> rolUpdateDto)
@@ -188,13 +186,12 @@ namespace API_MortalKombat.Service
                 rol.FechaActualizacion = DateTime.Now;
                 await _repository.Update(rol);
                 _logger.LogInformation("¡Rol Actualizado con exito!");
-                Utils.CorrectResponse<RolDto, Rol>(_mapper, rol, _apiresponse);
+                return Utils.CorrectResponse<RolDto, Rol>(_mapper, rol, _apiresponse);
             }
             catch (Exception ex)
             {
-                Utils.ErrorHandling(ex, _apiresponse, _logger);
+                return Utils.ErrorHandling(ex, _apiresponse, _logger);
             }
-            return _apiresponse;
         }
     }
 }

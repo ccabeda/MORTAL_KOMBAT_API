@@ -13,7 +13,7 @@ namespace API_MortalKombat.Migrations
 {
     [DbContext(typeof(AplicationDbContext))]
     [Migration("20240120002015_fixbugs")]
-    partial class fixbugs
+    partial class Fixbugs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
