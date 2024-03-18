@@ -138,6 +138,8 @@ Endpoints. Todos los usuarios vienen por defecto con el rol Público. Se aclarar
 
 Agregue la encriptación para las contraseñas, estas ya no podran verse desde la base de dato. Cada vez que se cambia la contraseña se genera un nuevo script (aunque sea la misma palabra).
 
+##
+
 Hay dos maneras de utilizar la API, con la interfaz Swagger, y con la aplicación Postman. A continuación, explicaré como utilizar la autentificación en cada uno.
 
 - [Swagger](#Swagger)
