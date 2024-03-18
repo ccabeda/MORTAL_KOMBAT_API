@@ -11,10 +11,11 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("2236792c-460f-4a8c-b90b-124bf7f0c57b")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("API_MortalKombat")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c2f3e1e73d65637e8352de240d149217b6442b15")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ea2efee42600325c81fa56e71627952570b477c3")]
 [assembly: System.Reflection.AssemblyProductAttribute("API_MortalKombat")]
 [assembly: System.Reflection.AssemblyTitleAttribute("API_MortalKombat")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
