@@ -111,18 +111,19 @@ Una vez que hayas configurado la base de datos y guardado los cambios, podés ej
 
 ## NuGets
 
-NuGets necesarias para esta API:
+NuGets utilizadas para esta API:
 - AutoMapper -versión 13.0.0
 - FluentValidationi -versón 11.9.0 
-- FluentValidation.DependencyInjectionExtensions -versón 11.9.0
-- Microsoft.AspNetCore.Authentication.JwtBearer -versón 8.0.1
-- Microsoft.AspNetCore.Mvc.NewtonsoftJson -versón 8.0.1
-- Microsoft.EntityFrameworkCore -versón 8.0.1
-- Microsoft.EntityFrameworkCore.InMemory -versón 8.0.1
-- Microsoft.EntityFrameworkCore.SqlServer -versón 8.0.1
-- Microsoft.EntityFrameworkCore.Tools -versón 8.0.1
-- Newtonsoft.Json -versón 13.0.3
-- Swashbuckle.AspNetCore -versón 6.5.0
+- FluentValidation.DependencyInjectionExtensions -versión 11.9.0
+- Microsoft.AspNetCore.Authentication.JwtBearer -versión 8.0.1
+- Microsoft.AspNetCore.Mvc.NewtonsoftJson -versión 8.0.1
+- Microsoft.EntityFrameworkCore -versión 8.0.1
+- Microsoft.EntityFrameworkCore.InMemory -versión 8.0.1
+- Microsoft.EntityFrameworkCore.SqlServer -versión 8.0.1
+- Microsoft.EntityFrameworkCore.Tools -versión 8.0.1
+- Newtonsoft.Json -versión 13.0.3
+- SharpGrip.FluentValidation.AutoValidation.Mvc -versión 1.4.0
+- Swashbuckle.AspNetCore -versión 6.5.0
 
 ## Documentación Swagger
 
@@ -136,6 +137,8 @@ Endpoints. Todos los usuarios vienen por defecto con el rol Público. Se aclarar
 ## Encriptación mediante HMACSHA256
 
 Agregue la encriptación para las contraseñas, estas ya no podran verse desde la base de dato. Cada vez que se cambia la contraseña se genera un nuevo script (aunque sea la misma palabra).
+
+##
 
 Hay dos maneras de utilizar la API, con la interfaz Swagger, y con la aplicación Postman. A continuación, explicaré como utilizar la autentificación en cada uno.
 
