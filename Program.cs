@@ -4,20 +4,18 @@ using API_MortalKombat.Models;
 using API_MortalKombat.Models.DTOs.ArmaDTO;
 using API_MortalKombat.Models.DTOs.ClanDTO;
 using API_MortalKombat.Models.DTOs.EstiloDePeleaDTO;
-using API_MortalKombat.Models.DTOs.PersonajeDTO;
 using API_MortalKombat.Models.DTOs.ReinoDTO;
 using API_MortalKombat.Models.DTOs.RolDTO;
-using API_MortalKombat.Models.DTOs.UsuarioDTO;
 using API_MortalKombat.Repository;
 using API_MortalKombat.Repository.IRepository;
 using API_MortalKombat.Service;
 using API_MortalKombat.Services.IService;
-using API_MortalKombat.Validations;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -101,21 +99,10 @@ builder.Services.AddScoped<IServiceGeneric<RolUpdateDto, RolCreateDto>, ServiceR
 builder.Services.AddScoped<IServiceLogin, ServiceLogin>();
 builder.Services.AddScoped<IServiceUsuario, ServiceUsuario>();
 builder.Services.AddScoped<IServicePersonaje, ServicePersonaje>();
-//fluent validation
-builder.Services.AddScoped<IValidator<PersonajeCreateDto>, PersonajeCreateValidator>();
-builder.Services.AddScoped<IValidator<PersonajeUpdateDto>, PersonajeUpdateValidator>();
-builder.Services.AddScoped<IValidator<ClanCreateDto>, ClanCreateValidator>();
-builder.Services.AddScoped<IValidator<ClanUpdateDto>, ClanUpdateValidator>();
-builder.Services.AddScoped<IValidator<ReinoCreateDto>, ReinoCreateValidator>();
-builder.Services.AddScoped<IValidator<ReinoUpdateDto>, ReinoUpdateValidator>();
-builder.Services.AddScoped<IValidator<ArmaCreateDto>, ArmaCreateValidator>();
-builder.Services.AddScoped<IValidator<ArmaUpdateDto>, ArmaUpdateValidator>();
-builder.Services.AddScoped<IValidator<EstiloDePeleaCreateDto>, EstiloDePeleaCreateValidator>();
-builder.Services.AddScoped<IValidator<EstiloDePeleaUpdateDto>, EstiloDePeleaUpdateValidator>();
-builder.Services.AddScoped<IValidator<UsuarioCreateDto>, UsuarioCreateValidator>();
-builder.Services.AddScoped<IValidator<UsuarioUpdateDto>, UsuarioUpdateValidator>();
-builder.Services.AddScoped<IValidator<RolCreateDto>, RolCreateValidator>();
-builder.Services.AddScoped<IValidator<RolUpdateDto>, RolUpdateValidator>();
+//builder.Services.AddScoped<IValidator<PersonajeCreateDto>, PersonajeCreateValidator>();
+//Fluent validation. COn el Uso de un nugget, se autoconfiguran todos los fluentValidation (a mano seria como arriba). Ayuda muchisimo.
+builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+builder.Services.AddFluentValidationAutoValidation();
 
 var app = builder.Build();
 

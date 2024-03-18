@@ -4,7 +4,6 @@ using API_MortalKombat.Repository.IRepository;
 using API_MortalKombat.Services.IService;
 using API_MortalKombat.Services.Utils;
 using AutoMapper;
-using FluentValidation;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,17 +16,12 @@ namespace API_MortalKombat.Service
         private readonly IMapper _mapper;
         private readonly APIResponse _apiresponse;
         private readonly ILogger<ServiceClan> _logger;
-        private readonly IValidator<ClanCreateDto> _validator;
-        private readonly IValidator<ClanUpdateDto> _validatorUpdate;
-        public ServiceClan(IMapper mapper, APIResponse apiresponse, ILogger<ServiceClan> logger, IRepositoryGeneric<Clan> repository, IValidator<ClanCreateDto> validator, 
-            IValidator<ClanUpdateDto> validatorUpdate, IRepositoryGeneric<Personaje> repositoryPersonaje)
+        public ServiceClan(IMapper mapper, APIResponse apiresponse, ILogger<ServiceClan> logger, IRepositoryGeneric<Clan> repository, IRepositoryGeneric<Personaje> repositoryPersonaje)
         {
             _mapper = mapper;
             _apiresponse = apiresponse;
             _logger = logger;
-            _repository = repository;
-            _validator = validator;
-            _validatorUpdate = validatorUpdate;   
+            _repository = repository;  
             _repositoryPersonaje = repositoryPersonaje;
         }
 
@@ -86,10 +80,6 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                if (await Utils.FluentValidator(clanCreateDto, _validator, _apiresponse, _logger) != null)
-                {
-                    return _apiresponse;
-                }
                 var existClan = await _repository.GetByName(clanCreateDto.Nombre); //verifico que no haya otro con el mismo nomrbe
                 if (!Utils.CheckIfObjectExist<Clan>(existClan, _apiresponse, _logger))
                 {
@@ -136,10 +126,6 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                if (await Utils.FluentValidator(clanUpdateDto, _validatorUpdate, _apiresponse, _logger) != null)
-                {
-                    return _apiresponse;
-                }
                 var clan = await _repository.GetById(clanUpdateDto.Id);
                 if (!Utils.CheckIfNull<Clan>(clan, _apiresponse, _logger))
                 {
@@ -173,10 +159,6 @@ namespace API_MortalKombat.Service
                 }
                 var updateClanDto = _mapper.Map<ClanUpdateDto>(clan); 
                 clanUpdateDto.ApplyTo(updateClanDto!);
-                if (await Utils.FluentValidator(updateClanDto, _validatorUpdate, _apiresponse, _logger) != null)
-                {
-                    return _apiresponse;
-                }
                 var registredName = await _repository.GetByName(updateClanDto.Nombre); //verifico que no haya otro con el mismo nomrbe
                 if (!Utils.CheckIfNameAlreadyExist<Clan>(registredName, clan, _apiresponse, _logger))
                 {

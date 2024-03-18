@@ -4,7 +4,6 @@ using API_MortalKombat.Repository.IRepository;
 using API_MortalKombat.Services.IService;
 using API_MortalKombat.Services.Utils;
 using AutoMapper;
-using FluentValidation;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,17 +15,12 @@ namespace API_MortalKombat.Service
         private readonly IMapper _mapper;
         private readonly APIResponse _apiresponse;
         private readonly ILogger<ServiceArma> _logger;
-        private readonly IValidator<ArmaCreateDto> _validator;
-        private readonly IValidator<ArmaUpdateDto> _validatorUpdate;
-        public ServiceArma(IMapper mapper, APIResponse apiresponse, ILogger<ServiceArma> logger, IRepositoryGeneric<Arma> repository, IValidator<ArmaCreateDto> validator,
-            IValidator<ArmaUpdateDto> validatorUpdate)
+        public ServiceArma(IMapper mapper, APIResponse apiresponse, ILogger<ServiceArma> logger, IRepositoryGeneric<Arma> repository)
         {
             _mapper = mapper;
             _apiresponse = apiresponse;
             _logger = logger;
             _repository = repository;
-            _validator = validator;
-            _validatorUpdate = validatorUpdate;
         }
 
         public async Task<APIResponse> GetById(int id)
@@ -84,10 +78,6 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                if (await Utils.FluentValidator(armaCreateDto, _validator, _apiresponse, _logger) != null)
-                {
-                    return _apiresponse;
-                }
                 var existArma = await _repository.GetByName(armaCreateDto.Nombre); //verifico que no haya otro con el mismo nomrbe
                 if (!Utils.CheckIfObjectExist<Arma>(existArma, _apiresponse, _logger))
                 {
@@ -128,11 +118,6 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                if (await Utils.FluentValidator(armaUpdateDto, _validatorUpdate, _apiresponse, _logger) != null)
-                {
-
-                    return _apiresponse;
-                }
                 var arma = await _repository.GetById(armaUpdateDto.Id);
                 if (!Utils.CheckIfNull<Arma>(arma, _apiresponse, _logger))
                 {
@@ -166,10 +151,6 @@ namespace API_MortalKombat.Service
                 }
                 var updateUserDto = _mapper.Map<ArmaUpdateDto>(arma); 
                 armaUpdateDto.ApplyTo(updateUserDto!);
-                if (await Utils.FluentValidator(updateUserDto, _validatorUpdate, _apiresponse, _logger) != null)
-                {
-                    return _apiresponse;
-                }
                 var registredName = await _repository.GetByName(updateUserDto.Nombre); //verifico que no haya otro con el mismo nomrbe
                 if (!Utils.CheckIfNameAlreadyExist<Arma>(registredName, arma, _apiresponse, _logger))
                 {

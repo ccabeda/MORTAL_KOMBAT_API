@@ -31,20 +31,20 @@ namespace API_MortalKombat.Services.Utils
             }
         }
 
-        public async static Task<APIResponse?> FluentValidator<T>(T dto, IValidator<T> validator, APIResponse apiresponse, ILogger logger) //funcion para el fluentValidation
-        {
-            var fluentValidation = await validator.ValidateAsync(dto);
-            if (!fluentValidation.IsValid)
-            {
-                var errors = fluentValidation.Errors.Select(e => e.ErrorMessage).ToList();
-                logger.LogError("Error al validar los datos de entrada.");
-                apiresponse.isExit = false;
-                apiresponse.statusCode = HttpStatusCode.BadRequest;
-                apiresponse.ErrorList = errors;
-                return apiresponse;
-            }
-            return null;
-        }
+        //public async static Task<APIResponse?> FluentValidator<T>(T dto, IValidator<T> validator, APIResponse apiresponse, ILogger logger) //funcion para el fluentValidation. Ahora con el nugget se hace automatico.
+        //{
+        //    var fluentValidation = await validator.ValidateAsync(dto);
+        //    if (!fluentValidation.IsValid)
+        //    {
+        //        var errors = fluentValidation.Errors.Select(e => e.ErrorMessage).ToList();
+        //        logger.LogError("Error al validar los datos de entrada.");
+        //        apiresponse.isExit = false;
+        //        apiresponse.statusCode = HttpStatusCode.BadRequest;
+        //        apiresponse.ErrorList = errors;
+        //        return apiresponse;
+        //    }
+        //    return null;
+        //}
 
         public static bool CheckIfNull<T>(T model, APIResponse apiresponse, ILogger logger) //funcion para verificar que el obj no sean null
         {

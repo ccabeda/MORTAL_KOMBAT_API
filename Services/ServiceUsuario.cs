@@ -1,7 +1,6 @@
 ﻿using API_MortalKombat.Models;
 using API_MortalKombat.Repository.IRepository;
 using AutoMapper;
-using FluentValidation;
 using API_MortalKombat.Models.DTOs.UsuarioDTO;
 using API_MortalKombat.Services.IService;
 using Microsoft.AspNetCore.Mvc;
@@ -16,17 +15,12 @@ namespace API_MortalKombat.Service
         private readonly IMapper _mapper;
         private readonly APIResponse _apiresponse;
         private readonly ILogger<ServiceUsuario> _logger;
-        private readonly IValidator<UsuarioCreateDto> _validator;
-        private readonly IValidator<UsuarioUpdateDto> _validatorUpdate;
-        public ServiceUsuario(IMapper mapper, APIResponse apiresponse, ILogger<ServiceUsuario> logger, IRepositoryGeneric<Usuario> repository, IValidator<UsuarioCreateDto> validator,
-            IValidator<UsuarioUpdateDto> validatorUpdate)
+        public ServiceUsuario(IMapper mapper, APIResponse apiresponse, ILogger<ServiceUsuario> logger, IRepositoryGeneric<Usuario> repository)
         {
             _mapper = mapper;
             _apiresponse = apiresponse;
             _logger = logger;
             _repository = repository;
-            _validator = validator;
-            _validatorUpdate = validatorUpdate;
         }
 
         public async Task<APIResponse> GetAll()
@@ -84,10 +78,6 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                if (await Utils.FluentValidator(usuarioCreateDto, _validator, _apiresponse, _logger) != null)
-                {
-                    return _apiresponse;
-                }
                 var existUsuario = await _repository.GetByName(usuarioCreateDto.NombreDeUsuario);
                 if (!Utils.CheckIfObjectExist<Usuario>(existUsuario, _apiresponse, _logger))
                 {
@@ -130,10 +120,6 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                if (await Utils.FluentValidator(usuarioUpdateDto, _validatorUpdate, _apiresponse, _logger) != null)
-                {
-                    return _apiresponse;
-                }
                 var usuario = await _repository.GetByName(username);
                 if (!Utils.CheckIfNull(usuario, _apiresponse, _logger))
                 {
@@ -177,10 +163,6 @@ namespace API_MortalKombat.Service
                 }
                 var updateUsuarioDto = _mapper.Map<UsuarioUpdateDto>(usuario); //mapeo el usuario a usuarioDTO
                 usuarioUpdateDto.ApplyTo(updateUsuarioDto);
-                if (await Utils.FluentValidator(updateUsuarioDto, _validatorUpdate, _apiresponse, _logger) != null)
-                {
-                    return _apiresponse;
-                }
                 var registredName = await _repository.GetByName(updateUsuarioDto.NombreDeUsuario); //verifico que no haya otro con el mismo nomrbe
                 if (!Utils.CheckIfNameAlreadyExist<Usuario>(registredName, usuario, _apiresponse, _logger))
                 {

@@ -1,7 +1,6 @@
 ﻿using API_MortalKombat.Models;
 using API_MortalKombat.Repository.IRepository;
 using AutoMapper;
-using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using API_MortalKombat.Services.IService;
 using API_MortalKombat.Models.DTOs.EstiloDePeleaDTO;
@@ -16,17 +15,12 @@ namespace API_MortalKombat.Service
         private readonly IMapper _mapper;
         private readonly APIResponse _apiresponse;
         private readonly ILogger<ServiceEstiloDePelea> _logger;
-        private readonly IValidator<EstiloDePeleaCreateDto> _validator;
-        private readonly IValidator<EstiloDePeleaUpdateDto> _validatorUpdate;
-        public ServiceEstiloDePelea(IMapper mapper, APIResponse apiresponse, ILogger<ServiceEstiloDePelea> logger, IRepositoryGeneric<EstiloDePelea> repository,
-            IValidator<EstiloDePeleaCreateDto> validator, IValidator<EstiloDePeleaUpdateDto> validatorUpdate)
+        public ServiceEstiloDePelea(IMapper mapper, APIResponse apiresponse, ILogger<ServiceEstiloDePelea> logger, IRepositoryGeneric<EstiloDePelea> repository)
         {
             _mapper = mapper;
             _apiresponse = apiresponse;
             _logger = logger;
             _repository = repository;
-            _validator = validator;
-            _validatorUpdate = validatorUpdate;
         }
 
         public async Task<APIResponse> GetById(int id)
@@ -84,10 +78,6 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                if (await Utils.FluentValidator(estiloCreateDto, _validator, _apiresponse, _logger) != null)
-                {
-                    return _apiresponse;
-                }
                 var existEstilo = await _repository.GetByName(estiloCreateDto.Nombre); //verifico que no haya otro con el mismo nomrbe
                 if (!Utils.CheckIfObjectExist<EstiloDePelea>(existEstilo, _apiresponse, _logger))
                 {
@@ -128,10 +118,6 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                if (await Utils.FluentValidator(estiloUpdateDto, _validatorUpdate, _apiresponse, _logger) != null)
-                {
-                    return _apiresponse;
-                }
                 var estiloDePelea = await _repository.GetById(estiloUpdateDto.Id);
                 if (!Utils.CheckIfNull<EstiloDePelea>(estiloDePelea, _apiresponse, _logger))
                 {
@@ -165,10 +151,6 @@ namespace API_MortalKombat.Service
                 }
                 var updateEstiloDePeleaDto = _mapper.Map<EstiloDePeleaUpdateDto>(estiloDePelea);
                 estiloDePeleaUpdateDto.ApplyTo(updateEstiloDePeleaDto!);
-                if (await Utils.FluentValidator(updateEstiloDePeleaDto, _validatorUpdate, _apiresponse, _logger) != null)
-                {
-                    return _apiresponse;
-                }
                 var registredName = await _repository.GetByName(updateEstiloDePeleaDto.Nombre); //verifico que no haya otro con el mismo nomrbe
                 if (!Utils.CheckIfNameAlreadyExist<EstiloDePelea>(registredName, estiloDePelea, _apiresponse, _logger))
                 {

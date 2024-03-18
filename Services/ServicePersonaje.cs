@@ -4,7 +4,6 @@ using API_MortalKombat.Repository.IRepository;
 using API_MortalKombat.Services.IService;
 using API_MortalKombat.Services.Utils;
 using AutoMapper;
-using FluentValidation;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,18 +19,13 @@ namespace API_MortalKombat.Service
         private readonly IMapper _mapper;
         private readonly APIResponse _apiresponse;
         private readonly ILogger<ServicePersonaje> _logger;
-        private readonly IValidator<PersonajeCreateDto> _validator;
-        private readonly IValidator<PersonajeUpdateDto> _validatorUpdate;
-        public ServicePersonaje(IMapper mapper, APIResponse apiresponse, ILogger<ServicePersonaje> logger, IRepositoryGeneric<Personaje> repository, IValidator<PersonajeCreateDto> validator, 
-                                IValidator<PersonajeUpdateDto> validatorUpdate, IRepositoryGeneric<Arma> repositoryArma, IRepositoryGeneric<EstiloDePelea> repositoryEstiloDePelea,
-                                IRepositoryGeneric<Clan> repositoryClan, IRepositoryGeneric<Reino> repositoryReino)
+        public ServicePersonaje(IMapper mapper, APIResponse apiresponse, ILogger<ServicePersonaje> logger, IRepositoryGeneric<Personaje> repository, IRepositoryGeneric<Arma> repositoryArma,
+                                IRepositoryGeneric<EstiloDePelea> repositoryEstiloDePelea, IRepositoryGeneric<Clan> repositoryClan, IRepositoryGeneric<Reino> repositoryReino)
         {
             _mapper = mapper;
             _apiresponse = apiresponse;
             _logger = logger;
             _repository = repository;
-            _validator = validator;
-            _validatorUpdate = validatorUpdate;
             _repositoryArma = repositoryArma;
             _repositoryEstiloDePelea = repositoryEstiloDePelea;
             _repositoryClan = repositoryClan;
@@ -93,10 +87,6 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                if (await Utils.FluentValidator(personajeCreateDto, _validator, _apiresponse, _logger) != null)
-                {
-                    return _apiresponse;
-                }
                 var existPersonaje = await _repository.GetByName(personajeCreateDto.Nombre); //verifico que no haya otro con el mismo nomrbe
                 if (!Utils.CheckIfObjectExist<Personaje>(existPersonaje, _apiresponse, _logger))
                 {
@@ -149,10 +139,6 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                if (await Utils.FluentValidator(personajeUpdateDto, _validatorUpdate, _apiresponse, _logger) != null)
-                {
-                    return _apiresponse;
-                }
                 var personaje = await _repository.GetById(personajeUpdateDto.Id);
                 if (!Utils.CheckIfNull<Personaje>(personaje, _apiresponse, _logger))
                 {
@@ -327,10 +313,6 @@ namespace API_MortalKombat.Service
                 }
                 var updatePersonajeDto = _mapper.Map<PersonajeUpdateDto>(personaje);
                 personajeUpdateDto.ApplyTo(updatePersonajeDto!);
-                if (await Utils.FluentValidator(updatePersonajeDto, _validatorUpdate, _apiresponse, _logger) != null)
-                {
-                    return _apiresponse;
-                }
                 var registredName = await _repository.GetByName(updatePersonajeDto.Nombre); //verifico que no haya otro con el mismo nomrbe
                 if (!Utils.CheckIfNameAlreadyExist<Personaje>(registredName, personaje, _apiresponse, _logger))
                 {

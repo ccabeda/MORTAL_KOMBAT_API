@@ -5,7 +5,6 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using API_MortalKombat.Models.DTOs.RolDTO;
 using Microsoft.AspNetCore.JsonPatch;
-using FluentValidation;
 using API_MortalKombat.Services.Utils;
 
 namespace API_MortalKombat.Service
@@ -17,18 +16,13 @@ namespace API_MortalKombat.Service
         private readonly IMapper _mapper;
         private readonly APIResponse _apiresponse;
         private readonly ILogger<ServiceRol> _logger;
-        private readonly IValidator<RolCreateDto> _validator;
-        private readonly IValidator<RolUpdateDto> _validatorUpdate;
-        public ServiceRol(IMapper mapper, APIResponse apiresponse, ILogger<ServiceRol> logger, IRepositoryGeneric<Rol> repository, IRepositoryGeneric<Usuario> repositoryUsuario, IValidator<RolCreateDto> 
-                          validator, IValidator<RolUpdateDto> validatorUpdate)
+        public ServiceRol(IMapper mapper, APIResponse apiresponse, ILogger<ServiceRol> logger, IRepositoryGeneric<Rol> repository, IRepositoryGeneric<Usuario> repositoryUsuario)
         {
             _mapper = mapper;
             _apiresponse = apiresponse;
             _logger = logger;
             _repository = repository;
             _repositoryUsuario = repositoryUsuario;
-            _validator = validator;
-            _validatorUpdate = validatorUpdate;
         }
 
         public async Task<APIResponse> GetAll()
@@ -86,10 +80,6 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                if (await Utils.FluentValidator(rolCreateDto, _validator, _apiresponse, _logger) != null)
-                {
-                    return _apiresponse;
-                }
                 var existRol = await _repository.GetByName(rolCreateDto.Nombre);
                 if (!Utils.CheckIfObjectExist<Rol>(existRol, _apiresponse, _logger))
                 {
@@ -136,10 +126,6 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                if (await Utils.FluentValidator(rolUpdateDto, _validatorUpdate, _apiresponse, _logger) != null)
-                {
-                    return _apiresponse;
-                }
                 var rol = await _repository.GetById(rolUpdateDto.Id);
                 if (!Utils.CheckIfNull<Rol>(rol, _apiresponse, _logger))
                 {
@@ -173,10 +159,6 @@ namespace API_MortalKombat.Service
                 }
                 var updateRolDto = _mapper.Map<RolUpdateDto>(rol);
                 rolUpdateDto.ApplyTo(updateRolDto!);
-                if (await Utils.FluentValidator(updateRolDto, _validatorUpdate, _apiresponse, _logger) != null)
-                {
-                    return _apiresponse;
-                }
                 var registredName = await _repository.GetByName(updateRolDto.Nombre); //verifico que no haya otro con el mismo nomrbe
                 if (!Utils.CheckIfNameAlreadyExist<Rol>(registredName, rol, _apiresponse, _logger))
                 {
