@@ -92,10 +92,14 @@ git clone https://github.com/ccabeda/MORTAL_KOMBAT_API
 Abrí tu entorno de desarrollo preferido (recomiendo Visual Studio). Navegá hasta la carpeta del proyecto que acabas de clonar y abrilo.
 
 ### Configurá la base de datos
-En el archivo appsetting.json,modificar lo siguiente:
+En el archivo appsetting.json,agrega lo siguiente:
 
-"ConnectionStrings": {
-  "Nombre_de_tu_conexión": "Server=Nombre_de_tu_server;Database=Nombre_de_tu_Base_de_datos;TrustServerCertificate=True;Trusted_Connection=true;MultipleActiveResultSets=true"
+{
+  "AllowedHosts": "*",
+  "Nombre_de_tu_conexión": { //config server
+    "Connection": "Server=Nombre_de_tu_server;Database=Nombre_de_tu_Base_de_datos;TrustServerCertificate=True;Trusted_Connection=true;MultipleActiveResultSets=true"
+  }
+}
    
 Reemplazá Nombre_de_tu_conexión, Nombre_de_tu_server, Nombre_de_tu_Base_de_datos por los datos que quieras poner.
 En el archivo Program.cs, en la inyección de la base de datos, poner el mismo nombre que se utilizó para reemplazar Nombre_de_tu_conexión.
