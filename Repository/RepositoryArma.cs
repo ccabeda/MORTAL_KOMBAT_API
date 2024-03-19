@@ -31,24 +31,16 @@ namespace API_MortalKombat.Repository
         public async Task Create(Arma arm)
         {
             await _context.Armas.AddAsync(arm);
-            await Save();
         }
 
         public async Task Delete(Arma arm)
         {
             _context.Armas.Remove(arm);
-            await Save();
         }
 
         public async Task Update(Arma arm)
         {
             _context.Update(arm);
-            await Save();
-        }
-
-        public async Task Save()
-        {
-            await _context.SaveChangesAsync();
         }
     }
 }

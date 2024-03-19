@@ -1,8 +1,8 @@
 ﻿using API_MortalKombat.Models;
 using API_MortalKombat.Models.DTOs.ClanDTO;
-using API_MortalKombat.Repository.IRepository;
 using API_MortalKombat.Services.IService;
 using API_MortalKombat.Services.Utils;
+using API_MortalKombat.UnitOfWork;
 using AutoMapper;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -11,30 +11,29 @@ namespace API_MortalKombat.Service
 {
     public class ServiceClan : IServiceGeneric<ClanUpdateDto, ClanCreateDto>
     {
-        private readonly IRepositoryGeneric<Clan> _repository;
-        private readonly IRepositoryGeneric<Personaje> _repositoryPersonaje;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly APIResponse _apiresponse;
         private readonly ILogger<ServiceClan> _logger;
-        public ServiceClan(IMapper mapper, APIResponse apiresponse, ILogger<ServiceClan> logger, IRepositoryGeneric<Clan> repository, IRepositoryGeneric<Personaje> repositoryPersonaje)
+        public ServiceClan(IMapper mapper, APIResponse apiresponse, ILogger<ServiceClan> logger, IUnitOfWork unitOfWork)
         {
             _mapper = mapper;
             _apiresponse = apiresponse;
             _logger = logger;
-            _repository = repository;  
-            _repositoryPersonaje = repositoryPersonaje;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<APIResponse> GetById(int id)
         {
             try
             {
-                var clan = await _repository.GetById(id);
-                if (!Utils.CheckIfNull(clan, _apiresponse, _logger))
+                var clan = await _unitOfWork.repositoryClan.GetById(id);
+                if (Utils.CheckIfNull(clan))
                 {
-                    return _apiresponse;
+                    _logger.LogError("El clan de id " + id + " no esta registrado.");
+                    return Utils.NotFoundResponse(_apiresponse);
                 }
-                return Utils.CorrectResponse<ClanDto, Clan>(_mapper, clan, _apiresponse);
+                return Utils.OKResponse<ClanDto, Clan>(_mapper, clan, _apiresponse);
             }
             catch (Exception ex)
             {
@@ -46,12 +45,13 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                var clan = await _repository.GetByName(name);
-                if (!Utils.CheckIfNull(clan, _apiresponse, _logger))
+                var clan = await _unitOfWork.repositoryClan.GetByName(name);
+                if (Utils.CheckIfNull(clan))
                 {
-                    return _apiresponse;
+                    _logger.LogError("El clan de nombre " + name + " no esta registrado.");
+                    return Utils.NotFoundResponse(_apiresponse);
                 }
-                return Utils.CorrectResponse<ClanDto, Clan>(_mapper, clan, _apiresponse);
+                return Utils.OKResponse<ClanDto, Clan>(_mapper, clan, _apiresponse);
             }
             catch (Exception ex)
             {
@@ -63,12 +63,13 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                List<Clan> listClanes = await _repository.GetAll();
-                if (!Utils.CheckIfLsitIsNull<Clan>(listClanes, _apiresponse, _logger))
+                List<Clan> listClanes = await _unitOfWork.repositoryClan.GetAll();
+                if (Utils.CheckIfLsitIsNull<Clan>(listClanes))
                 {
-                    return _apiresponse;
+                    _logger.LogError("La lista de clanes esta vacia.");
+                    return Utils.NotFoundResponse(_apiresponse);
                 }
-                return Utils.ListCorrectResponse<ClanDto, Clan>(_mapper, listClanes, _apiresponse);
+                return Utils.ListOKResponse<ClanDto, Clan>(_mapper, listClanes, _apiresponse);
             }
             catch (Exception ex)
             {
@@ -80,16 +81,18 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                var existClan = await _repository.GetByName(clanCreateDto.Nombre); //verifico que no haya otro con el mismo nomrbe
-                if (!Utils.CheckIfObjectExist<Clan>(existClan, _apiresponse, _logger))
+                var existClan = await _unitOfWork.repositoryClan.GetByName(clanCreateDto.Nombre);
+                if (Utils.CheckIfObjectExist<Clan>(existClan))
                 {
-                    return _apiresponse;
+                    _logger.LogError("El nombre del clan ya se encuentra registrado.");
+                    return Utils.ConflictResponse(_apiresponse);
                 }
                 var clan = _mapper.Map<Clan>(clanCreateDto);
                 clan!.FechaCreacion = DateTime.Now;
-                await _repository.Create(clan);
+                await _unitOfWork.repositoryClan.Create(clan);
+                await _unitOfWork.Save();
                 _logger.LogInformation("¡Clan creado con exito!");
-                return Utils.CorrectResponse<ClanDto, Clan>(_mapper, clan, _apiresponse);
+                return Utils.OKResponse<ClanDto, Clan>(_mapper, clan, _apiresponse);
             }
             catch (Exception ex)
             {
@@ -101,20 +104,22 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                var clan = await _repository.GetById(id); ;
-                if (!Utils.CheckIfNull(clan, _apiresponse, _logger))
+                var clan = await _unitOfWork.repositoryClan.GetById(id);
+                if (Utils.CheckIfNull(clan))
                 {
-                    return _apiresponse;
+                    _logger.LogError("El clan de id " + id + " no esta registrado.");
+                    return Utils.NotFoundResponse(_apiresponse);
                 }
-                var listPersonajes = await _repositoryPersonaje.GetAll();
-                if (!Utils.PreventDeletionIfRelatedCharacterExist(clan ,listPersonajes, _apiresponse, id))
+                var listPersonajes = await _unitOfWork.repositoryPersonaje.GetAll();
+                if (!Utils.PreventDeletionIfRelatedCharacterExist(clan ,listPersonajes, id))
                 {
                     _logger.LogError("El clan no se puede eliminar porque hay un personaje que contiene como ClanId este clan.");
-                    return _apiresponse;
+                    return Utils.BadRequestResponse(_apiresponse);
                 }
-                await _repository.Delete(clan);
+                await _unitOfWork.repositoryClan.Delete(clan);
+                await _unitOfWork.Save();
                 _logger.LogInformation("El clan fue eliminado con exito.");
-                return Utils.CorrectResponse<ClanDto, Clan>(_mapper, clan, _apiresponse);
+                return Utils.OKResponse<ClanDto, Clan>(_mapper, clan, _apiresponse);
             }
             catch (Exception ex)
             {
@@ -126,21 +131,24 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                var clan = await _repository.GetById(clanUpdateDto.Id);
-                if (!Utils.CheckIfNull<Clan>(clan, _apiresponse, _logger))
+                var clan = await _unitOfWork.repositoryClan.GetById(clanUpdateDto.Id);
+                if (Utils.CheckIfNull<Clan>(clan))
                 {
-                    return _apiresponse;
+                    _logger.LogError("El clan de id " + clanUpdateDto.Id + " no esta registrado.");
+                    return Utils.NotFoundResponse(_apiresponse);
                 }
-                var registredName = await _repository.GetByName(clanUpdateDto.Nombre); //verifico que no haya otro con el mismo nomrbe
-                if (!Utils.CheckIfNameAlreadyExist<Clan>(registredName, clan, _apiresponse, _logger))
+                var registredName = await _unitOfWork.repositoryClan.GetByName(clanUpdateDto.Nombre);
+                if (Utils.CheckIfNameAlreadyExist<Clan>(registredName, clan))
                 {
-                    return _apiresponse;
+                    _logger.LogError("El nombre del clan ya se encuentra registrado. Por favor, utiliza otro.");
+                    return Utils.ConflictResponse(_apiresponse);
                 }
                 _mapper.Map(clanUpdateDto, clan);
                 clan.FechaActualizacion = DateTime.Now;
-                await _repository.Update(clan);
+                await _unitOfWork.repositoryClan.Update(clan);
+                await _unitOfWork.Save();
                 _logger.LogInformation("¡Clan Actualizado con exito!");
-                return Utils.CorrectResponse<ClanDto, Clan>(_mapper, clan, _apiresponse);
+                return Utils.OKResponse<ClanDto, Clan>(_mapper, clan, _apiresponse);
             }
             catch (Exception ex)
             {
@@ -152,23 +160,26 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                var clan = await _repository.GetById(id);
-                if (!Utils.CheckIfNull(clan, _apiresponse, _logger))
+                var clan = await _unitOfWork.repositoryClan.GetById(id);
+                if (Utils.CheckIfNull(clan))
                 {
-                    return _apiresponse;
+                    _logger.LogError("El clan de id " + id + " no esta registrado.");
+                    return Utils.NotFoundResponse(_apiresponse);
                 }
                 var updateClanDto = _mapper.Map<ClanUpdateDto>(clan); 
                 clanUpdateDto.ApplyTo(updateClanDto!);
-                var registredName = await _repository.GetByName(updateClanDto.Nombre); //verifico que no haya otro con el mismo nomrbe
-                if (!Utils.CheckIfNameAlreadyExist<Clan>(registredName, clan, _apiresponse, _logger))
+                var registredName = await _unitOfWork.repositoryClan.GetByName(updateClanDto.Nombre);
+                if (Utils.CheckIfNameAlreadyExist<Clan>(registredName, clan))
                 {
-                    return _apiresponse;
+                    _logger.LogError("El nombre del clan ya se encuentra registrado. Por favor, utiliza otro.");
+                    return Utils.ConflictResponse(_apiresponse);
                 }
                 _mapper.Map(updateClanDto, clan); 
                 clan.FechaActualizacion = DateTime.Now;
-                await _repository.Update(clan);
+                await _unitOfWork.repositoryClan.Update(clan);
+                await _unitOfWork.Save();
                 _logger.LogInformation("¡Clan Actualizado con exito!");
-                return Utils.CorrectResponse<ClanDto, Clan>(_mapper, clan, _apiresponse);
+                return Utils.OKResponse<ClanDto, Clan>(_mapper, clan, _apiresponse);
             }
             catch (Exception ex)
             {

@@ -1,8 +1,8 @@
 ﻿using API_MortalKombat.Models;
 using API_MortalKombat.Models.DTOs.ArmaDTO;
-using API_MortalKombat.Repository.IRepository;
 using API_MortalKombat.Services.IService;
 using API_MortalKombat.Services.Utils;
+using API_MortalKombat.UnitOfWork;
 using AutoMapper;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -11,28 +11,29 @@ namespace API_MortalKombat.Service
 {
     public class ServiceArma : IServiceGeneric<ArmaUpdateDto, ArmaCreateDto>
     {
-        private readonly IRepositoryGeneric<Arma> _repository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly APIResponse _apiresponse;
         private readonly ILogger<ServiceArma> _logger;
-        public ServiceArma(IMapper mapper, APIResponse apiresponse, ILogger<ServiceArma> logger, IRepositoryGeneric<Arma> repository)
+        public ServiceArma(IMapper mapper, APIResponse apiresponse, ILogger<ServiceArma> logger, IUnitOfWork unitOfWork)
         {
             _mapper = mapper;
             _apiresponse = apiresponse;
             _logger = logger;
-            _repository = repository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<APIResponse> GetById(int id)
         {
             try
             {
-                var arma = await _repository.GetById(id);
-                if (!Utils.CheckIfNull(arma, _apiresponse, _logger))
+                var arma = await _unitOfWork.repositoryArma.GetById(id);
+                if (Utils.CheckIfNull(arma))
                 {
-                    return _apiresponse;
+                    _logger.LogError("El arma de id " + id + " no esta registrado.");
+                    return Utils.NotFoundResponse(_apiresponse);
                 }
-                return Utils.CorrectResponse<ArmaDto,Arma>(_mapper, arma, _apiresponse);
+                return Utils.OKResponse<ArmaDto,Arma>(_mapper, arma, _apiresponse);
             }
             catch (Exception ex)
             {
@@ -44,12 +45,13 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                var arma = await _repository.GetByName(name);
-                if (!Utils.CheckIfNull(arma, _apiresponse, _logger))
+                var arma = await _unitOfWork.repositoryArma.GetByName(name);
+                if (Utils.CheckIfNull(arma))
                 {
-                    return _apiresponse;
+                    _logger.LogError("El arma de nombre " + name + " no esta registrado.");
+                    return Utils.NotFoundResponse(_apiresponse);
                 }
-                return Utils.CorrectResponse<ArmaDto, Arma>(_mapper, arma, _apiresponse);
+                return Utils.OKResponse<ArmaDto, Arma>(_mapper, arma, _apiresponse);
             }
             catch (Exception ex)
             {
@@ -61,12 +63,13 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                List<Arma> listArmas = await _repository.GetAll();
-                if (!Utils.CheckIfLsitIsNull<Arma>(listArmas,_apiresponse, _logger))
+                List<Arma> listArmas = await _unitOfWork.repositoryArma.GetAll();
+                if (Utils.CheckIfLsitIsNull<Arma>(listArmas))
                 {
-                    return _apiresponse;
+                    _logger.LogError("La lista de armas esta vacia.");
+                    return Utils.NotFoundResponse(_apiresponse);
                 }
-                return Utils.ListCorrectResponse<ArmaDto, Arma>(_mapper, listArmas, _apiresponse);
+                return Utils.ListOKResponse<ArmaDto, Arma>(_mapper, listArmas, _apiresponse);
             }
             catch (Exception ex)
             {
@@ -78,16 +81,18 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                var existArma = await _repository.GetByName(armaCreateDto.Nombre); //verifico que no haya otro con el mismo nomrbe
-                if (!Utils.CheckIfObjectExist<Arma>(existArma, _apiresponse, _logger))
+                var existArma = await _unitOfWork.repositoryArma.GetByName(armaCreateDto.Nombre);  //verifico que no haya otro con el mismo nombre
+                if (Utils.CheckIfObjectExist<Arma>(existArma))
                 {
-                    return _apiresponse;
+                    _logger.LogError("El nombre del arma ya se encuentra registrado.");
+                    return Utils.ConflictResponse(_apiresponse);
                 }
                 var arma = _mapper.Map<Arma>(armaCreateDto);
                 arma!.FechaCreacion = DateTime.Now;
-                await _repository.Create(arma);
+                await _unitOfWork.repositoryArma.Create(arma);
+                await _unitOfWork.Save();
                 _logger.LogInformation("¡Arma creado con exito!");
-                return Utils.CorrectResponse<ArmaDto, Arma>(_mapper, arma, _apiresponse);
+                return Utils.OKResponse<ArmaDto, Arma>(_mapper, arma, _apiresponse);
             }
             catch (Exception ex)
             {
@@ -99,14 +104,16 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                var arma = await _repository.GetById(id); ;
-                if (!Utils.CheckIfNull(arma, _apiresponse, _logger))
+                var arma = await _unitOfWork.repositoryArma.GetById(id);
+                if (Utils.CheckIfNull(arma))
                 {
-                    return _apiresponse;
+                    _logger.LogError("El arma de id " + id + " no esta registrado.");
+                    return Utils.NotFoundResponse(_apiresponse);
                 }
-                await _repository.Delete(arma);
+                await _unitOfWork.repositoryArma.Delete(arma);
+                await _unitOfWork.Save();
                 _logger.LogInformation("El arma fue eliminado con exito.");
-                return Utils.CorrectResponse<ArmaDto, Arma>(_mapper, arma, _apiresponse);
+                return Utils.OKResponse<ArmaDto, Arma>(_mapper, arma, _apiresponse);
             }
             catch (Exception ex)
             {
@@ -118,21 +125,24 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                var arma = await _repository.GetById(armaUpdateDto.Id);
-                if (!Utils.CheckIfNull<Arma>(arma, _apiresponse, _logger))
+                var arma = await _unitOfWork.repositoryArma.GetById(armaUpdateDto.Id);
+                if (Utils.CheckIfNull<Arma>(arma))
                 {
-                    return _apiresponse;
+                    _logger.LogError("El arma de id " + armaUpdateDto.Id + " no esta registrado.");
+                    return Utils.NotFoundResponse(_apiresponse);
                 }
-                var registredName = await _repository.GetByName(armaUpdateDto.Nombre); //verifico que no haya otro con el mismo nomrbe
-                if (!Utils.CheckIfNameAlreadyExist<Arma>(registredName,arma, _apiresponse, _logger))
+                var registredName = await _unitOfWork.repositoryArma.GetByName(armaUpdateDto.Nombre); //verifico que no haya otro con el mismo nomrbe
+                if (Utils.CheckIfNameAlreadyExist<Arma>(registredName,arma))
                 {
-                    return _apiresponse;
+                    _logger.LogError("El nombre del arma ya se encuentra registrado. Por favor, utiliza otro.");
+                    return Utils.ConflictResponse(_apiresponse);
                 }
                 _mapper.Map(armaUpdateDto, arma);
-                arma.FechaActualizacion = DateTime.Now; 
-                await _repository.Update(arma);
+                arma.FechaActualizacion = DateTime.Now;
+                await _unitOfWork.repositoryArma.Update(arma);
+                await _unitOfWork.Save();
                 _logger.LogInformation("¡Arma Actualizado con exito!");
-                return Utils.CorrectResponse<ArmaDto, Arma>(_mapper, arma, _apiresponse);
+                return Utils.OKResponse<ArmaDto, Arma>(_mapper, arma, _apiresponse);
             }
             catch (Exception ex) 
             {
@@ -144,23 +154,26 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                var arma = await _repository.GetById(id);
-                if (!Utils.CheckIfNull(arma, _apiresponse, _logger))
+                var arma = await _unitOfWork.repositoryArma.GetById(id);
+                if (Utils.CheckIfNull(arma))
                 {
-                    return _apiresponse;
+                    _logger.LogError("El arma de id " + id + " no esta registrado.");
+                    return Utils.NotFoundResponse(_apiresponse);
                 }
                 var updateUserDto = _mapper.Map<ArmaUpdateDto>(arma); 
                 armaUpdateDto.ApplyTo(updateUserDto!);
-                var registredName = await _repository.GetByName(updateUserDto.Nombre); //verifico que no haya otro con el mismo nomrbe
-                if (!Utils.CheckIfNameAlreadyExist<Arma>(registredName, arma, _apiresponse, _logger))
+                var registredName = await _unitOfWork.repositoryArma.GetByName(updateUserDto.Nombre);
+                if (Utils.CheckIfNameAlreadyExist<Arma>(registredName, arma))
                 {
-                    return _apiresponse;
+                    _logger.LogError("El nombre del arma ya se encuentra registrado. Por favor, utiliza otro.");
+                    return Utils.ConflictResponse(_apiresponse);
                 }
                 _mapper.Map(updateUserDto, arma);
                 arma.FechaActualizacion = DateTime.Now;
-                await _repository.Update(arma);
+                await _unitOfWork.repositoryArma.Update(arma);
+                await _unitOfWork.Save();
                 _logger.LogInformation("¡Arma Actualizado con exito!");
-                return Utils.CorrectResponse<ArmaDto, Arma>(_mapper, arma, _apiresponse);
+                return Utils.OKResponse<ArmaDto, Arma>(_mapper, arma, _apiresponse);
             }
             catch (Exception ex)
             {

@@ -1,38 +1,40 @@
 ﻿using API_MortalKombat.Models;
-using API_MortalKombat.Repository.IRepository;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using API_MortalKombat.Services.IService;
 using API_MortalKombat.Models.DTOs.EstiloDePeleaDTO;
 using Microsoft.AspNetCore.JsonPatch;
 using API_MortalKombat.Services.Utils;
+using API_MortalKombat.UnitOfWork;
 
 namespace API_MortalKombat.Service
 {
     public class ServiceEstiloDePelea : IServiceGeneric<EstiloDePeleaUpdateDto,EstiloDePeleaCreateDto>
     {
-        private readonly IRepositoryGeneric<EstiloDePelea> _repository;
+
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly APIResponse _apiresponse;
         private readonly ILogger<ServiceEstiloDePelea> _logger;
-        public ServiceEstiloDePelea(IMapper mapper, APIResponse apiresponse, ILogger<ServiceEstiloDePelea> logger, IRepositoryGeneric<EstiloDePelea> repository)
+        public ServiceEstiloDePelea(IMapper mapper, APIResponse apiresponse, ILogger<ServiceEstiloDePelea> logger, IUnitOfWork unitOfWork)
         {
             _mapper = mapper;
             _apiresponse = apiresponse;
             _logger = logger;
-            _repository = repository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<APIResponse> GetById(int id)
         {
             try
             {
-                var estiloDePelea = await _repository.GetById(id);
-                if (!Utils.CheckIfNull(estiloDePelea, _apiresponse, _logger))
+                var estiloDePelea = await _unitOfWork.repositoryEstiloDePelea.GetById(id);
+                if (Utils.CheckIfNull(estiloDePelea))
                 {
-                    return _apiresponse;
+                    _logger.LogError("El estilo de pelea de id " + id + " no esta registrado.");
+                    return Utils.NotFoundResponse(_apiresponse);
                 }
-                return Utils.CorrectResponse<EstiloDePeleaDto, EstiloDePelea>(_mapper, estiloDePelea, _apiresponse);
+                return Utils.OKResponse<EstiloDePeleaDto, EstiloDePelea>(_mapper, estiloDePelea, _apiresponse);
             }
             catch (Exception ex)
             {
@@ -44,12 +46,13 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                var estiloDePelea = await _repository.GetByName(name);
-                if (!Utils.CheckIfNull(estiloDePelea, _apiresponse, _logger))
+                var estiloDePelea = await _unitOfWork.repositoryEstiloDePelea.GetByName(name);
+                if (Utils.CheckIfNull(estiloDePelea))
                 {
-                    return _apiresponse;
+                    _logger.LogError("El estilo de pelea de nombre " + name + " no esta registrado.");
+                    return Utils.NotFoundResponse(_apiresponse);
                 }
-                return Utils.CorrectResponse<EstiloDePeleaDto, EstiloDePelea>(_mapper, estiloDePelea, _apiresponse);
+                return Utils.OKResponse<EstiloDePeleaDto, EstiloDePelea>(_mapper, estiloDePelea, _apiresponse);
             }
             catch (Exception ex)
             {
@@ -61,12 +64,13 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                List<EstiloDePelea> listEstilos = await _repository.GetAll();
-                if (!Utils.CheckIfLsitIsNull<EstiloDePelea>(listEstilos, _apiresponse, _logger))
+                List<EstiloDePelea> listEstilos = await _unitOfWork.repositoryEstiloDePelea.GetAll();
+                if (Utils.CheckIfLsitIsNull<EstiloDePelea>(listEstilos))
                 {
-                    return _apiresponse;
+                    _logger.LogError("La lista de estilos de pelea esta vacia.");
+                    return Utils.NotFoundResponse(_apiresponse);
                 }
-                return Utils.ListCorrectResponse<EstiloDePeleaDto, EstiloDePelea>(_mapper, listEstilos, _apiresponse);
+                return Utils.ListOKResponse<EstiloDePeleaDto, EstiloDePelea>(_mapper, listEstilos, _apiresponse);
             }
             catch (Exception ex)
             {
@@ -78,16 +82,18 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                var existEstilo = await _repository.GetByName(estiloCreateDto.Nombre); //verifico que no haya otro con el mismo nomrbe
-                if (!Utils.CheckIfObjectExist<EstiloDePelea>(existEstilo, _apiresponse, _logger))
+                var existEstilo = await _unitOfWork.repositoryEstiloDePelea.GetByName(estiloCreateDto.Nombre);
+                if (Utils.CheckIfObjectExist<EstiloDePelea>(existEstilo))
                 {
-                    return _apiresponse;
+                    _logger.LogError("El nombre del estilo de pelea ya se encuentra registrado.");
+                    return Utils.ConflictResponse(_apiresponse);
                 }
                 var estiloDePelea = _mapper.Map<EstiloDePelea>(estiloCreateDto);
                 estiloDePelea!.FechaCreacion = DateTime.Now;
-                await _repository.Create(estiloDePelea);
+                await _unitOfWork.repositoryEstiloDePelea.Create(estiloDePelea);
+                await _unitOfWork.Save();
                 _logger.LogInformation("¡Estilo de pelea creado con exito!");
-                return Utils.CorrectResponse<EstiloDePeleaDto, EstiloDePelea>(_mapper, estiloDePelea, _apiresponse);
+                return Utils.OKResponse<EstiloDePeleaDto, EstiloDePelea>(_mapper, estiloDePelea, _apiresponse);
             }
             catch (Exception ex)
             {
@@ -99,14 +105,16 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                var estiloDePelea = await _repository.GetById(id);
-                if (!Utils.CheckIfNull(estiloDePelea, _apiresponse, _logger))
+                var estiloDePelea = await _unitOfWork.repositoryEstiloDePelea.GetById(id);
+                if (Utils.CheckIfNull(estiloDePelea))
                 {
-                    return _apiresponse;
+                    _logger.LogError("El estilo de pelea de id " + id + " no esta registrado.");
+                    return Utils.NotFoundResponse(_apiresponse);
                 }
-                await _repository.Delete(estiloDePelea);
+                await _unitOfWork.repositoryEstiloDePelea.Delete(estiloDePelea);
+                await _unitOfWork.Save();
                 _logger.LogInformation("El clan fue eliminado con exito.");
-                return Utils.CorrectResponse<EstiloDePeleaDto, EstiloDePelea>(_mapper, estiloDePelea, _apiresponse);
+                return Utils.OKResponse<EstiloDePeleaDto, EstiloDePelea>(_mapper, estiloDePelea, _apiresponse);
             }
             catch (Exception ex)
             {
@@ -118,21 +126,24 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                var estiloDePelea = await _repository.GetById(estiloUpdateDto.Id);
-                if (!Utils.CheckIfNull<EstiloDePelea>(estiloDePelea, _apiresponse, _logger))
+                var estiloDePelea = await _unitOfWork.repositoryEstiloDePelea.GetById(estiloUpdateDto.Id);
+                if (Utils.CheckIfNull<EstiloDePelea>(estiloDePelea))
                 {
-                    return _apiresponse;
+                    _logger.LogError("El estilo de pelea de id " + estiloUpdateDto.Id + " no esta registrado.");
+                    return Utils.NotFoundResponse(_apiresponse);
                 }
-                var registredName = await _repository.GetByName(estiloUpdateDto.Nombre); //verifico que no haya otro con el mismo nomrbe
-                if (!Utils.CheckIfNameAlreadyExist<EstiloDePelea>(registredName, estiloDePelea, _apiresponse, _logger))
+                var registredName = await _unitOfWork.repositoryEstiloDePelea.GetByName(estiloUpdateDto.Nombre);
+                if (Utils.CheckIfNameAlreadyExist<EstiloDePelea>(registredName, estiloDePelea))
                 {
-                    return _apiresponse;
+                    _logger.LogError("El nombre del estilo de pelea ya se encuentra registrado. Por favor, utiliza otro.");
+                    return Utils.ConflictResponse(_apiresponse);
                 }
                 _mapper.Map(estiloUpdateDto, estiloDePelea);
                 estiloDePelea.FechaActualizacion = DateTime.Now;
-                await _repository.Update(estiloDePelea);
+                await _unitOfWork.repositoryEstiloDePelea.Update(estiloDePelea);
+                await _unitOfWork.Save();
                 _logger.LogInformation("¡Estilo de pelea Actualizado con exito!");
-                return Utils.CorrectResponse<EstiloDePeleaDto, EstiloDePelea>(_mapper, estiloDePelea, _apiresponse);
+                return Utils.OKResponse<EstiloDePeleaDto, EstiloDePelea>(_mapper, estiloDePelea, _apiresponse);
             }
             catch (Exception ex)
             {
@@ -144,23 +155,26 @@ namespace API_MortalKombat.Service
         {
             try
             {
-                var estiloDePelea = await _repository.GetById(id);
-                if (!Utils.CheckIfNull(estiloDePelea, _apiresponse, _logger))
+                var estiloDePelea = await _unitOfWork.repositoryEstiloDePelea.GetById(id);
+                if (Utils.CheckIfNull(estiloDePelea))
                 {
-                    return _apiresponse;
+                    _logger.LogError("El estilo de pelea de id " + id + " no esta registrado.");
+                    return Utils.NotFoundResponse(_apiresponse);
                 }
                 var updateEstiloDePeleaDto = _mapper.Map<EstiloDePeleaUpdateDto>(estiloDePelea);
                 estiloDePeleaUpdateDto.ApplyTo(updateEstiloDePeleaDto!);
-                var registredName = await _repository.GetByName(updateEstiloDePeleaDto.Nombre); //verifico que no haya otro con el mismo nomrbe
-                if (!Utils.CheckIfNameAlreadyExist<EstiloDePelea>(registredName, estiloDePelea, _apiresponse, _logger))
+                var registredName = await _unitOfWork.repositoryEstiloDePelea.GetByName(updateEstiloDePeleaDto.Nombre);
+                if (Utils.CheckIfNameAlreadyExist<EstiloDePelea>(registredName, estiloDePelea))
                 {
-                    return _apiresponse;
+                    _logger.LogError("El nombre del estilo de pelea ya se encuentra registrado. Por favor, utiliza otro.");
+                    return Utils.ConflictResponse(_apiresponse);
                 }
                 _mapper.Map(updateEstiloDePeleaDto, estiloDePelea);
                 estiloDePelea.FechaActualizacion = DateTime.Now;
-                await _repository.Update(estiloDePelea);
+                await _unitOfWork.repositoryEstiloDePelea.Update(estiloDePelea);
+                await _unitOfWork.Save();
                 _logger.LogInformation("¡Estilo de pelea Actualizado con exito!");
-                return Utils.CorrectResponse<EstiloDePeleaDto, EstiloDePelea>(_mapper, estiloDePelea, _apiresponse);
+                return Utils.OKResponse<EstiloDePeleaDto, EstiloDePelea>(_mapper, estiloDePelea, _apiresponse);
             }
             catch (Exception ex)
             {

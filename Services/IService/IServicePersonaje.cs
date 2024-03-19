@@ -1,6 +1,5 @@
 ﻿using API_MortalKombat.Models;
 using API_MortalKombat.Models.DTOs.PersonajeDTO;
-using API_MortalKombat.Services.IService;
 
 
 namespace API_MortalKombat.Services.IService

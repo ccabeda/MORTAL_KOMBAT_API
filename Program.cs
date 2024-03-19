@@ -10,6 +10,7 @@ using API_MortalKombat.Repository;
 using API_MortalKombat.Repository.IRepository;
 using API_MortalKombat.Service;
 using API_MortalKombat.Services.IService;
+using API_MortalKombat.UnitOfWork;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -99,6 +100,8 @@ builder.Services.AddScoped<IServiceGeneric<RolUpdateDto, RolCreateDto>, ServiceR
 builder.Services.AddScoped<IServiceLogin, ServiceLogin>();
 builder.Services.AddScoped<IServiceUsuario, ServiceUsuario>();
 builder.Services.AddScoped<IServicePersonaje, ServicePersonaje>();
+//unitOfWork
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 //builder.Services.AddScoped<IValidator<PersonajeCreateDto>, PersonajeCreateValidator>();
 //Fluent validation. COn el Uso de un nugget, se autoconfiguran todos los fluentValidation (a mano seria como arriba). Ayuda muchisimo.
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
