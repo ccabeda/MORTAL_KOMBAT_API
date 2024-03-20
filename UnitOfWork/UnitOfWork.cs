@@ -13,10 +13,10 @@ namespace API_MortalKombat.UnitOfWork
         public IRepositoryGeneric<Reino> repositoryReino { get; }
         public IRepositoryGeneric<Rol> repositoryRol { get; }
         public IRepositoryGeneric<Personaje> repositoryPersonaje { get; }
-        public IRepositoryGeneric<Usuario> repositoryUsuario { get; }
+        public IRepositoryUsuario repositoryUsuario { get; }
 
         public UnitOfWork(AplicationDbContext context, IRepositoryGeneric<Arma> _repositoryArma, IRepositoryGeneric<Clan> _repositoryClan, IRepositoryGeneric<EstiloDePelea> _repositoryEstiloDePelea,
-                          IRepositoryGeneric<Reino> _repositoryReino, IRepositoryGeneric<Rol> _repositoryRol, IRepositoryGeneric<Personaje> _repositoryPersonaje, IRepositoryGeneric<Usuario> _repositoryUsuario)
+                          IRepositoryGeneric<Reino> _repositoryReino, IRepositoryGeneric<Rol> _repositoryRol, IRepositoryGeneric<Personaje> _repositoryPersonaje, IRepositoryUsuario _repositoryUsuario)
         {
             _context = context;
             repositoryArma = _repositoryArma;
@@ -27,9 +27,7 @@ namespace API_MortalKombat.UnitOfWork
             repositoryPersonaje = _repositoryPersonaje;
             repositoryUsuario = _repositoryUsuario;
         }
-        public async Task Save()
-        {
-            await _context.SaveChangesAsync();
-        }
+        public async Task Save() => await _context.SaveChangesAsync();
+        
     }
 }

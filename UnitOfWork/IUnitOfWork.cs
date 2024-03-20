@@ -11,7 +11,7 @@ namespace API_MortalKombat.UnitOfWork
         public IRepositoryGeneric<Reino> repositoryReino { get; }
         public IRepositoryGeneric<Rol> repositoryRol { get; }
         public IRepositoryGeneric<Personaje> repositoryPersonaje { get; }
-        public IRepositoryGeneric<Usuario> repositoryUsuario { get; }
+        public IRepositoryUsuario repositoryUsuario { get; }
 
         Task Save();
     }

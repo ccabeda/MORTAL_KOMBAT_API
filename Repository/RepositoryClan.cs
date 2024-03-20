@@ -13,34 +13,17 @@ namespace API_MortalKombat.Repository
         {
             _context = context;
         }
-        public async Task<Clan?> GetById(int id)
-        {
-            return await _context.Clanes.FindAsync(id);
-        }
 
-        public async Task<Clan?> GetByName(string name)
-        {
-            return await _context.Clanes.FirstOrDefaultAsync(c => c.Nombre.ToLower() == name.ToLower());
-        }
-
-        public async Task<List<Clan>> GetAll()
-        {
-            return await _context.Clanes.AsNoTracking().ToListAsync();
-        }
-
-        public async Task Create(Clan clan)
-        {
-            await _context.Clanes.AddAsync(clan);
-        }
-
-        public async Task Delete(Clan clan)
-        {
-            _context.Clanes.Remove(clan);
-        }
-
-        public async Task Update(Clan clan)
-        {
-            _context.Update(clan);
-        }
+        public async Task<Clan?> GetById(int id) => await _context.Clanes.FindAsync(id);
+        
+        public async Task<Clan?> GetByName(string name) => await _context.Clanes.FirstOrDefaultAsync(c => c.Nombre.ToLower() == name.ToLower());
+        
+        public async Task<List<Clan>> GetAll() => await _context.Clanes.AsNoTracking().ToListAsync();
+        
+        public async Task Create(Clan clan) => await _context.Clanes.AddAsync(clan);
+        
+        public async Task Delete(Clan clan) => _context.Clanes.Remove(clan);
+        
+        public async Task Update(Clan clan) => _context.Update(clan);        
     }
 }

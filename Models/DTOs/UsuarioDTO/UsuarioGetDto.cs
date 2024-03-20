@@ -1,6 +1,4 @@
-﻿using API_MortalKombat.Models.DTOs.RolDTO;
-
-namespace API_MortalKombat.Models.DTOs.UsuarioDTO
+﻿namespace API_MortalKombat.Models.DTOs.UsuarioDTO
 {
     public record UsuarioGetDto(string Nombre,
                                 string Apellido,

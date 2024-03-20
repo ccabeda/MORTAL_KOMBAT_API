@@ -95,7 +95,7 @@ builder.Services.AddScoped<IRepositoryGeneric<Clan>, RepositoryClan>();
 builder.Services.AddScoped<IRepositoryGeneric<Reino>, RepositoryReino>();
 builder.Services.AddScoped<IRepositoryGeneric<Arma>, RepositoryArma>();
 builder.Services.AddScoped<IRepositoryGeneric<EstiloDePelea>, RepositoryEstiloDePelea>();
-builder.Services.AddScoped<IRepositoryGeneric<Usuario>, RepositoryUsuario>();
+builder.Services.AddScoped<IRepositoryUsuario, RepositoryUsuario>();
 builder.Services.AddScoped<IRepositoryGeneric<Rol>,  RepositoryRol>();
 //service
 builder.Services.AddScoped<IServiceGeneric<ClanUpdateDto, ClanCreateDto>, ServiceClan>();

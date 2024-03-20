@@ -13,34 +13,16 @@ namespace API_MortalKombat.Repository
             _context = context;
         }
 
-        public async Task<Arma?> GetById(int id)
-        {
-            return await _context.Armas.FindAsync(id); //aqui no uso asNoTracking ya que voy a usarlo para actualizarlo 
-        }
-
-        public async Task<Arma?> GetByName(string name) 
-        {
-            return await _context.Armas.FirstOrDefaultAsync(a => a.Nombre.ToLower() == name.ToLower()); //como solo quiero mostrar el nombre, utilizo AsNoTracking
-        }
-
-        public async Task<List<Arma>> GetAll()
-        {
-            return await _context.Armas.AsNoTracking().ToListAsync(); //como solo quiero mostrar el nombre, utilizo AsNoTracking
-        }
-
-        public async Task Create(Arma arm)
-        {
-            await _context.Armas.AddAsync(arm);
-        }
-
-        public async Task Delete(Arma arm)
-        {
-            _context.Armas.Remove(arm);
-        }
-
-        public async Task Update(Arma arm)
-        {
-            _context.Update(arm);
-        }
+        public async Task<Arma?> GetById(int id) => await _context.Armas.FindAsync(id); //aqui no uso asNoTracking ya que voy a usarlo para actualizarlo 
+        
+        public async Task<Arma?> GetByName(string name) => await _context.Armas.FirstOrDefaultAsync(a => a.Nombre.ToLower() == name.ToLower()); //como solo quiero mostrar el nombre, utilizo AsNoTracking
+        
+        public async Task<List<Arma>> GetAll() =>  await _context.Armas.AsNoTracking().ToListAsync(); //como solo quiero mostrar el nombre, utilizo AsNoTracking
+        
+        public async Task Create(Arma arm) => await _context.Armas.AddAsync(arm);
+        
+        public async Task Delete(Arma arm) => _context.Armas.Remove(arm);
+        
+        public async Task Update(Arma arm) => _context.Update(arm);        
     }
 }

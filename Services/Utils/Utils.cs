@@ -158,14 +158,14 @@ namespace API_MortalKombat.Services.Utils
             return apiresponse;
         }
 
-        public static APIResponse OKResponse<T, A>(IMapper mapper, A obj, APIResponse apiresponse) //funcion para repsonder correctamente los getbyAlgo
+        public static APIResponse OKResponse<T,A>(IMapper mapper, A obj, APIResponse apiresponse) //funcion para repsonder correctamente los getbyAlgo
         {
             apiresponse.Result = mapper.Map<T>(obj);
             apiresponse.statusCode = HttpStatusCode.OK;
             return apiresponse;
         }
 
-        public static APIResponse ListOKResponse<T, A>(IMapper mapper, List<A> objs, APIResponse apiresponse) //funcion para responder correctamente los getAll
+        public static APIResponse ListOKResponse<T,A>(IMapper mapper, List<A> objs, APIResponse apiresponse) //funcion para responder correctamente los getAll
         {
             apiresponse.Result = mapper.Map<IEnumerable<T>>(objs);
             apiresponse.statusCode = HttpStatusCode.OK;

@@ -87,6 +87,12 @@ namespace API_MortalKombat.Service
                     _logger.LogError("El nombre del usuario ya se encuentra registrado.");
                     return Utils.ConflictResponse(_apiresponse);
                 }
+                var existMail = await _unitOfWork.repositoryUsuario.GetByMail(usuarioCreateDto.Mail);
+                if (!Utils.CheckIfNull<Usuario>(existMail))
+                {
+                    _logger.LogError("El mail ya se encuentra registrado.");
+                    return Utils.ConflictResponse(_apiresponse);
+                }
                 var usuario = _mapper.Map<Usuario>(usuarioCreateDto);
                 usuario!.FechaCreacion = DateTime.Now;
                 usuario.RolId = 3; //todos los usuarios se crean con el rol publico
@@ -144,6 +150,12 @@ namespace API_MortalKombat.Service
                     _logger.LogError("El nombre del usuario ya se encuentra registrado. Por favor, utiliza otro.");
                     return Utils.ConflictResponse(_apiresponse);
                 }
+                var registredMail = await _unitOfWork.repositoryUsuario.GetByMail(usuarioUpdateDto.Mail);
+                if (Utils.CheckIfNameAlreadyExist<Usuario>(registredMail, usuario))
+                {
+                    _logger.LogError("El mail ya se encuentra registrado. Por favor, utiliza otro.");
+                    return Utils.ConflictResponse(_apiresponse);
+                }
                 _mapper.Map(usuarioUpdateDto, usuario);
                 //ENCRIPTAR CONTRASEÑA
                 usuario.Contraseña = Encrypt.EncryptPassword(usuario.Contraseña);
@@ -180,6 +192,12 @@ namespace API_MortalKombat.Service
                 if (Utils.CheckIfNameAlreadyExist<Usuario>(registredName, usuario))
                 {
                     _logger.LogError("El nombre del usuario ya se encuentra registrado. Por favor, utiliza otro.");
+                    return Utils.ConflictResponse(_apiresponse);
+                }
+                var registredMail = await _unitOfWork.repositoryUsuario.GetByMail(updateUsuarioDto.Mail);
+                if (Utils.CheckIfNameAlreadyExist<Usuario>(registredMail, usuario))
+                {
+                    _logger.LogError("El mail ya se encuentra registrado. Por favor, utiliza otro.");
                     return Utils.ConflictResponse(_apiresponse);
                 }
                 var encryptPassword = usuario.Contraseña;
