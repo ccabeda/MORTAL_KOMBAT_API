@@ -33,24 +33,16 @@ namespace API_MortalKombat.Repository
         public async Task Create(Personaje character)
         {
             await _context.Personajes.AddAsync(character);
-            await Save();
         }
 
         public async Task Delete(Personaje character)
         {
             _context.Personajes.Remove(character);
-            await Save();
         }
 
         public async Task Update(Personaje character)
         {
             _context.Update(character);
-            await Save();
-        }
-
-        public async Task Save()
-        {
-            await _context.SaveChangesAsync();  
         }
     }
 }

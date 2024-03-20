@@ -82,7 +82,7 @@ namespace API_MortalKombat.Service
             try
             {
                 var existClan = await _unitOfWork.repositoryClan.GetByName(clanCreateDto.Nombre);
-                if (Utils.CheckIfObjectExist<Clan>(existClan))
+                if (!Utils.CheckIfNull<Clan>(existClan))
                 {
                     _logger.LogError("El nombre del clan ya se encuentra registrado.");
                     return Utils.ConflictResponse(_apiresponse);

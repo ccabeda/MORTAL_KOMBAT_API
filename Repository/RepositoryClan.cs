@@ -31,24 +31,16 @@ namespace API_MortalKombat.Repository
         public async Task Create(Clan clan)
         {
             await _context.Clanes.AddAsync(clan);
-            await Save();
         }
 
         public async Task Delete(Clan clan)
         {
             _context.Clanes.Remove(clan);
-            await Save();
         }
 
         public async Task Update(Clan clan)
         {
             _context.Update(clan);
-            await Save();
-        }
-
-        public async Task Save()
-        {
-            await _context.SaveChangesAsync();  
         }
     }
 }

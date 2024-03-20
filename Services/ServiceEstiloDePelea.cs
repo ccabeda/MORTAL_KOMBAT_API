@@ -83,7 +83,7 @@ namespace API_MortalKombat.Service
             try
             {
                 var existEstilo = await _unitOfWork.repositoryEstiloDePelea.GetByName(estiloCreateDto.Nombre);
-                if (Utils.CheckIfObjectExist<EstiloDePelea>(existEstilo))
+                if (!Utils.CheckIfNull<EstiloDePelea>(existEstilo))
                 {
                     _logger.LogError("El nombre del estilo de pelea ya se encuentra registrado.");
                     return Utils.ConflictResponse(_apiresponse);

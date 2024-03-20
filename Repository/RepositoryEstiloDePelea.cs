@@ -31,23 +31,16 @@ namespace API_MortalKombat.Repository
         public async Task Create(EstiloDePelea style)
         {
             await _context.EstilosDePeleas.AddAsync(style);
-            await Save();
         }
 
         public async Task Delete(EstiloDePelea style)
         {
             _context.EstilosDePeleas.Remove(style);
-            await Save();
         }
 
         public async Task Update(EstiloDePelea style)
         {
             _context.Update(style);
-            await Save();
-        }
-        public async Task Save()
-        {
-            await _context.SaveChangesAsync();
         }
     }
 }

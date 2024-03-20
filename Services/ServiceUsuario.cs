@@ -82,7 +82,7 @@ namespace API_MortalKombat.Service
             try
             {
                 var existUsuario = await _unitOfWork.repositoryUsuario.GetByName(usuarioCreateDto.NombreDeUsuario);
-                if (Utils.CheckIfObjectExist<Usuario>(existUsuario))
+                if (!Utils.CheckIfNull<Usuario>(existUsuario))
                 {
                     _logger.LogError("El nombre del usuario ya se encuentra registrado.");
                     return Utils.ConflictResponse(_apiresponse);

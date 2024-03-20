@@ -82,7 +82,7 @@ namespace API_MortalKombat.Service
             try
             {
                 var existReino = await _unitOfWork.repositoryReino.GetByName(reinoCreateDto.Nombre);
-                if (Utils.CheckIfObjectExist<Reino>(existReino))
+                if (!Utils.CheckIfNull<Reino>(existReino))
                 {
                     _logger.LogError("El nombre del reino ya se encuentra registrado.");
                     return Utils.ConflictResponse(_apiresponse);

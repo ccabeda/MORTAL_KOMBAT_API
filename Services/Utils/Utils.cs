@@ -81,15 +81,6 @@ namespace API_MortalKombat.Services.Utils
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        public static bool CheckIfObjectExist<T>(T model) //funcion para verificar si ya existe el nombre
-        {
-            if (model != null)
-            {
-                return true;
-            }
-            return false;
-        }
-
         public static bool CheckIfNameAlreadyExist<T>(T modelOne,dynamic modelTwo) //funcion para verificar si ya existe el nombre en los updates (no usar anterior porque si
                                                                                                                             //no cambias el nombre no funciona)
         {

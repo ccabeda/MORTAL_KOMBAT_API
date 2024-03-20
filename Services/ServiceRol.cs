@@ -82,7 +82,7 @@ namespace API_MortalKombat.Service
             try
             {
                 var existRol = await _unitOfWork.repositoryRol.GetByName(rolCreateDto.Nombre);
-                if (Utils.CheckIfObjectExist<Rol>(existRol))
+                if (!Utils.CheckIfNull<Rol>(existRol))
                 {
                     _logger.LogError("El nombre del rol ya se encuentra registrado.");
                     return Utils.ConflictResponse(_apiresponse);

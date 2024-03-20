@@ -31,24 +31,16 @@ namespace API_MortalKombat.Repository
         public async Task Create(Reino reino)
         {
             await _context.Reinos.AddAsync(reino);
-            await Save();
         }
 
         public async Task Delete(Reino reino)
         {
             _context.Reinos.Remove(reino);
-            await Save();
         }
 
         public async Task Update(Reino reino)
         {
             _context.Update(reino);
-            await Save();
-        }
-
-        public async Task Save()
-        {
-            await _context.SaveChangesAsync();  
         }
     }
 }
