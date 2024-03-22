@@ -43,10 +43,10 @@ namespace API_MortalKombat
             {
                 if (hashBytes[i + saltSize] != hash[i])
                 {
-                    return false;
+                    return true;
                 }
             }
-            return true;
+            return false;
         }
     }
 }

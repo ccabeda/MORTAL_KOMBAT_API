@@ -30,7 +30,7 @@ namespace API_MortalKombat.Service
                     _logger.LogError("Usuario incorrecto.");
                     return Utils.NotFoundResponse(_apiresponse);
                 }
-                if (!Utils.VerifyPassword(userAndPass.Contraseña, usuario.Contraseña))
+                if (Utils.VerifyPassword(userAndPass.Contraseña, usuario.Contraseña))
                 {
                     _logger.LogError("Contraseña Incorrecta.");
                     return Utils.BadRequestResponse(_apiresponse);

@@ -5,8 +5,8 @@ namespace API_MortalKombat.Models
 {
     public class Reino
     {
-        [Key] //ponemos el id como key
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)] //Entity con sql server, para que aumente automaticamente el ID key.
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)] 
         public int Id { get; set; }
         public required string Nombre { get; set; } 
         public required string Descripcion { get; set; } 

@@ -5,7 +5,7 @@ namespace API_MortalKombat.Models
 {
     public class Usuario
     {
-        [Key] //ponemos el id como key
+        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public required string Nombre { get; set; }

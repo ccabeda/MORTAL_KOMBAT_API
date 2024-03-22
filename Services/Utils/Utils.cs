@@ -121,11 +121,11 @@ namespace API_MortalKombat.Services.Utils
 
         public static bool VerifyPassword(string password, string passwordEncrypted) //verificar las password en los endpoints
         {
-            if (!Encrypt.VerifyPassword(password, passwordEncrypted))
+            if (Encrypt.VerifyPassword(password, passwordEncrypted))
             {
-                return false;
+                return true;
             }
-            return true;
+            return false;
         }
 
         public static bool VerifyIfCharacterContains<T>(T obj, Personaje personaje, int id) //funcion para verificar si el personaje contiene o no el objeto

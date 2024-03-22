@@ -5,9 +5,9 @@ namespace API_MortalKombat.Data
 {
     public class AplicationDbContext : DbContext
     {
-        public AplicationDbContext(DbContextOptions<AplicationDbContext> options) : base(options)
-        {
-        }
+        public AplicationDbContext(DbContextOptions<AplicationDbContext> options) : base(options) 
+        {}
+
         public DbSet<Personaje> Personajes { get; set; }
         public DbSet<Clan> Clanes { get; set; }
         public DbSet<Reino> Reinos { get; set; }

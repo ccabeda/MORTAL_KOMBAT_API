@@ -82,8 +82,7 @@ namespace API_MortalKombat.Service
             try
             {
                 var existArma = await _unitOfWork.repositoryArma.GetByName(armaCreateDto.Nombre);  //verifico que no haya otro con el mismo nombre
-                if //(Utils.CheckIfObjectExist<Arma>(existArma)) 
-                    (!Utils.CheckIfNull<Arma>(existArma))
+                if (!Utils.CheckIfNull<Arma>(existArma))
                 {
                     _logger.LogError("El nombre del arma ya se encuentra registrado.");
                     return Utils.ConflictResponse(_apiresponse);

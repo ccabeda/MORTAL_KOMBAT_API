@@ -11,7 +11,7 @@ namespace API_MortalKombat.Models
         public int Id { get; set; }
         public required string Nombre { get; set; }
         public required string Descripcion { get; set; }
-        [JsonIgnore] //se necesita para agregar estilo de pelea a personaje, porque sino se forma bucle
+        [JsonIgnore]
         public List<Personaje>? Personajes { get; set; } 
         public DateTime FechaCreacion { get; set; }
         public DateTime FechaActualizacion { get; set; }
