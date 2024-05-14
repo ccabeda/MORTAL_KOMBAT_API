@@ -91,6 +91,21 @@ git clone https://github.com/ccabeda/MORTAL_KOMBAT_API
 ### Abrí el Proyecto en tu Entorno de Desarrollo (IDE)
 Abrí tu entorno de desarrollo preferido (recomiendo Visual Studio). Navegá hasta la carpeta del proyecto que acabas de clonar y abrilo.
 
+## NuGets
+NuGets utilizadas para esta API:
+- AutoMapper -versión 13.0.0
+- FluentValidationi -versón 11.9.0 
+- FluentValidation.DependencyInjectionExtensions -versión 11.9.0
+- Microsoft.AspNetCore.Authentication.JwtBearer -versión 8.0.1
+- Microsoft.AspNetCore.Mvc.NewtonsoftJson -versión 8.0.1
+- Microsoft.EntityFrameworkCore -versión 8.0.1
+- Microsoft.EntityFrameworkCore.InMemory -versión 8.0.1
+- Microsoft.EntityFrameworkCore.SqlServer -versión 8.0.1
+- Microsoft.EntityFrameworkCore.Tools -versión 8.0.1
+- Newtonsoft.Json -versión 13.0.3
+- SharpGrip.FluentValidation.AutoValidation.Mvc -versión 1.4.0
+- Swashbuckle.AspNetCore -versión 6.5.0
+
 ### Configurá la base de datos
 En el archivo appsetting.json,agrega lo siguiente:
 
@@ -106,28 +121,12 @@ En el archivo Program.cs, en la inyección de la base de datos, poner el mismo n
 
 ### Creá la Base de Datos con Entity
 Para crear la base de datos, es mediante la migración de los datos de las tablas creadas en Entity Framework hacia MS SQL Server, ya que utiliza first-code.
-Para eso, deberan abrir la Consola del administrador de paquetes, que se encuentra cliqueando en "Herramientas" y luego en "Administrador de paquetes NuGet"
+Para eso, deberán abrir la Consola del administrador de paquetes, que se encuentra cliqueando en "Herramientas" y luego en "Administrador de paquetes NuGet"
 En la consola, primero agregan la migración con el comando "Add-Migration" seguido del nombre que quieran darle.
-Seguido, utilizan el comando "Update-Database" y ya les aparecerán la tablas en la base de datos.
+Seguido, utilizan el comando "Update-Database" y ya les aparecerán las tablas en la base de datos.
 
 ### Ejecutá la Aplicación
 Una vez que hayas configurado la base de datos y guardado los cambios, podés ejecutar la aplicación, dándole al botón de "https" (en Visual Studio). Alli se te debería abrir la interfaz de Swagger para probar los EndPoints.
-
-## NuGets
-
-NuGets utilizadas para esta API:
-- AutoMapper -versión 13.0.0
-- FluentValidationi -versón 11.9.0 
-- FluentValidation.DependencyInjectionExtensions -versión 11.9.0
-- Microsoft.AspNetCore.Authentication.JwtBearer -versión 8.0.1
-- Microsoft.AspNetCore.Mvc.NewtonsoftJson -versión 8.0.1
-- Microsoft.EntityFrameworkCore -versión 8.0.1
-- Microsoft.EntityFrameworkCore.InMemory -versión 8.0.1
-- Microsoft.EntityFrameworkCore.SqlServer -versión 8.0.1
-- Microsoft.EntityFrameworkCore.Tools -versión 8.0.1
-- Newtonsoft.Json -versión 13.0.3
-- SharpGrip.FluentValidation.AutoValidation.Mvc -versión 1.4.0
-- Swashbuckle.AspNetCore -versión 6.5.0
 
 ## Documentación Swagger
 
